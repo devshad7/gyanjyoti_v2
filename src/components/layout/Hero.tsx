@@ -4,7 +4,7 @@ import { Button } from "../ui/button"
 const Hero = () => {
   return (
     <>
-   <section className="max-w-[1440px] mx-auto px-6 pt-8 md:pt-12 pb-12 md:pb-20 relative overflow-hidden font-sans">
+   <section className="max-w-[1440px] mx-auto px-6 pt-8 md:pt-12 pb-12 md:pb-20 relative overflow-hidden font-sans rounded-md">
         {/* Background decorative elements */}
         <div className="absolute inset-0 overflow-hidden -z-10">
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-yellow-400 opacity-10 rounded-full blur-3xl"></div>
@@ -15,7 +15,7 @@ const Hero = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50 to-yellow-50"></div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 items-center">
           <div className="relative z-10">
           <div className="inline-block px-3 py-1 mb-4 text-sm font-medium text-blue-800  bg-blue-100 rounded-full">
               Transforming Education

@@ -40,7 +40,7 @@ const Navbar = () => {
             : "bg-transparent backdrop-blur-[6px]"
         }`}
       >
-        <nav className="max-w-[1440px] mx-auto py-4 px-6 flex items-center justify-between">
+        <nav className="max-w-7xl mx-auto py-4 px-6 flex items-center justify-between">
           <div className="flex items-center">
             <Link
               href="/"

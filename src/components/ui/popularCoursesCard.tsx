@@ -14,7 +14,7 @@ function CourseCard({
 }: CourseCardProps) {
   return (
     <Card className="overflow-hidden border-none shadow-sm py-0 gap-0">
-      <Link href={""} className="relative h-52 w-full overflow-hidden">
+      <Link href={"/course"} className="relative h-52 w-full overflow-hidden">
         <Image
           src={image || "/placeholder.svg"}
           alt={title}

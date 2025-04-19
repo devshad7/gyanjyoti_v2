@@ -6,6 +6,7 @@ import Categories from "./layout/Categories";
 import PopularCourses from "./layout/PopularCourses";
 import Newsletter from "./layout/Newsletter";
 import Footer from "./layout/Footer";
+import Testimonial from "./layout/Testimonial";
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <Stats />
       <Categories />
       <PopularCourses />
+      <Testimonial />
       <Newsletter />
       <Footer />
     </>
