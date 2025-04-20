@@ -1,4 +1,4 @@
-import Image from "next/image"
+
 import React from "react"
 import About from "@/components/layout/About"
 import Navbar from "@/components/layout/Navbar"

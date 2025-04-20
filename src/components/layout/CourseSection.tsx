@@ -564,8 +564,6 @@ function CourseCard({
   hours,
   language,
   level,
-  price,
-  originalPrice,
   rating,
   reviews,
   imageSrc,

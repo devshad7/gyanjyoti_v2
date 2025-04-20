@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Quote } from "lucide-react";
+
 
 export default function AboutSection() {
   return (
@@ -27,9 +27,9 @@ export default function AboutSection() {
               progress.
             </p>
             <p className="text-slate-700 leading-relaxed text-lg font-body">
-              Furthermore, Gyanjoti's Chatroom feature enables effective
+              Furthermore, GyanJyoti&apos;s Chatroom feature enables effective
               collaboration between students, teachers, parents and school
-              leaders to ensure everyone is informed about the student's
+              leaders to ensure everyone is informed about the student&apos;s
               progress and can provide support as needed. The platform
               personalizes direction and timely intervention, leading to better
               academic outcomes.
@@ -204,7 +204,7 @@ export default function AboutSection() {
           </div>
 
           <div className="w-full lg:w-1/2 space-y-6">
-            <div className="text-[#2196F3] text-8xl font-serif">"</div>
+            <div className="text-[#2196F3] text-8xl font-serif">&quot;</div>
 
             <p className="text-gray-700 text-lg">
               Our mission to transform the nation through education is the
