@@ -71,7 +71,7 @@ const Navbar = () => {
             <div className="flex space-x-1">
               {[
                 { name: "Home", href: "/", active: true },
-                { name: "Courses", href: "/courses", active: false },
+                { name: "Courses", href: "/Course-section", active: false },
                 { name: "Mentors", href: "/mentors", active: false },
                 { name: "About", href: "/about", active: false },
               ].map((item) => (
