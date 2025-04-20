@@ -1,40 +1,42 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "../ui/button"
-import Image from "next/image"
-import { useEffect, useState } from "react"
-import { Inter } from 'next/font/google'
+import Link from "next/link";
+import { Button } from "../ui/button";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10
+      const isScrolled = window.scrollY > 10;
       if (isScrolled !== scrolled) {
-        setScrolled(isScrolled)
+        setScrolled(isScrolled);
       }
-    }
+    };
 
     // Add event listener
-    window.addEventListener("scroll", handleScroll, { passive: true })
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     // Call once to set initial state
-    handleScroll()
+    handleScroll();
 
     // Clean up
     return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [scrolled])
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrolled]);
 
   return (
     <>
       <div
-        className={`sticky top-0 z-50 transition-all duration-300 will-change-transform ${inter.variable} font-sans ${
+        className={`sticky top-0 z-50 transition-all duration-300 will-change-transform ${
+          inter.variable
+        } font-sans ${
           scrolled
             ? "bg-white/15 backdrop-blur-xl border-b border-white/10 shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
             : "bg-transparent backdrop-blur-[6px]"
@@ -57,7 +59,7 @@ const Navbar = () => {
                   priority
                 />
               </div>
-              <span className="tracking-tight">
+              <span className="tracking-tight md:block hidden">
                 <span className="text-blue-600 font-extrabold">Gyan</span>
                 <span className="text-pink-600 font-extrabold">Jyoti</span>
               </span>
@@ -79,7 +81,9 @@ const Navbar = () => {
                   key={item.name}
                   href={item.href}
                   className={`relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-300 ease-in-out ${
-                    item.active ? "text-blue-600" : "text-gray-700 hover:text-blue-600"
+                    item.active
+                      ? "text-blue-600"
+                      : "text-gray-700 hover:text-blue-600"
                   } hover:bg-blue-50/50`}
                 >
                   {item.name}
@@ -92,24 +96,25 @@ const Navbar = () => {
           </nav>
 
           <div className="flex items-center space-x-3">
-            <Button
-              variant="link"
-              className="text-sm text-gray-700 hover:text-pink-600 font-medium cursor-pointer transition-colors duration-300 relative overflow-hidden group"
+            <Link
+              href={"/login"}
+              className="text-sm text-gray-700 hover:text-pink-600 font-medium transition-colors duration-300"
             >
-              <span className="relative z-10">Sign In</span>
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-pink-600 group-hover:w-full transition-all duration-300 ease-in-out"></span>
-            </Button>
+              Sign In
+            </Link>
 
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu relative overflow-hidden group">
-              <span className="relative z-10">Register</span>
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-blue-700 group-hover:scale-105 transition-transform duration-300 ease-out"></span>
-              <span className="absolute inset-0 w-0 h-full bg-gradient-to-r from-pink-600 to-blue-600 group-hover:w-full transition-all duration-500 ease-out"></span>
-            </Button>
+            <Link href={"/sign-up"}>
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu relative overflow-hidden group">
+                <span className="relative z-10">Register</span>
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-blue-700 group-hover:scale-105 transition-transform duration-300 ease-out"></span>
+                <span className="absolute inset-0 w-0 h-full bg-gradient-to-r from-pink-600 to-blue-600 group-hover:w-full transition-all duration-500 ease-out"></span>
+              </Button>
+            </Link>
           </div>
         </nav>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
