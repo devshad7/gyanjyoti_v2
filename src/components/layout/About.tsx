@@ -213,7 +213,7 @@ export default function AboutSection() {
               minds from Singapore and Cambridge, is our guiding light to a
               brighter future. We will begin with secondary education first and
               then work our way through the entire learning spectrum. Thanks to
-              a special combination of smart and an easy-to-use platform, we're
+              a special combination of smart and an easy-to-use platform, we&apos;re
               on track to making an impact on individual learners, educators,
               educational institutions and the education system as a whole!
             </p>
