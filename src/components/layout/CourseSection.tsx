@@ -593,7 +593,7 @@ function CourseCard({
           <div className="h-full w-full flex items-center justify-center pt-10 bg-blue-100">
           <Link href={"/course"}>
             <Image
-              src={imageSrc || "/placeholder.svg"}
+              src={imageSrc || "/assets/eng.jpeg"}
               alt={title}
               width={150}
               height={150}
