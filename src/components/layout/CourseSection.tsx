@@ -602,7 +602,6 @@ function CourseCard({
   level,
   rating,
   reviews,
-  imageSrc,
 }: CourseCardProps) {
   return (
     <div className="bg-white max-w-7xl  mx-auto rounded-lg shadow overflow-hidden hover:shadow-md transition-shadow duration-200 cursor-pointer">
