@@ -114,7 +114,7 @@ const Login = () => {
           {/* Mobile Preview */}
           <div className="hidden md:block w-full md:w-1/2 relative mt-10 md:mt-0">
             <div className="relative mx-auto">
-              <img src="/assets/1.svg" />
+              <img src="/assets/login.gif" />
             </div>
           </div>
         </div>
