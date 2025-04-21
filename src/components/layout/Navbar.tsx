@@ -52,13 +52,13 @@ const Navbar = () => {
               className="text-lg md:text-xl font-bold flex items-center gap-3 group relative"
               aria-label="GyanJyoti Home"
             >
-              <div className="relative overflow-hidden rounded-lg group-hover:shadow-md transition-shadow duration-300">
+              <div className="relative overflow-hidden rounded-lg">
                 <Image
                   src="/assets/Gyan_logo.png"
                   alt=""
                   width={36}
                   height={36}
-                  className="w-auto h-9 md:h-10 transition-transform duration-500 group-hover:scale-110"
+                  className="w-auto h-9 md:h-10"
                   priority
                 />
               </div>
@@ -66,9 +66,6 @@ const Navbar = () => {
                 <span className="text-blue-600 font-extrabold">Gyan</span>
                 <span className="text-pink-600 font-extrabold">Jyoti</span>
               </span>
-
-              {/* Subtle hover effect line */}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-pink-600 group-hover:w-full transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100"></span>
             </Link>
           </div>
 
