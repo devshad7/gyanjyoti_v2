@@ -196,8 +196,8 @@ export default function AboutSection() {
           <div className="w-full lg:w-1/2">
             <Image
               src="/assets/Director.png?height=600&width=500"
-              width={500}
-              height={600}
+              width={800}
+              height={650}
               alt="Testimonial person"
               className="mx-auto"
             />

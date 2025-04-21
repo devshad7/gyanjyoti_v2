@@ -20,16 +20,16 @@ const Categories = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <CategoryCard
             icon={<BookOpen className="w-6 h-6 text-indigo-600" />}
-            title="Design & Development"
+            title="General Stream Class 8-10"
             url="/courses/design-and-development"
-            count="250+ courses available"
+            count="25+ courses available"
             bgColor="bg-blue-50"
           />
           <CategoryCard
             icon={<MessageSquare className="w-6 h-6" />}
-            title="Marketing & Communication"
+            title="Technical Stream CLass 9-10"
             url="/courses/marketing-and-communication"
-            count="300+ courses available"
+            count="30+ courses available"
             bgColor="bg-indigo-50"
           />
           <CategoryCard
