@@ -5,10 +5,13 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Inter } from "next/font/google";
+import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const Navbar = () => {
+  const path = usePathname();
+
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -72,22 +75,22 @@ const Navbar = () => {
           <nav className="hidden md:flex items-center">
             <div className="flex space-x-1">
               {[
-                { name: "Home", href: "/", active: true },
-                { name: "Courses", href: "/Course-section", active: false },
-                { name: "Mentors", href: "/mentors", active: false },
-                { name: "About", href: "/about", active: false },
+                { name: "Home", href: "/" },
+                { name: "Courses", href: "/Course-section" },
+                { name: "Mentors", href: "/mentors" },
+                { name: "About", href: "/about" },
               ].map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-300 ease-in-out ${
-                    item.active
-                      ? "text-blue-600"
-                      : "text-gray-700 hover:text-blue-600"
-                  } hover:bg-blue-50/50`}
+                  className={
+                    path === item.href
+                      ? "relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-300 ease-in-out text-blue-600"
+                      : "relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-300 ease-in-out text-gray-700 hover:text-blue-600"
+                  }
                 >
                   {item.name}
-                  {item.active && (
+                  {path === item.href && (
                     <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/2 h-0.5 bg-blue-600 rounded-full"></span>
                   )}
                 </Link>

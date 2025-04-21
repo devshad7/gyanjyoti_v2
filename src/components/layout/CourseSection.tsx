@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import { Search, Star, Filter, X } from "lucide-react"
-import Link from "next/link"
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { Search, Star, Filter, X } from "lucide-react";
+import Link from "next/link";
 // Course data
 const coursesData = [
   {
@@ -13,7 +13,8 @@ const coursesData = [
     subject: "ACCOUNT",
     classLevel: "Class 10",
     title: "Account Class 10 @ 1 Year",
-    description: "Account Class 10 videos According to Curriculum Development Centre, Nepal (Revised on 2080 BS)",
+    description:
+      "Account Class 10 videos According to Curriculum Development Centre, Nepal (Revised on 2080 BS)",
     lessons: 115,
     hours: "21+",
     language: "Nepali",
@@ -30,7 +31,8 @@ const coursesData = [
     subject: "ACCOUNT",
     classLevel: "Class 11",
     title: "Account Class 11",
-    description: "Account Class 11 videos According to National Examinations Board(NEB) Syllabus, Nepal.",
+    description:
+      "Account Class 11 videos According to National Examinations Board(NEB) Syllabus, Nepal.",
     lessons: 51,
     hours: "16+",
     language: "Nepali",
@@ -47,7 +49,8 @@ const coursesData = [
     subject: "ACCOUNT",
     classLevel: "Class 12",
     title: "Account Class 12",
-    description: "After the completion of this course, students will get the complete knowledge of Class 12 Account.",
+    description:
+      "After the completion of this course, students will get the complete knowledge of Class 12 Account.",
     lessons: 137,
     hours: "20+",
     language: "English",
@@ -64,7 +67,8 @@ const coursesData = [
     subject: "ACCOUNT",
     classLevel: "Class 8",
     title: "Account Class 8 @ 1 Year",
-    description: "Account Class 8 videos According to Curriculum Development Centre, Nepal (Revised on 2080 BS)",
+    description:
+      "Account Class 8 videos According to Curriculum Development Centre, Nepal (Revised on 2080 BS)",
     lessons: 65,
     hours: "8+",
     language: "Nepali",
@@ -111,7 +115,7 @@ const coursesData = [
     imageSrc: "/placeholder.svg?height=150&width=150",
     category: "Design and Creative Skills",
   },
-]
+];
 
 // Categories for filter
 const categories = [
@@ -125,76 +129,81 @@ const categories = [
   "Engineering",
   "Engineering Design Courses",
   "Engineering Preparation",
-
-]
+];
 
 // Levels for filter
-const levels = ["All", "Beginner", "Intermediate", "Advanced"]
+const levels = ["All", "Beginner", "Intermediate", "Advanced"];
 
 // Languages for filter
-const languages = ["All", "English", "Nepali"]
+const languages = ["All", "English", "Nepali"];
 
 export default function CourseSection() {
   // State for search query
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
 
   // State for filters
-  const [selectedCategory, setSelectedCategory] = useState("All category")
-  const [selectedLevel, setSelectedLevel] = useState("All")
-  const [selectedLanguage, setSelectedLanguage] = useState("All")
-  const [selectedRating, setSelectedRating] = useState(0)
+  const [selectedCategory, setSelectedCategory] = useState("All category");
+  const [selectedLevel, setSelectedLevel] = useState("All");
+  const [selectedLanguage, setSelectedLanguage] = useState("All");
+  const [selectedRating, setSelectedRating] = useState(0);
 
   // State for mobile filter visibility
-  const [showMobileFilter, setShowMobileFilter] = useState(false)
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   // State for filtered courses
-  const [filteredCourses, setFilteredCourses] = useState(coursesData)
+  const [filteredCourses, setFilteredCourses] = useState(coursesData);
 
   // Apply filters when any filter changes
   useEffect(() => {
-    let result = coursesData
+    let result = coursesData;
 
     // Apply search filter
     if (searchQuery) {
       result = result.filter(
         (course) =>
           course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          course.description.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
+          course.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     }
 
     // Apply category filter
     if (selectedCategory !== "All category") {
-      result = result.filter((course) => course.category === selectedCategory)
+      result = result.filter((course) => course.category === selectedCategory);
     }
 
     // Apply level filter
     if (selectedLevel !== "All") {
-      result = result.filter((course) => course.level === selectedLevel)
+      result = result.filter((course) => course.level === selectedLevel);
     }
 
     // Apply language filter
     if (selectedLanguage !== "All") {
-      result = result.filter((course) => course.language === selectedLanguage)
+      result = result.filter((course) => course.language === selectedLanguage);
     }
 
     // Apply rating filter
     if (selectedRating > 0) {
-      result = result.filter((course) => course.rating >= selectedRating)
+      result = result.filter((course) => course.rating >= selectedRating);
     }
 
-    setFilteredCourses(result)
-  }, [searchQuery, selectedCategory, selectedLevel, selectedLanguage, selectedRating])
+    setFilteredCourses(result);
+  }, [
+    searchQuery,
+    selectedCategory,
+    selectedLevel,
+    selectedLanguage,
+    selectedRating,
+  ]);
 
   // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value)
-  }
+    setSearchQuery(e.target.value);
+  };
 
   // Toggle mobile filter visibility
   const toggleMobileFilter = () => {
-    setShowMobileFilter(!showMobileFilter)
-  }
+    setShowMobileFilter(!showMobileFilter);
+  };
 
   return (
     <div className="flex flex-col bg-blue-50 min-h-screen">
@@ -209,7 +218,10 @@ export default function CourseSection() {
               onChange={handleSearchChange}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
             />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={18}
+            />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
@@ -280,7 +292,11 @@ export default function CourseSection() {
           <div>
             <h3 className="font-medium mb-2">Ratings</h3>
             <div className="space-y-2">
-              <CategoryOption label="All" checked={selectedRating === 0} onChange={() => setSelectedRating(0)} />
+              <CategoryOption
+                label="All"
+                checked={selectedRating === 0}
+                onChange={() => setSelectedRating(0)}
+              />
               {[1, 2, 3, 4, 5].map((stars) => (
                 <RatingOption
                   key={stars}
@@ -314,8 +330,8 @@ export default function CourseSection() {
                       label={category}
                       checked={selectedCategory === category}
                       onChange={() => {
-                        setSelectedCategory(category)
-                        toggleMobileFilter()
+                        setSelectedCategory(category);
+                        toggleMobileFilter();
                       }}
                     />
                   ))}
@@ -332,8 +348,8 @@ export default function CourseSection() {
                       label={level}
                       checked={selectedLevel === level}
                       onChange={() => {
-                        setSelectedLevel(level)
-                        toggleMobileFilter()
+                        setSelectedLevel(level);
+                        toggleMobileFilter();
                       }}
                     />
                   ))}
@@ -350,8 +366,8 @@ export default function CourseSection() {
                       label={language}
                       checked={selectedLanguage === language}
                       onChange={() => {
-                        setSelectedLanguage(language)
-                        toggleMobileFilter()
+                        setSelectedLanguage(language);
+                        toggleMobileFilter();
                       }}
                     />
                   ))}
@@ -366,8 +382,8 @@ export default function CourseSection() {
                     label="All"
                     checked={selectedRating === 0}
                     onChange={() => {
-                      setSelectedRating(0)
-                      toggleMobileFilter()
+                      setSelectedRating(0);
+                      toggleMobileFilter();
                     }}
                   />
                   {[1, 2, 3, 4, 5].map((stars) => (
@@ -376,8 +392,8 @@ export default function CourseSection() {
                       stars={stars}
                       checked={selectedRating === stars}
                       onChange={() => {
-                        setSelectedRating(stars)
-                        toggleMobileFilter()
+                        setSelectedRating(stars);
+                        toggleMobileFilter();
                       }}
                     />
                   ))}
@@ -410,7 +426,10 @@ export default function CourseSection() {
             {selectedLevel !== "All" && (
               <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
                 {selectedLevel}
-                <button onClick={() => setSelectedLevel("All")} className="ml-1 text-blue-600 hover:text-blue-800">
+                <button
+                  onClick={() => setSelectedLevel("All")}
+                  className="ml-1 text-blue-600 hover:text-blue-800"
+                >
                   <X size={14} />
                 </button>
               </div>
@@ -419,7 +438,10 @@ export default function CourseSection() {
             {selectedLanguage !== "All" && (
               <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
                 {selectedLanguage}
-                <button onClick={() => setSelectedLanguage("All")} className="ml-1 text-blue-600 hover:text-blue-800">
+                <button
+                  onClick={() => setSelectedLanguage("All")}
+                  className="ml-1 text-blue-600 hover:text-blue-800"
+                >
                   <X size={14} />
                 </button>
               </div>
@@ -428,7 +450,10 @@ export default function CourseSection() {
             {selectedRating > 0 && (
               <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
                 {selectedRating}+ Stars
-                <button onClick={() => setSelectedRating(0)} className="ml-1 text-blue-600 hover:text-blue-800">
+                <button
+                  onClick={() => setSelectedRating(0)}
+                  className="ml-1 text-blue-600 hover:text-blue-800"
+                >
                   <X size={14} />
                 </button>
               </div>
@@ -440,10 +465,10 @@ export default function CourseSection() {
               selectedRating > 0) && (
               <button
                 onClick={() => {
-                  setSelectedCategory("All category")
-                  setSelectedLevel("All")
-                  setSelectedLanguage("All")
-                  setSelectedRating(0)
+                  setSelectedCategory("All category");
+                  setSelectedLevel("All");
+                  setSelectedLanguage("All");
+                  setSelectedRating(0);
                 }}
                 className="text-sm text-blue-600 hover:text-blue-800 underline ml-2"
               >
@@ -475,14 +500,16 @@ export default function CourseSection() {
               ))
             ) : (
               <div className="bg-white rounded-lg p-8 text-center">
-                <p className="text-lg text-gray-600">No courses found matching your criteria.</p>
+                <p className="text-lg text-gray-600">
+                  No courses found matching your criteria.
+                </p>
                 <button
                   onClick={() => {
-                    setSearchQuery("")
-                    setSelectedCategory("All category")
-                    setSelectedLevel("All")
-                    setSelectedLanguage("All")
-                    setSelectedRating(0)
+                    setSearchQuery("");
+                    setSelectedCategory("All category");
+                    setSelectedLevel("All");
+                    setSelectedLanguage("All");
+                    setSelectedRating(0);
                   }}
                   className="mt-4 text-blue-600 hover:text-blue-800 underline"
                 >
@@ -494,7 +521,7 @@ export default function CourseSection() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function CategoryOption({
@@ -502,18 +529,20 @@ function CategoryOption({
   checked = false,
   onChange,
 }: {
-  label: string
-  checked?: boolean
-  onChange: () => void
+  label: string;
+  checked?: boolean;
+  onChange: () => void;
 }) {
   return (
     <div className="flex items-center cursor-pointer" onClick={onChange}>
       <div className="h-4 w-4 rounded-full border border-gray-300 flex items-center justify-center mr-2 relative">
-        {checked && <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>}
+        {checked && (
+          <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>
+        )}
       </div>
       <span className="text-sm">{label}</span>
     </div>
-  )
+  );
 }
 
 function RatingOption({
@@ -521,38 +550,45 @@ function RatingOption({
   checked = false,
   onChange,
 }: {
-  stars: number
-  checked?: boolean
-  onChange: () => void
+  stars: number;
+  checked?: boolean;
+  onChange: () => void;
 }) {
   return (
     <div className="flex items-center cursor-pointer" onClick={onChange}>
       <div className="h-4 w-4 rounded-full border border-gray-300 flex items-center justify-center mr-2 relative">
-        {checked && <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>}
+        {checked && (
+          <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>
+        )}
       </div>
       <div className="flex">
         {[...Array(5)].map((_, i) => (
-          <Star key={i} className={`h-4 w-4 ${i < stars ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
+          <Star
+            key={i}
+            className={`h-4 w-4 ${
+              i < stars ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+            }`}
+          />
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 interface CourseCardProps {
-  subject: string
-  classLevel: string
-  title: string
-  description: string
-  lessons: number
-  hours: string
-  language: string
-  level: string
-  price: number
-  originalPrice?: number | null
-  rating: number
-  reviews: number
-  imageSrc: string
+  subject: string;
+  classLevel: string;
+  title: string;
+  description: string;
+  lessons: number;
+  hours: string;
+  language: string;
+  level: string;
+  price: number;
+  originalPrice?: number | null;
+  rating: number;
+  reviews: number;
+  imageSrc: string;
 }
 
 function CourseCard({
@@ -573,39 +609,43 @@ function CourseCard({
       <div className="flex flex-col sm:flex-row">
         {/* Left side with image */}
         <div className="relative w-full sm:w-[225px] h-[160px]">
-        
           {/* Subject header */}
           <div className="absolute top-0 left-0 right-0 h-10 bg-blue-600 flex items-center justify-center">
             <span className="text-white font-bold">{subject}</span>
           </div>
-          
+
           {/* Class level badge */}
           {classLevel && (
             <div className="absolute top-0 right-0">
               <div className="relative">
                 <div className="w-0 h-0 border-t-[25px] border-t-transparent border-r-[25px] border-r-white"></div>
-                <div className="absolute top-0 right-0 bg-white text-xs px-2 py-1 text-blue-600">{classLevel}</div>
+                <div className="absolute top-0 right-0 bg-white text-xs px-2 py-1 text-blue-600">
+                  {classLevel}
+                </div>
               </div>
             </div>
           )}
 
           {/* Course image */}
           <div className="h-full w-full flex items-center justify-center pt-10 bg-blue-100">
-          <Link href={"/course"}>
-            <Image
-              src={imageSrc || "/assets/eng.jpeg"}
-              alt={title}
-              width={150}
-              height={150}
-              className="object-contain"
-            /> </Link>
+            <Link href={"/course"}>
+              <Image
+                src={"/assets/eng.jpeg"}
+                alt={title}
+                width={150}
+                height={150}
+                className="object-contain"
+              />{" "}
+            </Link>
           </div>
         </div>
 
         {/* Right side with content */}
         <div className="flex-1 p-4 flex flex-col justify-between">
           <div>
-            <h3 className="text-xl font-bold text-red-900 mb-1">{title}</h3>
+            <Link href={"/course"}>
+              <h3 className="text-xl font-bold text-red-900 mb-1">{title}</h3>
+            </Link>
             <p className="text-sm text-gray-700 mb-3">{description}</p>
 
             {/* Course details */}
@@ -643,7 +683,11 @@ function CourseCard({
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`h-4 w-4 ${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                    className={`h-4 w-4 ${
+                      i < rating
+                        ? "text-yellow-400 fill-yellow-400"
+                        : "text-gray-300"
+                    }`}
                   />
                 ))}
               </div>
@@ -653,8 +697,7 @@ function CourseCard({
             </div>
           </div>
         </div>
-        
       </div>
     </div>
-  )
+  );
 }
