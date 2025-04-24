@@ -1,4 +1,4 @@
-import Image from "next/image"
+
 import { MentorCard } from "@/components/layout/mentor-card"
 import { mentors } from "@/components/layout/data/mentor"
 import Navbar from "@/components/layout/Navbar"
