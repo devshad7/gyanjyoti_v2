@@ -40,7 +40,7 @@ const Navbar = () => {
   const navItems = [
     { name: "Home", href: "/", active: true },
     { name: "Courses", href: "/Course-section", active: false },
-    { name: "Mentors", href: "/mentors", active: false },
+    { name: "Mentors", href: "/Mentor", active: false },
     { name: "About", href: "/about", active: false },
   ]
 

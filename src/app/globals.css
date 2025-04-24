@@ -137,3 +137,8 @@
   gap: 1rem;
   animation: scrollX 10s linear infinite;
 }
+
+.mentor-card-hover-effect:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
