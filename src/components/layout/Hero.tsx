@@ -4,7 +4,7 @@ const heroImage = "/assets/girl.png";
 
 const Hero = () => {
   return (
-    <section className="relative max-w-7xl  mx-auto  overflow-hidden min-h-[72vh] flex items-center justify-center py-8 md:py-18 px-2 sm:px-4 md:px-8 font-sans rounded-lg max-w-[1440px] mx-auto">
+    <section className="relative max-w-7xl mx-auto overflow-hidden min-h-auto flex items-center justify-center py-8 md:py-18 px-2 sm:px-4 md:px-8 font-sans rounded-lg">
       {/* Decorative Background */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute -top-24 -right-24 w-80 h-80 bg-yellow-400 opacity-10 rounded-full blur-3xl hidden sm:block"></div>
