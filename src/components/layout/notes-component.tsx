@@ -75,7 +75,7 @@ export default function NotesComponent({
     notes[0]?.id || ""
   );
   const [searchTerm, setSearchTerm] = useState("");
-  const [categories, _setCategories] = useState<string[]>([
+  const [categories, setCategories] = useState<string[]>([
     "General",
     "Study",
     "Personal",
