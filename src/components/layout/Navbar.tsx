@@ -24,13 +24,9 @@ const Navbar = () => {
       }
     };
 
-    // Add event listener
     window.addEventListener("scroll", handleScroll, { passive: true });
-
-    // Call once to set initial state
     handleScroll();
 
-    // Clean up
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -45,6 +41,7 @@ const Navbar = () => {
     { name: "Courses", href: "/courses" },
     { name: "Mentors", href: "/mentors" },
     { name: "About", href: "/about" },
+    { name: "Study Material", href: "/material" },
   ];
 
   return (
@@ -65,13 +62,13 @@ const Navbar = () => {
               className="text-lg md:text-xl font-bold flex items-center gap-3"
               aria-label="GyanJyoti Home"
             >
-              <div className="relative overflow-hidden ">
+              <div className="relative overflow-hidden">
                 <Image
                   src="/assets/Gyan_logo.png"
                   alt=""
                   width={36}
                   height={36}
-                  className="w-auto h-9 md:h-10 "
+                  className="w-auto h-9 md:h-10"
                   priority
                 />
               </div>
@@ -108,7 +105,7 @@ const Navbar = () => {
 
           <div className="flex items-center space-x-3">
             <Link
-              href={"/login"}
+              href="/login"
               className="hidden md:inline-block text-sm text-gray-700 hover:text-pink-600 font-medium transition-colors duration-300"
             >
               Sign In
@@ -117,11 +114,7 @@ const Navbar = () => {
             <Link href="/sign-up" className="hidden md:inline-block">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu hover:scale-105 hover:-translate-y-1 relative overflow-hidden group">
                 <span className="relative z-10">Register</span>
-
-                {/* Background gradient layer */}
                 <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700"></span>
-
-                {/* Sliding shine effect */}
                 <span className="absolute -left-full top-0 w-full h-full bg-white/20 transform rotate-12 group-hover:left-full transition-all duration-700 ease-in-out"></span>
               </Button>
             </Link>
@@ -168,7 +161,7 @@ const Navbar = () => {
 
               <div className="flex items-center pt-2 border-t border-gray-100">
                 <Link
-                  href={"/login"}
+                  href="/login"
                   className="px-4 py-2 text-sm text-gray-700 hover:text-pink-600 font-medium transition-colors duration-300"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -178,8 +171,7 @@ const Navbar = () => {
                 </Link>
 
                 <Link
-                  href={"/sign-up"}
-                  className=""
+                  href="/sign-up"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu relative overflow-hidden group">
