@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import {
   Bold,
   Italic,
@@ -17,30 +17,43 @@ import {
   Star,
   StarOff,
   Share2,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { cn } from "@/lib/utils"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 interface Note {
-  id: string
-  title: string
-  content: string
-  createdAt: Date
-  updatedAt: Date
-  favorite: boolean
-  category: string
+  id: string;
+  title: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  favorite: boolean;
+  category: string;
 }
 
 interface NotesComponentProps {
-  className?: string
-  initialNotes?: Note[]
+  className?: string;
+  initialNotes?: Note[];
 }
 
-export default function NotesComponent({ className, initialNotes = [] }: NotesComponentProps) {
+export default function NotesComponent({
+  className,
+  initialNotes = [],
+}: NotesComponentProps) {
   const [notes, setNotes] = useState<Note[]>(
     initialNotes.length > 0
       ? initialNotes
@@ -48,38 +61,47 @@ export default function NotesComponent({ className, initialNotes = [] }: NotesCo
           {
             id: "1",
             title: "Welcome to GyanJyoti Notes",
-            content: "Start taking notes for your studies. Use the formatting tools above to organize your thoughts.",
+            content:
+              "Start taking notes for your studies. Use the formatting tools above to organize your thoughts.",
             createdAt: new Date(),
             updatedAt: new Date(),
             favorite: true,
             category: "General",
           },
-        ],
-  )
+        ]
+  );
 
-  const [selectedNoteId, setSelectedNoteId] = useState<string>(notes[0]?.id || "")
-  const [searchTerm, setSearchTerm] = useState("")
-  const [categories, setCategories] = useState<string[]>(["General", "Study", "Personal"])
-  const [activeCategory, setActiveCategory] = useState<string>("All")
-  const [isEditing, setIsEditing] = useState(false)
-  const [editableNote, setEditableNote] = useState<Note | null>(null)
+  const [selectedNoteId, setSelectedNoteId] = useState<string>(
+    notes[0]?.id || ""
+  );
+  const [searchTerm, setSearchTerm] = useState("");
+  // remove that _ in setCategories when you are going to use it else keep it as it is
+  const [categories, _setCategories] = useState<string[]>([
+    "General",
+    "Study",
+    "Personal",
+  ]);
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editableNote, setEditableNote] = useState<Note | null>(null);
 
   useEffect(() => {
     if (selectedNoteId) {
-      const note = notes.find((n) => n.id === selectedNoteId)
+      const note = notes.find((n) => n.id === selectedNoteId);
       if (note) {
-        setEditableNote(note)
+        setEditableNote(note);
       }
     }
-  }, [selectedNoteId, notes])
+  }, [selectedNoteId, notes]);
 
   const filteredNotes = notes.filter((note) => {
     const matchesSearch =
       note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      note.content.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = activeCategory === "All" || note.category === activeCategory
-    return matchesSearch && matchesCategory
-  })
+      note.content.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      activeCategory === "All" || note.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   const handleCreateNote = () => {
     const newNote: Note = {
@@ -90,61 +112,71 @@ export default function NotesComponent({ className, initialNotes = [] }: NotesCo
       updatedAt: new Date(),
       favorite: false,
       category: "General",
-    }
+    };
 
-    setNotes([newNote, ...notes])
-    setSelectedNoteId(newNote.id)
-    setIsEditing(true)
-  }
+    setNotes([newNote, ...notes]);
+    setSelectedNoteId(newNote.id);
+    setIsEditing(true);
+  };
 
   const handleSaveNote = () => {
-    if (!editableNote) return
+    if (!editableNote) return;
 
-    setNotes(notes.map((note) => (note.id === editableNote.id ? { ...editableNote, updatedAt: new Date() } : note)))
-    setIsEditing(false)
-  }
+    setNotes(
+      notes.map((note) =>
+        note.id === editableNote.id
+          ? { ...editableNote, updatedAt: new Date() }
+          : note
+      )
+    );
+    setIsEditing(false);
+  };
 
   const handleDeleteNote = (id: string) => {
-    setNotes(notes.filter((note) => note.id !== id))
+    setNotes(notes.filter((note) => note.id !== id));
     if (selectedNoteId === id) {
-      setSelectedNoteId(notes[0]?.id || "")
+      setSelectedNoteId(notes[0]?.id || "");
     }
-  }
+  };
 
   const handleToggleFavorite = (id: string) => {
-    setNotes(notes.map((note) => (note.id === id ? { ...note, favorite: !note.favorite } : note)))
-  }
+    setNotes(
+      notes.map((note) =>
+        note.id === id ? { ...note, favorite: !note.favorite } : note
+      )
+    );
+  };
 
   const formatText = (format: string) => {
-    if (!editableNote) return
+    if (!editableNote) return;
 
-    let newContent = editableNote.content
+    let newContent = editableNote.content;
 
     switch (format) {
       case "bold":
-        newContent += " **bold text** "
-        break
+        newContent += " **bold text** ";
+        break;
       case "italic":
-        newContent += " *italic text* "
-        break
+        newContent += " *italic text* ";
+        break;
       case "list":
-        newContent += "\n- List item 1\n- List item 2\n- List item 3"
-        break
+        newContent += "\n- List item 1\n- List item 2\n- List item 3";
+        break;
       case "ordered-list":
-        newContent += "\n1. First item\n2. Second item\n3. Third item"
-        break
+        newContent += "\n1. First item\n2. Second item\n3. Third item";
+        break;
       default:
-        break
+        break;
     }
 
-    setEditableNote({ ...editableNote, content: newContent })
-  }
+    setEditableNote({ ...editableNote, content: newContent });
+  };
 
   return (
     <div
       className={cn(
         "flex flex-col md:flex-row h-[600px] border rounded-lg shadow-lg overflow-hidden bg-white",
-        className,
+        className
       )}
     >
       {/* Sidebar */}
@@ -160,7 +192,10 @@ export default function NotesComponent({ className, initialNotes = [] }: NotesCo
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <Button onClick={handleCreateNote} className="w-full bg-[#1e40af] hover:bg-[#1e40af]/90 text-white">
+          <Button
+            onClick={handleCreateNote}
+            className="w-full bg-[#1e40af] hover:bg-[#1e40af]/90 text-white"
+          >
             <Plus className="h-4 w-4 mr-2" /> New Note
           </Button>
         </div>
@@ -176,10 +211,19 @@ export default function NotesComponent({ className, initialNotes = [] }: NotesCo
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setActiveCategory("All")}>All Notes</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setActiveCategory("Favorites")}>Favorites</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setActiveCategory("All")}>
+                  All Notes
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setActiveCategory("Favorites")}
+                >
+                  Favorites
+                </DropdownMenuItem>
                 {categories.map((category) => (
-                  <DropdownMenuItem key={category} onClick={() => setActiveCategory(category)}>
+                  <DropdownMenuItem
+                    key={category}
+                    onClick={() => setActiveCategory(category)}
+                  >
                     {category}
                   </DropdownMenuItem>
                 ))}
@@ -226,24 +270,31 @@ export default function NotesComponent({ className, initialNotes = [] }: NotesCo
               <div
                 key={note.id}
                 onClick={() => {
-                  setSelectedNoteId(note.id)
-                  setIsEditing(false)
+                  setSelectedNoteId(note.id);
+                  setIsEditing(false);
                 }}
                 className={cn(
                   "p-3 border-b cursor-pointer hover:bg-gray-50 transition-colors",
-                  selectedNoteId === note.id && "bg-[#1e40af]/10 border-l-4 border-l-[#1e40af]",
+                  selectedNoteId === note.id &&
+                    "bg-[#1e40af]/10 border-l-4 border-l-[#1e40af]"
                 )}
               >
                 <div className="flex items-start justify-between">
                   <h3 className="font-medium truncate">{note.title}</h3>
-                  {note.favorite && <Star className="h-4 w-4 text-[#f0b429] flex-shrink-0" />}
+                  {note.favorite && (
+                    <Star className="h-4 w-4 text-[#f0b429] flex-shrink-0" />
+                  )}
                 </div>
-                <p className="text-sm text-gray-500 truncate mt-1">{note.content}</p>
+                <p className="text-sm text-gray-500 truncate mt-1">
+                  {note.content}
+                </p>
                 <div className="flex items-center mt-2 text-xs text-gray-400">
                   <Clock className="h-3 w-3 mr-1" />
                   {new Date(note.updatedAt).toLocaleDateString()}
                   <span className="mx-2 text-gray-300">|</span>
-                  <span className="px-1.5 py-0.5 rounded bg-gray-100 text-gray-500">{note.category}</span>
+                  <span className="px-1.5 py-0.5 rounded bg-gray-100 text-gray-500">
+                    {note.category}
+                  </span>
                 </div>
               </div>
             ))
@@ -357,11 +408,17 @@ export default function NotesComponent({ className, initialNotes = [] }: NotesCo
                         onClick={() => handleToggleFavorite(editableNote.id)}
                         className="h-8 w-8 text-[#f0b429]"
                       >
-                        {editableNote.favorite ? <Star className="h-4 w-4" /> : <StarOff className="h-4 w-4" />}
+                        {editableNote.favorite ? (
+                          <Star className="h-4 w-4" />
+                        ) : (
+                          <StarOff className="h-4 w-4" />
+                        )}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      {editableNote.favorite ? "Remove from favorites" : "Add to favorites"}
+                      {editableNote.favorite
+                        ? "Remove from favorites"
+                        : "Add to favorites"}
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -408,20 +465,32 @@ export default function NotesComponent({ className, initialNotes = [] }: NotesCo
                 <div className="flex flex-col h-full gap-2">
                   <Input
                     value={editableNote.title}
-                    onChange={(e) => setEditableNote({ ...editableNote, title: e.target.value })}
+                    onChange={(e) =>
+                      setEditableNote({
+                        ...editableNote,
+                        title: e.target.value,
+                      })
+                    }
                     className="text-lg font-medium border-b-2 border-[#1e40af] focus-visible:ring-0 focus-visible:ring-offset-0"
                     placeholder="Note title"
                   />
                   <Textarea
                     value={editableNote.content}
-                    onChange={(e) => setEditableNote({ ...editableNote, content: e.target.value })}
+                    onChange={(e) =>
+                      setEditableNote({
+                        ...editableNote,
+                        content: e.target.value,
+                      })
+                    }
                     className="flex-1 resize-none focus-visible:ring-0 focus-visible:ring-offset-0"
                     placeholder="Start typing your note here..."
                   />
                 </div>
               ) : (
                 <div className="animate-fade-in">
-                  <h1 className="text-2xl font-bold mb-4 pb-2 border-b text-[#1e40af]">{editableNote.title}</h1>
+                  <h1 className="text-2xl font-bold mb-4 pb-2 border-b text-[#1e40af]">
+                    {editableNote.title}
+                  </h1>
                   <div className="prose max-w-none">
                     {editableNote.content.split("\n").map((paragraph, i) => (
                       <p key={i} className="mb-4">
@@ -437,10 +506,12 @@ export default function NotesComponent({ className, initialNotes = [] }: NotesCo
             <div className="p-2 border-t bg-gray-50 flex justify-between items-center text-xs text-gray-500">
               <div className="flex items-center">
                 <Clock className="h-3 w-3 mr-1" />
-                Last updated: {new Date(editableNote.updatedAt).toLocaleString()}
+                Last updated:{" "}
+                {new Date(editableNote.updatedAt).toLocaleString()}
               </div>
               <div>
-                Category: <span className="font-medium">{editableNote.category}</span>
+                Category:{" "}
+                <span className="font-medium">{editableNote.category}</span>
               </div>
             </div>
           </>
@@ -451,8 +522,13 @@ export default function NotesComponent({ className, initialNotes = [] }: NotesCo
                 <FileText className="h-8 w-8 text-[#1e40af]" />
               </div>
               <h3 className="text-xl font-bold mb-2">No Note Selected</h3>
-              <p className="text-gray-500 mb-4">Select a note from the sidebar or create a new one</p>
-              <Button onClick={handleCreateNote} className="bg-[#1e40af] hover:bg-[#1e40af]/90">
+              <p className="text-gray-500 mb-4">
+                Select a note from the sidebar or create a new one
+              </p>
+              <Button
+                onClick={handleCreateNote}
+                className="bg-[#1e40af] hover:bg-[#1e40af]/90"
+              >
                 <Plus className="h-4 w-4 mr-2" /> Create New Note
               </Button>
             </div>
@@ -460,5 +536,5 @@ export default function NotesComponent({ className, initialNotes = [] }: NotesCo
         )}
       </div>
     </div>
-  )
+  );
 }

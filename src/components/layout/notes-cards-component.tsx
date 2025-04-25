@@ -256,20 +256,20 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
     alert(`Downloading note: ${note.title}`)
   }
 
-  const handleUploadImage = () => {
-    fileInputRef.current?.click()
-  }
+  // const handleUploadImage = () => {
+  //   fileInputRef.current?.click()
+  // }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (files && files.length > 0) {
-      // In a real app, this would upload the file to a server
-      console.log("File selected:", files[0].name)
-      alert(`Image uploaded: ${files[0].name}`)
-      // Reset the input
-      e.target.value = ""
-    }
-  }
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = e.target.files
+  //   if (files && files.length > 0) {
+  //     // In a real app, this would upload the file to a server
+  //     console.log("File selected:", files[0].name)
+  //     alert(`Image uploaded: ${files[0].name}`)
+  //     // Reset the input
+  //     e.target.value = ""
+  //   }
+  // }
 
   const nextImage = () => {
     if (selectedNote && currentImageIndex < selectedNote.images.length - 1) {
