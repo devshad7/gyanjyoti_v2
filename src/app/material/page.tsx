@@ -6,7 +6,7 @@ import NotesCardsComponent from "@/components/layout/notes-cards-component"
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { FileText, PenLine, Plus } from "lucide-react"
+import { FileText, PenLine, } from "lucide-react"
 
 
 export default function Page() {
