@@ -13,7 +13,7 @@ export default function MentorsPage() {
             Our <span className="text-blue-600">Expert</span> Mentors
           </h1>
           <p className="max-w-2xl mx-auto text-lg text-gray-600">
-            Meet the dedicated educators who are committed to illuminating your
+            Meet the dedicated educators who are committed to illuminate your
             educational journey at GyanJyoti.
           </p>
         </div>
