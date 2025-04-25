@@ -75,7 +75,6 @@ export default function NotesComponent({
     notes[0]?.id || ""
   );
   const [searchTerm, setSearchTerm] = useState("");
-  // remove that _ in setCategories when you are going to use it else keep it as it is
   const [categories, _setCategories] = useState<string[]>([
     "General",
     "Study",
