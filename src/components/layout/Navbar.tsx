@@ -7,6 +7,13 @@ import { useEffect, useState } from "react";
 import { Inter } from "next/font/google";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -104,20 +111,31 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center space-x-3">
-            <Link
-              href="/login"
-              className="hidden md:inline-block text-sm text-gray-700 hover:text-pink-600 font-medium transition-colors duration-300"
-            >
-              Sign In
-            </Link>
+            <SignedOut>
+              <SignInButton>
+                <Link
+                  href="/sign-in"
+                  className="hidden md:inline-block text-sm text-gray-700 hover:text-pink-600 font-medium transition-colors duration-300"
+                >
+                  Sign In
+                </Link>
+              </SignInButton>
+            </SignedOut>
+            <SignedOut>
+              <SignUpButton>
+                <Link href="/sign-up" className="hidden md:inline-block">
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu hover:scale-105 hover:-translate-y-1 relative overflow-hidden group">
+                    <span className="relative z-10">Register</span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700"></span>
+                    <span className="absolute -left-full top-0 w-full h-full bg-white/20 transform rotate-12 group-hover:left-full transition-all duration-700 ease-in-out"></span>
+                  </Button>
+                </Link>
+              </SignUpButton>
+            </SignedOut>
 
-            <Link href="/sign-up" className="hidden md:inline-block">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu hover:scale-105 hover:-translate-y-1 relative overflow-hidden group">
-                <span className="relative z-10">Register</span>
-                <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700"></span>
-                <span className="absolute -left-full top-0 w-full h-full bg-white/20 transform rotate-12 group-hover:left-full transition-all duration-700 ease-in-out"></span>
-              </Button>
-            </Link>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
 
             {/* Hamburger Menu Button */}
             <button
@@ -138,7 +156,7 @@ const Navbar = () => {
         <div
           className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
             mobileMenuOpen
-              ? "max-h-[300px] opacity-100 border-b border-gray-100"
+              ? "h-auto opacity-100 border-b border-gray-100"
               : "max-h-0 opacity-0"
           }`}
         >
@@ -160,24 +178,32 @@ const Navbar = () => {
               ))}
 
               <div className="flex items-center pt-2 border-t border-gray-100">
-                <Link
-                  href="/login"
-                  className="px-4 py-2 text-sm text-gray-700 hover:text-pink-600 font-medium transition-colors duration-300"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Button className="text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu relative overflow-hidden group">
-                    Sign In
-                  </Button>
-                </Link>
+                <SignedOut>
+                  <SignInButton>
+                    <Link
+                      href="/sign-in"
+                      className="px-4 py-2 text-sm text-gray-700 hover:text-pink-600 font-medium transition-colors duration-300"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Button className="text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu relative overflow-hidden group">
+                        Sign In
+                      </Button>
+                    </Link>
+                  </SignInButton>
+                </SignedOut>
 
-                <Link
-                  href="/sign-up"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu relative overflow-hidden group">
-                    Register
-                  </Button>
-                </Link>
+                <SignedOut>
+                  <SignUpButton>
+                    <Link
+                      href="/sign-up"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu relative overflow-hidden group">
+                        Register
+                      </Button>
+                    </Link>
+                  </SignUpButton>
+                </SignedOut>
               </div>
             </div>
           </div>
