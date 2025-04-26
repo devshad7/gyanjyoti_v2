@@ -1,7 +1,7 @@
 export type OtpInputType = {
   code: string;
-  setCode: any;
+  setCode: (value: string) => void;
   error: string;
-  handleVerify: any;
+  handleVerify: (e: React.FormEvent) => Promise<void>;
   loading: boolean;
 };
