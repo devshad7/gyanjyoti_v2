@@ -39,8 +39,13 @@ const Signup = () => {
       });
 
       setVerifying(true);
-    } catch (err: any) {
-      setError(err?.errors?.[0]?.message || "Signup failed");
+    } catch (err) {
+      if (err && typeof err === "object" && "errors" in err) {
+        const errorObj = err as { errors: { message: string }[] };
+        setError(errorObj.errors[0]?.message || "Signup failed");
+      } else {
+        setError("Signup failed");
+      }
     } finally {
       setLoading(false);
     }
@@ -65,8 +70,13 @@ const Signup = () => {
           JSON.stringify(result, null, 2)
         );
       }
-    } catch (err: any) {
-      setError(err?.errors?.[0]?.message || "Signup failed");
+    } catch (err) {
+      if (err && typeof err === "object" && "errors" in err) {
+        const errorObj = err as { errors: { message: string }[] };
+        setError(errorObj.errors[0]?.message || "Signup failed");
+      } else {
+        setError("Signup failed");
+      }
     } finally {
       setLoading(false);
     }

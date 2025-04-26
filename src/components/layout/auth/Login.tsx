@@ -8,6 +8,7 @@ import { Eye, EyeOff, Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { ClerkSignInError } from "@/types/LoginErrorProps";
 
 const Login = () => {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -39,8 +40,9 @@ const Login = () => {
       } else {
         console.log("Additional verification required");
       }
-    } catch (err: any) {
-      setError(err?.errors?.[0]?.message || "Login failed");
+    } catch (err: unknown) {
+      const error = err as ClerkSignInError;
+      setError(error?.errors?.[0]?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -150,7 +152,7 @@ const Login = () => {
             </button>
 
             <div className="text-center text-gray-500 text-sm">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/sign-up" className="text-blue-500 hover:underline">
                 Sign Up
               </Link>
