@@ -6,13 +6,18 @@ import { Eye, EyeOff, Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSignUp } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import InputOtp from "./ui/InputOtp";
+import { handleGoogleSignUp } from "@/hooks/GoogleAuth";
 
 const Signup = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
+
+  // Capture the 'redirect_url' query parameter
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect_url") || "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -65,7 +70,7 @@ const Signup = () => {
 
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
-        router.push("/");
+        router.push(redirectUrl);
       } else {
         console.error(
           "Verification incomplete:",
@@ -197,6 +202,9 @@ const Signup = () => {
             <button
               type="button"
               className="w-full flex items-center justify-center gap-2 py-2 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer"
+              // onClick={() =>
+              //   handleGoogleSignUp({ signUp, redirectUrl: redirectUrl })
+              // }
             >
               <Image
                 src="/assets/google.png"
