@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-const heroImage = "/assets/girl.png";
+const heroImage = "/assets/image.png";
 
 const Hero = () => {
   return (
@@ -61,46 +61,7 @@ const Hero = () => {
               />
             </div>
           </div>
-          {/* Top right card */}
-          <div className="absolute top-4 right-4 bg-white p-3 sm:p-4 rounded-lg shadow-md z-20 hidden md:flex items-center space-x-3 hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px] w-max">
-            <div className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-white"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838l-2.328.996.002 1.069c0 .527.213 1.028.589 1.405a.989.989 0 001.41 0l.002-.003.161.161a1.5 1.5 0 002.121 0l.161-.161.003.003a.989.989 0 001.41 0c.376-.376.589-.878.589-1.405v-1.064l.67-.287 3.356-1.437a1 1 0 000-1.84l-7-3zM8 10.93L5.173 9.763 1.357 7.967l-.171 1.81L5 11.257 8 12.74v-1.81zm1-1.383L12 7.67v1.81l-3 1.278v-1.21z" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-bold">500+ Courses</p>
-              <p className="text-xs text-gray-500">In various subjects</p>
-            </div>
-          </div>
-
-          {/* Bottom left card */}
-          <div className="absolute bottom-4 left-4 bg-white p-3 sm:p-4 rounded-lg shadow-md z-20 hidden md:flex items-center space-x-3 hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px] w-max">
-            <div className="w-10 h-10 rounded-full bg-pink-600 flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-white"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
-                  clipRule="evenodd"
-                  fillRule="evenodd"
-                />
-                <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-bold">Expert Mentors</p>
-              <p className="text-xs text-gray-500">Learn from professionals</p>
-            </div>
-          </div>
+          
         </div>
       </div>
     </section>

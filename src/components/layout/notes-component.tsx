@@ -174,7 +174,7 @@ export default function NotesComponent({
   return (
     <div
       className={cn(
-        "flex flex-col md:flex-row h-[600px] border rounded-lg shadow-lg overflow-hidden bg-white",
+        "flex flex-col md:flex-row h-auto border rounded-lg shadow-lg overflow-hidden bg-white",
         className
       )}
     >
