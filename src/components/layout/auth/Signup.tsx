@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import InputOtp from "./ui/InputOtp";
 
 const Signup = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -17,6 +18,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [otpError, setOtpError] = useState("");
   const [username, setUsername] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [verifying, setVerifying] = useState(false);
@@ -73,9 +75,9 @@ const Signup = () => {
     } catch (err) {
       if (err && typeof err === "object" && "errors" in err) {
         const errorObj = err as { errors: { message: string }[] };
-        setError(errorObj.errors[0]?.message || "Signup failed");
+        setOtpError(errorObj.errors[0]?.message || "Signup failed");
       } else {
-        setError("Signup failed");
+        setOtpError("Signup failed");
       }
     } finally {
       setLoading(false);
@@ -177,38 +179,13 @@ const Signup = () => {
                 </Button>
               </>
             ) : (
-              <>
-                <div className="space-y-2">
-                  <label htmlFor="otp" className="block text-gray-700">
-                    Enter Verification Code (from Email)
-                  </label>
-                  <Input
-                    id="otp"
-                    type="text"
-                    placeholder="Enter the code"
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                  />
-                </div>
-
-                {error && (
-                  <div className="text-red-500 text-sm text-center">
-                    {error}
-                  </div>
-                )}
-
-                <Button
-                  onClick={handleVerify}
-                  className="w-full py-2 bg-blue-600 hover:bg-blue-700 cursor-pointer text-white rounded-md"
-                  disabled={loading ? true : false}
-                >
-                  {loading ? (
-                    <span>Verifying...</span>
-                  ) : (
-                    <span>Verify & Complete Signup</span>
-                  )}
-                </Button>
-              </>
+              <InputOtp
+                code={code}
+                error={otpError}
+                handleVerify={handleVerify}
+                loading={loading}
+                setCode={setCode}
+              />
             )}
 
             <div className="relative flex items-center justify-center">
