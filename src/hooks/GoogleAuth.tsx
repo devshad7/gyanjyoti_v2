@@ -4,12 +4,12 @@ import { SignInResource, SignUpResource } from "@clerk/types";
 
 interface HandleGoogleSignInProps {
   redirectUrl?: string;
-  signIn: SignInResource | undefined;
+  signIn: SignInResource;
 }
 
 interface HandleGoogleSignUpProps {
   redirectUrl?: string;
-  signUp: SignUpResource | undefined;
+  signUp: SignUpResource;
 }
 
 export const handleGoogleSignIn = async ({
