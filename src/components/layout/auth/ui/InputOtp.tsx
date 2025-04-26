@@ -1,9 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPSlot } from "@/components/ui/input-otp";
+import { OtpInputType } from "@/types/OtpInputProps";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import React from "react";
 
-const InputOtp = ({ code, setCode, error, handleVerify, loading }: any) => {
+const InputOtp = ({
+  code,
+  setCode,
+  error,
+  handleVerify,
+  loading,
+}: OtpInputType) => {
   return (
     <>
       <div className="space-y-2">
