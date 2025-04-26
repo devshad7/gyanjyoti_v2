@@ -243,30 +243,14 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
           <p className="text-gray-500">Try adjusting your search or filters</p>
         </div>
       ) : viewMode === "grid" ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 gap-4">
           {filteredPDFs.map((pdf) => (
             <Card
               key={pdf.id}
-              className="overflow-hidden hover:shadow-md transition-shadow group border-l-4 h-full flex flex-col"
-              style={{
-                borderLeftColor:
-                  pdf.subject === "Physics"
-                    ? "#1e40af"
-                    : pdf.subject === "Chemistry"
-                      ? "#059669"
-                      : pdf.subject === "Mathematics"
-                        ? "#7c3aed"
-                        : pdf.subject === "Biology"
-                          ? "#10b981"
-                          : pdf.subject === "History"
-                            ? "#f59e0b"
-                            : pdf.subject === "English"
-                              ? "#e91e63"
-                              : "#64748b",
-              }}
+              className="overflow-hidden hover:shadow-md transition-shadow py-0 gap-2 h-full flex flex-col"
             >
-              <div className="relative aspect-[4/3] bg-gray-100">
-                <img src={pdf.thumbnail || "/placeholder.svg"} alt={pdf.title} className="w-full h-full object-cover" />
+              <div className="relative aspect-[3/2] bg-gray-100">
+                <img src={"/assets/eng.jpeg"} alt={pdf.title} className="w-full h-full object-cover" />
                 <button
                   onClick={() => toggleFavorite(pdf.id)}
                   className="absolute top-2 right-2 h-7 w-7 bg-white rounded-full flex items-center justify-center shadow-sm"
@@ -281,7 +265,7 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
               <CardHeader className="p-3 pb-1">
                 <h3 className="font-medium text-sm line-clamp-2">{pdf.title}</h3>
               </CardHeader>
-              <CardContent className="p-3 pt-0 pb-1 flex-grow">
+              <CardContent className="p-3 pt-0 flex-grow border-b">
                 <div className="flex flex-wrap gap-1 mt-1">
                   <Badge variant="outline" className="text-xs bg-[#1e40af]/10 text-[#1e40af] border-[#1e40af]/30">
                     {pdf.subject}
@@ -291,7 +275,7 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
                   </Badge>
                 </div>
               </CardContent>
-              <CardFooter className="p-3 pt-1 text-xs text-gray-500 flex justify-between items-center border-t bg-gray-50">
+              <CardFooter className="p-3 pt-1 text-xs text-gray-500 flex justify-between items-center bg-gray-50">
                 <div className="flex items-center">
                   <FileText className="h-3 w-3 mr-1" />
                   {pdf.pages} pg

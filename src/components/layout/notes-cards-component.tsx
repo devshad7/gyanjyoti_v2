@@ -404,10 +404,6 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-
-          <Button size="sm" className="h-8 bg-[#f0b429] hover:bg-[#f0b429]/90 text-white">
-            <Plus className="h-3.5 w-3.5 mr-1.5" /> New Note
-          </Button>
         </div>
 
         <div className="relative w-full sm:w-64">
@@ -422,7 +418,7 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
       </div>
 
       {/* Notes Cards */}
-      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 md:gap-4">
         {filteredNotes.length === 0 ? (
           <div className="col-span-full text-center py-12 bg-gray-50 rounded-lg">
             <PenLine className="h-12 w-12 mx-auto text-gray-400 mb-4" />
@@ -433,28 +429,12 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
           filteredNotes.map((note) => (
             <Card
               key={note.id}
-              className="overflow-hidden hover:shadow-md transition-shadow border-l-4 h-full flex flex-col"
-              style={{
-                borderLeftColor:
-                  note.subject === "Physics"
-                    ? "#1e40af"
-                    : note.subject === "Chemistry"
-                      ? "#059669"
-                      : note.subject === "Mathematics"
-                        ? "#7c3aed"
-                        : note.subject === "Biology"
-                          ? "#10b981"
-                          : note.subject === "History"
-                            ? "#f59e0b"
-                            : note.subject === "English"
-                              ? "#e91e63"
-                              : "#64748b",
-              }}
+              className="overflow-hidden hover:shadow-md py-0 gap-2 transition-shadow h-full flex flex-col"
             >
               {note.images.length > 0 && (
-                <div className="relative aspect-[4/3] bg-gray-100">
+                <div className="relative aspect-[3/2] bg-gray-100">
                   <img
-                    src={note.images[0].url || "/placeholder.svg"}
+                    src={"/assets/eng.jpeg"}
                     alt={note.images[0].caption || note.title}
                     className="w-full h-full object-cover"
                   />
@@ -476,7 +456,7 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
                   )}
                 </button>
               </CardHeader>
-              <CardContent className="p-3 pt-0 flex-grow">
+              <CardContent className="p-3 pt-0 flex-grow border-b">
                 <p className="text-gray-600 line-clamp-3 text-xs whitespace-pre-line">{note.content}</p>
                 <div className="flex flex-wrap gap-1 mt-2">
                   <Badge variant="outline" className="text-xs bg-[#1e40af]/10 text-[#1e40af] border-[#1e40af]/30">
@@ -487,7 +467,7 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
                   </Badge>
                 </div>
               </CardContent>
-              <CardFooter className="p-3 pt-1 border-t bg-gray-50 flex justify-between items-center">
+              <CardFooter className="px-3 py-3 bg-gray-50 flex justify-between items-center">
                 <div className="text-xs text-gray-500 flex items-center">
                   <Clock className="h-3 w-3 mr-1" />
                   {new Date(note.updatedAt).toLocaleDateString()}

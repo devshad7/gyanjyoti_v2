@@ -12,23 +12,6 @@ export default function Page() {
     <>
       <Navbar />
       <main className="mx-auto max-w-7xl p-3 md:p-4 lg:p-6">
-        <div className="mb-6 flex items-center justify-center">
-          <div className="relative w-8 h-8 mr-2">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-6 h-6 rounded-full bg-[#f0b429]" />
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-8 h-4 bg-[#1e40af] rounded-t-full transform translate-y-1.5" />
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-8 h-2 bg-[#e91e63] rounded-t-full transform translate-y-2.5" />
-            </div>
-          </div>
-          <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#1e40af] via-[#e91e63] to-[#f0b429] bg-clip-text text-transparent">
-            GyanJyoti Learning Resources
-          </h1>
-        </div>
-
         <Tabs defaultValue="notes" className="w-full">
           <TabsList className="grid w-full max-w-xs mx-auto grid-cols-2 mb-6">
             <TabsTrigger
