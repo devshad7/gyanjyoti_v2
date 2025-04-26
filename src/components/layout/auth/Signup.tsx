@@ -9,7 +9,7 @@ import { useSignUp } from "@clerk/nextjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import InputOtp from "./ui/InputOtp";
-import { handleGoogleSignUp } from "@/hooks/GoogleAuth";
+// import { handleGoogleSignUp } from "@/hooks/GoogleAuth";
 
 const Signup = () => {
   const { isLoaded, signUp, setActive } = useSignUp();

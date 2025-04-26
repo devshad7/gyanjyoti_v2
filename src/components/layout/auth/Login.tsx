@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { ClerkSignInError } from "@/types/LoginErrorProps";
-import { handleGoogleSignIn } from "@/hooks/GoogleAuth";
+// import { handleGoogleSignIn } from "@/hooks/GoogleAuth";
 
 const Login = () => {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -139,9 +139,9 @@ const Login = () => {
               type="button"
               className="w-full flex items-center justify-center gap-2 py-2 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer"
               // Optional: Add Clerk Google OAuth
-              onClick={() =>
-                handleGoogleSignIn({ signIn, redirectUrl: redirectUrl })
-              }
+              // onClick={() =>
+              //   handleGoogleSignIn({ signIn, redirectUrl: redirectUrl })
+              // }
             >
               <Image
                 src="/assets/google.png"
