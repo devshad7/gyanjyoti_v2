@@ -1,209 +1,70 @@
-"use client";
+"use client"
 
-import type React from "react";
+import type React from "react"
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { Search, Star, Filter, X } from "lucide-react";
-import Link from "next/link";
-// Course data
-const coursesData = [
-  {
-    id: "acc-10",
-    subject: "ACCOUNT",
-    classLevel: "Class 10",
-    title: "Account Class 10 @ 1 Year",
-    description:
-      "Account Class 10 videos According to Curriculum Development Centre, Nepal (Revised on 2080 BS)",
-    lessons: 115,
-    hours: "21+",
-    language: "Nepali",
-    level: "Intermediate",
-    price: 9999,
-    originalPrice: null,
-    rating: 5,
-    reviews: 1,
-    imageSrc: "/placeholder.svg?height=150&width=150",
-    category: "Class 10",
-  },
-  {
-    id: "acc-11",
-    subject: "ACCOUNT",
-    classLevel: "Class 11",
-    title: "Account Class 11",
-    description:
-      "Account Class 11 videos According to National Examinations Board(NEB) Syllabus, Nepal.",
-    lessons: 51,
-    hours: "16+",
-    language: "Nepali",
-    level: "Intermediate",
-    price: 999,
-    originalPrice: 1999,
-    rating: 5,
-    reviews: 2,
-    imageSrc: "/placeholder.svg?height=150&width=150",
-    category: "Class 11",
-  },
-  {
-    id: "acc-12",
-    subject: "ACCOUNT",
-    classLevel: "Class 12",
-    title: "Account Class 12",
-    description:
-      "After the completion of this course, students will get the complete knowledge of Class 12 Account.",
-    lessons: 137,
-    hours: "20+",
-    language: "English",
-    level: "Intermediate",
-    price: 999,
-    originalPrice: 1999,
-    rating: 5,
-    reviews: 1,
-    imageSrc: "/placeholder.svg?height=150&width=150",
-    category: "Class 12",
-  },
-  {
-    id: "acc-8",
-    subject: "ACCOUNT",
-    classLevel: "Class 8",
-    title: "Account Class 8 @ 1 Year",
-    description:
-      "Account Class 8 videos According to Curriculum Development Centre, Nepal (Revised on 2080 BS)",
-    lessons: 65,
-    hours: "8+",
-    language: "Nepali",
-    level: "Beginner",
-    price: 9999,
-    originalPrice: null,
-    rating: 0,
-    reviews: 0,
-    imageSrc: "/placeholder.svg?height=150&width=150",
-    category: "Class 8",
-  },
-  {
-    id: "acc-9",
-    subject: "ACCOUNT",
-    classLevel: "Class 9",
-    title: "Account Class 9 @ 1 Year",
-    description:
-      "Account Class 9 (New Syllabus) videos According to Curriculum Development Centre, Nepal (Revised on 2080 BS)",
-    lessons: 181,
-    hours: "26+",
-    language: "Nepali",
-    level: "Intermediate",
-    price: 9999,
-    originalPrice: null,
-    rating: 0,
-    reviews: 0,
-    imageSrc: "/placeholder.svg?height=150&width=150",
-    category: "Class 9",
-  },
-  {
-    id: "adobe-ae",
-    subject: "ADOBE AFTER EFFECTS",
-    classLevel: "",
-    title: "Adobe After Effects",
-    description: "A complete course on Adobe After Effects.",
-    lessons: 42,
-    hours: "4+",
-    language: "Nepali",
-    level: "Beginner",
-    price: 499,
-    originalPrice: 999,
-    rating: 5,
-    reviews: 6,
-    imageSrc: "/placeholder.svg?height=150&width=150",
-    category: "Design and Creative Skills",
-  },
-];
-
-// Categories for filter
-const categories = [
-  "All category",
-  "Class 8",
-  "Class 9",
-  "Class 10",
-  "Class 11",
-  "Class 12",
-  "Design and Creative Skills",
-  "Engineering",
-  "Engineering Design Courses",
-  "Engineering Preparation",
-];
-
-// Levels for filter
-const levels = ["All", "Beginner", "Intermediate", "Advanced"];
-
-// Languages for filter
-const languages = ["All", "English", "Nepali"];
+import { useState, useEffect } from "react"
+import Image from "next/image"
+import { Search, Star, Filter, X } from "lucide-react"
+import Link from "next/link"
+import { coursesData, categories, languages, type CourseData } from "./data/courseData"
 
 export default function CourseSection() {
   // State for search query
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("")
 
   // State for filters
-  const [selectedCategory, setSelectedCategory] = useState("All category");
-  const [selectedLevel, setSelectedLevel] = useState("All");
-  const [selectedLanguage, setSelectedLanguage] = useState("All");
-  const [selectedRating, setSelectedRating] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("All category")
+  const [selectedLanguage, setSelectedLanguage] = useState("All")
+  const [selectedRating, setSelectedRating] = useState(0)
 
   // State for mobile filter visibility
-  const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const [showMobileFilter, setShowMobileFilter] = useState(false)
 
   // State for filtered courses
-  const [filteredCourses, setFilteredCourses] = useState(coursesData);
+  const [filteredCourses, setFilteredCourses] = useState(coursesData)
 
   // Apply filters when any filter changes
   useEffect(() => {
-    let result = coursesData;
+    let result = coursesData
 
     // Apply search filter
     if (searchQuery) {
       result = result.filter(
         (course) =>
           course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          course.description.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+          course.description.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
     }
 
     // Apply category filter
     if (selectedCategory !== "All category") {
-      result = result.filter((course) => course.category === selectedCategory);
+      result = result.filter((course) => course.category === selectedCategory)
     }
 
-    // Apply level filter
-    if (selectedLevel !== "All") {
-      result = result.filter((course) => course.level === selectedLevel);
-    }
+  
 
     // Apply language filter
     if (selectedLanguage !== "All") {
-      result = result.filter((course) => course.language === selectedLanguage);
+      result = result.filter((course) => course.language === selectedLanguage)
     }
 
     // Apply rating filter
     if (selectedRating > 0) {
-      result = result.filter((course) => course.rating >= selectedRating);
+      result = result.filter((course) => course.rating >= selectedRating)
     }
 
-    setFilteredCourses(result);
-  }, [
-    searchQuery,
-    selectedCategory,
-    selectedLevel,
-    selectedLanguage,
-    selectedRating,
-  ]);
+    setFilteredCourses(result)
+  }, [searchQuery, selectedCategory,  selectedLanguage, selectedRating])
 
   // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
+    setSearchQuery(e.target.value)
+  }
 
   // Toggle mobile filter visibility
   const toggleMobileFilter = () => {
-    setShowMobileFilter(!showMobileFilter);
-  };
+    setShowMobileFilter(!showMobileFilter)
+  }
 
   return (
     <div className="flex flex-col bg-blue-50 min-h-screen">
@@ -218,10 +79,7 @@ export default function CourseSection() {
               onChange={handleSearchChange}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
             />
-            <Search
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={18}
-            />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
@@ -258,20 +116,6 @@ export default function CourseSection() {
             </div>
           </div>
 
-          {/* Level */}
-          <div className="mb-6">
-            <h3 className="font-medium mb-2">Level</h3>
-            <div className="space-y-2">
-              {levels.map((level) => (
-                <CategoryOption
-                  key={level}
-                  label={level}
-                  checked={selectedLevel === level}
-                  onChange={() => setSelectedLevel(level)}
-                />
-              ))}
-            </div>
-          </div>
 
           {/* Language */}
           <div className="mb-6">
@@ -292,11 +136,7 @@ export default function CourseSection() {
           <div>
             <h3 className="font-medium mb-2">Ratings</h3>
             <div className="space-y-2">
-              <CategoryOption
-                label="All"
-                checked={selectedRating === 0}
-                onChange={() => setSelectedRating(0)}
-              />
+              <CategoryOption label="All" checked={selectedRating === 0} onChange={() => setSelectedRating(0)} />
               {[1, 2, 3, 4, 5].map((stars) => (
                 <RatingOption
                   key={stars}
@@ -309,107 +149,49 @@ export default function CourseSection() {
           </div>
         </div>
 
-        {/* Mobile Filter Sidebar */}
-        {showMobileFilter && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden">
-            <div className="absolute right-0 top-0 h-full w-[280px] bg-white p-4 overflow-y-auto">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="font-bold text-lg">Filters</h2>
-                <button onClick={toggleMobileFilter}>
-                  <X size={24} />
-                </button>
-              </div>
-
-              {/* Categories */}
-              <div className="mb-6">
-                <h3 className="font-medium mb-2">Categories</h3>
-                <div className="space-y-2 max-h-[200px] overflow-y-auto pr-2">
-                  {categories.map((category) => (
-                    <CategoryOption
-                      key={category}
-                      label={category}
-                      checked={selectedCategory === category}
-                      onChange={() => {
-                        setSelectedCategory(category);
-                        toggleMobileFilter();
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Level */}
-              <div className="mb-6">
-                <h3 className="font-medium mb-2">Level</h3>
-                <div className="space-y-2">
-                  {levels.map((level) => (
-                    <CategoryOption
-                      key={level}
-                      label={level}
-                      checked={selectedLevel === level}
-                      onChange={() => {
-                        setSelectedLevel(level);
-                        toggleMobileFilter();
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Language */}
-              <div className="mb-6">
-                <h3 className="font-medium mb-2">Language</h3>
-                <div className="space-y-2">
-                  {languages.map((language) => (
-                    <CategoryOption
-                      key={language}
-                      label={language}
-                      checked={selectedLanguage === language}
-                      onChange={() => {
-                        setSelectedLanguage(language);
-                        toggleMobileFilter();
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Ratings */}
-              <div>
-                <h3 className="font-medium mb-2">Ratings</h3>
-                <div className="space-y-2">
-                  <CategoryOption
-                    label="All"
-                    checked={selectedRating === 0}
-                    onChange={() => {
-                      setSelectedRating(0);
-                      toggleMobileFilter();
-                    }}
-                  />
-                  {[1, 2, 3, 4, 5].map((stars) => (
-                    <RatingOption
-                      key={stars}
-                      stars={stars}
-                      checked={selectedRating === stars}
-                      onChange={() => {
-                        setSelectedRating(stars);
-                        toggleMobileFilter();
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Main Content */}
-        <div className="flex-1 py-6 pl-4 md:pl-6 lg:pl-8">
+        <div className="flex-1 py-6 px-4 md:px-6">
           {/* Results count and active filters */}
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            <span className="font-medium bg-blue-50 text-blue-700 px-4 py-2 rounded-md shadow-sm border border-blue-100">
-              {filteredCourses.length} courses found
-            </span>
+            <div className="flex items-center justify-between w-full md:w-auto md:mr-2 relative">
+              <span className="font-medium bg-blue-50 text-blue-700 px-4 py-2 rounded-md shadow-sm border border-blue-100">
+                {filteredCourses.length} courses found
+              </span>
+              <button
+                onClick={toggleMobileFilter}
+                className="md:hidden flex items-center gap-1 bg-white px-3 py-2 rounded-md shadow-sm border border-gray-200"
+              >
+                <span className="text-sm font-medium">Categories</span>
+                <Filter size={16} />
+              </button>
+
+              {/* Mobile Filter Dropdown */}
+              {showMobileFilter && (
+                <div className="absolute top-full right-0 left-0 mt-2 bg-white rounded-md shadow-lg z-50 md:hidden border border-gray-200 max-h-[300px] overflow-y-auto">
+                  <div className="p-3">
+                    <div className="flex justify-between items-center mb-2">
+                      <h2 className="font-medium text-base">Categories</h2>
+                      <button onClick={toggleMobileFilter}>
+                        <X size={18} />
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      {categories.map((category) => (
+                        <CategoryOption
+                          key={category}
+                          label={category}
+                          checked={selectedCategory === category}
+                          onChange={() => {
+                            setSelectedCategory(category)
+                            toggleMobileFilter()
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {selectedCategory !== "All category" && (
               <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
@@ -423,25 +205,11 @@ export default function CourseSection() {
               </div>
             )}
 
-            {selectedLevel !== "All" && (
-              <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
-                {selectedLevel}
-                <button
-                  onClick={() => setSelectedLevel("All")}
-                  className="ml-1 text-blue-600 hover:text-blue-800"
-                >
-                  <X size={14} />
-                </button>
-              </div>
-            )}
-
+            
             {selectedLanguage !== "All" && (
               <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
                 {selectedLanguage}
-                <button
-                  onClick={() => setSelectedLanguage("All")}
-                  className="ml-1 text-blue-600 hover:text-blue-800"
-                >
+                <button onClick={() => setSelectedLanguage("All")} className="ml-1 text-blue-600 hover:text-blue-800">
                   <X size={14} />
                 </button>
               </div>
@@ -450,25 +218,20 @@ export default function CourseSection() {
             {selectedRating > 0 && (
               <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
                 {selectedRating}+ Stars
-                <button
-                  onClick={() => setSelectedRating(0)}
-                  className="ml-1 text-blue-600 hover:text-blue-800"
-                >
+                <button onClick={() => setSelectedRating(0)} className="ml-1 text-blue-600 hover:text-blue-800">
                   <X size={14} />
                 </button>
               </div>
             )}
 
             {(selectedCategory !== "All category" ||
-              selectedLevel !== "All" ||
               selectedLanguage !== "All" ||
               selectedRating > 0) && (
               <button
                 onClick={() => {
-                  setSelectedCategory("All category");
-                  setSelectedLevel("All");
-                  setSelectedLanguage("All");
-                  setSelectedRating(0);
+                  setSelectedCategory("All category")
+                  setSelectedLanguage("All")
+                  setSelectedRating(0)
                 }}
                 className="text-sm text-blue-600 hover:text-blue-800 underline ml-2"
               >
@@ -478,7 +241,7 @@ export default function CourseSection() {
           </div>
 
           {/* Course cards */}
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredCourses.length > 0 ? (
               filteredCourses.map((course) => (
                 <CourseCard
@@ -490,26 +253,20 @@ export default function CourseSection() {
                   lessons={course.lessons}
                   hours={course.hours}
                   language={course.language}
-                  level={course.level}
-                  price={course.price}
-                  originalPrice={course.originalPrice}
                   rating={course.rating}
                   reviews={course.reviews}
                   imageSrc={course.imageSrc}
                 />
               ))
             ) : (
-              <div className="bg-white rounded-lg p-8 text-center">
-                <p className="text-lg text-gray-600">
-                  No courses found matching your criteria.
-                </p>
+              <div className="col-span-full bg-white rounded-lg p-8 text-center">
+                <p className="text-lg text-gray-600">No courses found matching your criteria.</p>
                 <button
                   onClick={() => {
-                    setSearchQuery("");
-                    setSelectedCategory("All category");
-                    setSelectedLevel("All");
-                    setSelectedLanguage("All");
-                    setSelectedRating(0);
+                    setSearchQuery("")
+                    setSelectedCategory("All category")
+                    setSelectedLanguage("All")
+                    setSelectedRating(0)
                   }}
                   className="mt-4 text-blue-600 hover:text-blue-800 underline"
                 >
@@ -521,7 +278,7 @@ export default function CourseSection() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function CategoryOption({
@@ -529,20 +286,18 @@ function CategoryOption({
   checked = false,
   onChange,
 }: {
-  label: string;
-  checked?: boolean;
-  onChange: () => void;
+  label: string
+  checked?: boolean
+  onChange: () => void
 }) {
   return (
     <div className="flex items-center cursor-pointer" onClick={onChange}>
       <div className="h-4 w-4 rounded-full border border-gray-300 flex items-center justify-center mr-2 relative">
-        {checked && (
-          <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>
-        )}
+        {checked && <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>}
       </div>
       <span className="text-sm">{label}</span>
     </div>
-  );
+  )
 }
 
 function RatingOption({
@@ -550,46 +305,25 @@ function RatingOption({
   checked = false,
   onChange,
 }: {
-  stars: number;
-  checked?: boolean;
-  onChange: () => void;
+  stars: number
+  checked?: boolean
+  onChange: () => void
 }) {
   return (
     <div className="flex items-center cursor-pointer" onClick={onChange}>
       <div className="h-4 w-4 rounded-full border border-gray-300 flex items-center justify-center mr-2 relative">
-        {checked && (
-          <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>
-        )}
+        {checked && <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>}
       </div>
       <div className="flex">
         {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`h-4 w-4 ${
-              i < stars ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-            }`}
-          />
+          <Star key={i} className={`h-4 w-4 ${i < stars ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
         ))}
       </div>
     </div>
-  );
+  )
 }
 
-interface CourseCardProps {
-  subject: string;
-  classLevel: string;
-  title: string;
-  description: string;
-  lessons: number;
-  hours: string;
-  language: string;
-  level: string;
-  price: number;
-  originalPrice?: number | null;
-  rating: number;
-  reviews: number;
-  imageSrc: string;
-}
+interface CourseCardProps extends Omit<CourseData, "id" | "category" | "price" | "originalPrice"> {}
 
 function CourseCard({
   subject,
@@ -599,104 +333,95 @@ function CourseCard({
   lessons,
   hours,
   language,
-  level,
   rating,
   reviews,
+  imageSrc,
 }: CourseCardProps) {
   return (
-    <div className="bg-white max-w-7xl  mx-auto rounded-lg shadow overflow-hidden hover:shadow-md transition-shadow duration-200 cursor-pointer">
-      <div className="flex flex-col sm:flex-row">
-        {/* Left side with image */}
-        <div className="relative w-full sm:w-[225px] h-[160px]">
-          {/* Subject header */}
-          <div className="absolute top-0 left-0 right-0 h-10 bg-blue-600 flex items-center justify-center">
-            <span className="text-white font-bold">{subject}</span>
-          </div>
+    <div className="bg-white rounded-lg shadow overflow-hidden hover:shadow-md transition-shadow duration-200 cursor-pointer h-full flex flex-col">
+      {/* Top section with image */}
+      <div className="relative h-[160px]">
+        {/* Subject header */}
+        <div className="absolute top-0 left-0 right-0 h-10 bg-blue-600 flex items-center justify-center z-10">
+          <span className="text-white font-bold">{subject}</span>
+        </div>
 
-          {/* Class level badge */}
-          {classLevel && (
-            <div className="absolute top-0 right-0">
-              <div className="relative">
-                <div className="w-0 h-0 border-t-[25px] border-t-transparent border-r-[25px] border-r-white"></div>
-                <div className="absolute top-0 right-0 bg-white text-xs px-2 py-1 text-blue-600">
-                  {classLevel}
-                </div>
-              </div>
+        {/* Class level badge */}
+        {classLevel && (
+          <div className="absolute top-0 right-0 z-10">
+            <div className="relative">
+              <div className="w-0 h-0 border-t-[25px] border-t-transparent border-r-[25px] border-r-white"></div>
+              <div className="absolute top-0 right-0 bg-white text-xs px-2 py-1 text-blue-600">{classLevel}</div>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Course image */}
-          <div className="h-full w-full flex items-center justify-center pt-10 bg-blue-100">
-            <Link href={"/course"}>
-              <Image
-                src={"/assets/eng.jpeg"}
-                alt={title}
-                width={150}
-                height={150}
-                className="object-contain"
-              />{" "}
-            </Link>
+        {/* Course image */}
+        <div className="h-54 w-auto bg-blue-100">
+          <Link href={"/course"} className="block h-full w-full pt-4">
+            <Image
+              src={"/assets/subject/science10.png"}
+              alt={title}
+              width={500}
+              height={100}
+              className="w-full h-full object-cover object-center"
+            />
+          </Link>
+        </div>
+      </div>
+
+      {/* Content section */}
+      <div className="p-3 mt-13 flex-1 flex flex-col">
+        <div className="flex-1">
+          <Link href={"/course"}>
+            <h3 className="text-lg font-bold text-red-900 mb-1 line-clamp-1">{title}</h3>
+          </Link>
+          <p className="text-sm text-gray-700 mb-3 line-clamp-2">{description}</p>
+
+          {/* Course details */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-3">
+            <div className="flex items-center">
+              <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center mr-1">
+                <span className="text-xs">•</span>
+              </div>
+              <span className="text-xs">{lessons} Lessons</span>
+            </div>
+
+            <div className="flex items-center">
+              <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center mr-1">
+                <span className="text-xs">•</span>
+              </div>
+              <span className="text-xs">{hours} Hours</span>
+            </div>
+
+            <div className="flex items-center">
+              <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center mr-1">
+                <span className="text-xs">•</span>
+              </div>
+              <span className="text-xs">{language}</span>
+            </div>
+
+           
           </div>
         </div>
 
-        {/* Right side with content */}
-        <div className="flex-1 p-4 flex flex-col justify-between">
-          <div>
-            <Link href={"/course"}>
-              <h3 className="text-xl font-bold text-red-900 mb-1">{title}</h3>
-            </Link>
-            <p className="text-sm text-gray-700 mb-3">{description}</p>
-
-            {/* Course details */}
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mb-4">
-              <div className="flex items-center">
-                <div className="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center mr-2">
-                  <span className="text-xs">•</span>
-                </div>
-                <span className="text-sm">{lessons} Lessons</span>
-              </div>
-
-              <div className="flex items-center">
-                <div className="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center mr-2">
-                  <span className="text-xs">•</span>
-                </div>
-                <span className="text-sm">{hours} Hours</span>
-              </div>
-
-              <div className="flex items-center">
-                <div className="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center mr-2">
-                  <span className="text-xs">•</span>
-                </div>
-                <span className="text-sm">{language}</span>
-              </div>
-
-              <div className="text-sm text-gray-600 ml-2">{level}</div>
+        {/* Rating section */}
+        <div className="flex justify-end items-center mt-auto">
+          <div className="flex items-center">
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`h-3 w-3 ${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                />
+              ))}
             </div>
-          </div>
-
-          {/* Price section removed */}
-          <div className="flex justify-end items-center mt-2">
-            {/* Rating */}
-            <div className="flex items-center">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`h-4 w-4 ${
-                      i < rating
-                        ? "text-yellow-400 fill-yellow-400"
-                        : "text-gray-300"
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="ml-1 text-sm text-gray-600">
-                {reviews} {reviews === 1 ? "Review" : "Reviews"}
-              </span>
-            </div>
+            <span className="ml-1 text-xs text-gray-600">
+              {reviews} {reviews === 1 ? "Review" : "Reviews"}
+            </span>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

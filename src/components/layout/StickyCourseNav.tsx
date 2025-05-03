@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "../ui/button";
-
+import Link from "next/link";
 const StickyCourseNav = () => {
   return (
     <div className="fixed bottom-5 w-full flex justify-center z-50 px-4">
@@ -10,15 +10,16 @@ const StickyCourseNav = () => {
             Get this course
           </h1>
           <div className="flex items-center justify-center sm:justify-start gap-2">
-            <span className="text-indigo-500 md:text-lg font-semibold">
-              $99.00
+            <span className="text-gray-500 md:text-lg font-semibold">
+              For Free
             </span>
-            <span className="line-through text-gray-400">$199.00</span>
           </div>
         </div>
-        <Button className="rounded-full py-6 md:px-8 cursor-pointer">
-          Enroll Now
-        </Button>
+        <Link href={"/1"}>
+          <Button className="rounded-full py-6 md:px-8 cursor-pointer"> 
+           Join now
+          </Button>
+        </Link>
       </div>
     </div>
   );

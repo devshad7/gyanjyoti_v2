@@ -3,9 +3,9 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
-  title: "Gyan Jyoti | The Ultimate e-Learning platform",
+  title: "Gyan Jyoti | The Ultimate E-Learning Platform",
   description:
-    "Gyanjoti is a multiple award-winning academic platform developed in Nepal and used globally by students, parents and educators.",
+    "GyanJyoti is a multiple award-winning academic platform developed in Nepal and used globally by students, parents and educators.",
 };
 
 export default function RootLayout({

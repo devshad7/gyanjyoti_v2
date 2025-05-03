@@ -3,6 +3,4 @@ export type CourseCardProps = {
   title: string;
   category: string;
   students: number | string;
-  rating: number | string;
-  price: string | number;
 };

@@ -39,12 +39,12 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
   const pdfs: PDF[] = [
     {
       id: "1",
-      title: "Physics Mechanics Notes",
-      subject: "Physics",
-      class: "Class 11",
-      uploadDate: new Date("2023-10-15"),
+      title: "Class 10 English",
+      subject: "English",
+      class: "Class 10",
+      uploadDate: new Date("2025-4-15"),
       thumbnail: "/placeholder.svg?height=400&width=300",
-      url: "/sample.pdf",
+      url: "/assets/PDFs/Cls9/English-10.pdf",
       favorite: true,
       pages: 24,
       fileSize: "2.4 MB",

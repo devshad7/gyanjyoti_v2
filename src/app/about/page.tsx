@@ -5,7 +5,7 @@ import Footer from "@/components/layout/Footer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Courses | Gyan Jyoti",
+  title: "About | Gyan Jyoti",
   description:
     "Gyanjoti is a multiple award-winning academic platform developed in Nepal and used globally by students, parents and educators.",
 };

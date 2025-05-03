@@ -1,27 +1,7 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useRef, useEffect } from "react"
-import {
-  Search,
-  Filter,
-  ChevronDown,
-  Plus,
-  PenLine,
-  Download,
-  Star,
-  StarOff,
-  Clock,
-  Tag,
-  ImageIcon,
-  ChevronLeft,
-  ChevronRight,
-  X,
-  Maximize2,
-  ZoomIn,
-  ZoomOut,
-} from "lucide-react"
+import { Search, Filter, ChevronDown, PenLine, Download, Star, StarOff, Clock, Tag, ImageIcon, ChevronLeft, ChevronRight, X, Maximize2, ZoomIn, ZoomOut } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
@@ -66,6 +46,9 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
   const [zoomLevel, setZoomLevel] = useState(1)
   const fullScreenRef = useRef<HTMLDivElement>(null)
 
+  // Maximum number of thumbnails to show in the dialog
+  const MAX_THUMBNAILS_TO_SHOW = 2
+
   useEffect(() => {
     const handleEscKey = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isFullScreen) {
@@ -81,29 +64,39 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
   const notes: Note[] = [
     {
       id: "1",
-      title: "Newton's Laws of Motion",
+      title: "Class 10 Enlgish SEE 2081 Question Paper (Gandaki Pardesh)",
       content:
         "1. First Law: An object at rest stays at rest, and an object in motion stays in motion unless acted upon by an external force.\n\n2. Second Law: Force equals mass times acceleration (F = ma).\n\n3. Third Law: For every action, there is an equal and opposite reaction.",
-      subject: "Physics",
-      class: "Class 11",
+      subject: "English",
+      class: "Class 10",
       createdAt: new Date("2023-10-15"),
       updatedAt: new Date("2023-10-20"),
       favorite: true,
-      tags: ["mechanics", "laws", "important"],
+      tags: ["Englsih", "SEE", "important"],
       images: [
         {
           id: "img1",
-          url: "/placeholder.svg?height=400&width=600",
+          url: "/assets/exampapers/cls10/eng1.png?height=400&width=600",
           caption: "Newton's First Law Illustration",
         },
         {
           id: "img2",
-          url: "/placeholder.svg?height=400&width=600",
+          url: "/assets/exampapers/cls10/eng2.png?height=400&width=600",
           caption: "Newton's Second Law Diagram",
         },
         {
           id: "img3",
-          url: "/placeholder.svg?height=400&width=600",
+          url: "/assets/exampapers/cls10/eng3.png?height=400&width=600",
+          caption: "Newton's Third Law Example",
+        },
+        {
+          id: "img4",
+          url: "/assets/exampapers/cls10/eng3.png?height=400&width=600",
+          caption: "Newton's Third Law Example",
+        },
+        {
+          id: "img5",
+          url: "/assets/exampapers/cls10/eng3.png?height=400&width=600",
           caption: "Newton's Third Law Example",
         },
       ],
@@ -255,21 +248,6 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
     console.log(`Downloading note: ${note.title}`)
     alert(`Downloading note: ${note.title}`)
   }
-
-  // const handleUploadImage = () => {
-  //   fileInputRef.current?.click()
-  // }
-
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = e.target.files
-  //   if (files && files.length > 0) {
-  //     // In a real app, this would upload the file to a server
-  //     console.log("File selected:", files[0].name)
-  //     alert(`Image uploaded: ${files[0].name}`)
-  //     // Reset the input
-  //     e.target.value = ""
-  //   }
-  // }
 
   const nextImage = () => {
     if (selectedNote && currentImageIndex < selectedNote.images.length - 1) {
@@ -576,25 +554,43 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
                 </div>
               ) : null}
 
-              {/* Thumbnail Navigation */}
+              {/* Thumbnail Navigation - Limited to MAX_THUMBNAILS_TO_SHOW */}
               {selectedNote && selectedNote.images.length > 1 && (
                 <div className="flex overflow-x-auto gap-2 pb-2 mb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-                  {selectedNote.images.map((image, index) => (
-                    <button
-                      key={image.id}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={cn(
-                        "flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 snap-start",
-                        currentImageIndex === index ? "border-[#1e40af]" : "border-transparent",
-                      )}
-                    >
-                      <img
-                        src={image.url || "/placeholder.svg"}
-                        alt={image.caption || `Image ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
+                  {selectedNote.images.map((image, index) => {
+                    // Only show the first MAX_THUMBNAILS_TO_SHOW thumbnails
+                    if (index < MAX_THUMBNAILS_TO_SHOW) {
+                      return (
+                        <button
+                          key={image.id}
+                          onClick={() => setCurrentImageIndex(index)}
+                          className={cn(
+                            "flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 snap-start",
+                            currentImageIndex === index ? "border-[#1e40af]" : "border-transparent",
+                          )}
+                        >
+                          <img
+                            src={image.url || "/placeholder.svg"}
+                            alt={image.caption || `Image ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      )
+                    } else if (index === MAX_THUMBNAILS_TO_SHOW) {
+                      // Show a "+X more" button for remaining images
+                      const remainingCount = selectedNote.images.length - MAX_THUMBNAILS_TO_SHOW
+                      return (
+                        <button
+                          key="more-images"
+                          onClick={() => setCurrentImageIndex(MAX_THUMBNAILS_TO_SHOW)}
+                          className="flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 border-transparent bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-700"
+                        >
+                          +{remainingCount} more
+                        </button>
+                      )
+                    }
+                    return null
+                  })}
                 </div>
               )}
 
@@ -730,7 +726,7 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
                   onClick={(e) => {
                     e.stopPropagation()
                     if (selectedNote && currentImageIndex < selectedNote.images.length - 1) {
-                      setCurrentImageIndex(currentImageIndex + 1)
+                      setCurrentImageIndex(currentImageIndex                      + 1)
                       setFullScreenImage(selectedNote.images[currentImageIndex + 1].url)
                       setZoomLevel(1)
                     }
@@ -756,3 +752,4 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
     </div>
   )
 }
+
