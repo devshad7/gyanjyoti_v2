@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Search, Star, Filter, X } from "lucide-react"
@@ -9,25 +8,16 @@ import Link from "next/link"
 import { coursesData, categories, languages, type CourseData } from "./data/courseData"
 
 export default function CourseSection() {
-  // State for search query
   const [searchQuery, setSearchQuery] = useState("")
-
-  // State for filters
   const [selectedCategory, setSelectedCategory] = useState("All category")
   const [selectedLanguage, setSelectedLanguage] = useState("All")
   const [selectedRating, setSelectedRating] = useState(0)
-
-  // State for mobile filter visibility
   const [showMobileFilter, setShowMobileFilter] = useState(false)
-
-  // State for filtered courses
   const [filteredCourses, setFilteredCourses] = useState(coursesData)
 
-  // Apply filters when any filter changes
   useEffect(() => {
     let result = coursesData
 
-    // Apply search filter
     if (searchQuery) {
       result = result.filter(
         (course) =>
@@ -36,32 +26,25 @@ export default function CourseSection() {
       )
     }
 
-    // Apply category filter
     if (selectedCategory !== "All category") {
       result = result.filter((course) => course.category === selectedCategory)
     }
 
-  
-
-    // Apply language filter
     if (selectedLanguage !== "All") {
       result = result.filter((course) => course.language === selectedLanguage)
     }
 
-    // Apply rating filter
     if (selectedRating > 0) {
       result = result.filter((course) => course.rating >= selectedRating)
     }
 
     setFilteredCourses(result)
-  }, [searchQuery, selectedCategory,  selectedLanguage, selectedRating])
+  }, [searchQuery, selectedCategory, selectedLanguage, selectedRating])
 
-  // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
   }
 
-  // Toggle mobile filter visibility
   const toggleMobileFilter = () => {
     setShowMobileFilter(!showMobileFilter)
   }
@@ -95,13 +78,11 @@ export default function CourseSection() {
       <div className="flex flex-1 container mx-auto px-4 md:px-8">
         {/* Left Sidebar - Desktop */}
         <div className="hidden md:block w-[250px] bg-white p-4 border-r border-gray-200 flex-shrink-0 h-[calc(100vh-80px)] sticky top-[80px] overflow-y-auto">
-          {/* Filter Header */}
           <div className="flex justify-between items-center border border-gray-200 rounded p-2 mb-6">
             <span className="font-medium">Filter</span>
             <Filter size={20} />
           </div>
 
-          {/* Categories */}
           <div className="mb-6">
             <h3 className="font-medium mb-2">Categories</h3>
             <div className="space-y-2 max-h-[200px] overflow-y-auto pr-2">
@@ -116,8 +97,6 @@ export default function CourseSection() {
             </div>
           </div>
 
-
-          {/* Language */}
           <div className="mb-6">
             <h3 className="font-medium mb-2">Language</h3>
             <div className="space-y-2">
@@ -132,7 +111,6 @@ export default function CourseSection() {
             </div>
           </div>
 
-          {/* Ratings */}
           <div>
             <h3 className="font-medium mb-2">Ratings</h3>
             <div className="space-y-2">
@@ -151,7 +129,6 @@ export default function CourseSection() {
 
         {/* Main Content */}
         <div className="flex-1 py-6 px-4 md:px-6">
-          {/* Results count and active filters */}
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <div className="flex items-center justify-between w-full md:w-auto md:mr-2 relative">
               <span className="font-medium bg-blue-50 text-blue-700 px-4 py-2 rounded-md shadow-sm border border-blue-100">
@@ -165,7 +142,6 @@ export default function CourseSection() {
                 <Filter size={16} />
               </button>
 
-              {/* Mobile Filter Dropdown */}
               {showMobileFilter && (
                 <div className="absolute top-full right-0 left-0 mt-2 bg-white rounded-md shadow-lg z-50 md:hidden border border-gray-200 max-h-[300px] overflow-y-auto">
                   <div className="p-3">
@@ -194,34 +170,13 @@ export default function CourseSection() {
             </div>
 
             {selectedCategory !== "All category" && (
-              <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
-                {selectedCategory}
-                <button
-                  onClick={() => setSelectedCategory("All category")}
-                  className="ml-1 text-blue-600 hover:text-blue-800"
-                >
-                  <X size={14} />
-                </button>
-              </div>
+              <FilterTag label={selectedCategory} onClear={() => setSelectedCategory("All category")} />
             )}
-
-            
             {selectedLanguage !== "All" && (
-              <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
-                {selectedLanguage}
-                <button onClick={() => setSelectedLanguage("All")} className="ml-1 text-blue-600 hover:text-blue-800">
-                  <X size={14} />
-                </button>
-              </div>
+              <FilterTag label={selectedLanguage} onClear={() => setSelectedLanguage("All")} />
             )}
-
             {selectedRating > 0 && (
-              <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
-                {selectedRating}+ Stars
-                <button onClick={() => setSelectedRating(0)} className="ml-1 text-blue-600 hover:text-blue-800">
-                  <X size={14} />
-                </button>
-              </div>
+              <FilterTag label={`${selectedRating}+ Stars`} onClear={() => setSelectedRating(0)} />
             )}
 
             {(selectedCategory !== "All category" ||
@@ -240,7 +195,6 @@ export default function CourseSection() {
             )}
           </div>
 
-          {/* Course cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredCourses.length > 0 ? (
               filteredCourses.map((course) => (
@@ -256,6 +210,8 @@ export default function CourseSection() {
                   rating={course.rating}
                   reviews={course.reviews}
                   imageSrc={course.imageSrc}
+                  price={0}
+                  originalPrice={null}
                 />
               ))
             ) : (
@@ -323,7 +279,16 @@ function RatingOption({
   )
 }
 
-interface CourseCardProps extends Omit<CourseData, "id" | "category" | "price" | "originalPrice"> {}
+function FilterTag({ label, onClear }: { label: string; onClear: () => void }) {
+  return (
+    <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
+      {label}
+      <button onClick={onClear} className="ml-1 text-blue-600 hover:text-blue-800">
+        <X size={14} />
+      </button>
+    </div>
+  )
+}
 
 function CourseCard({
   subject,
@@ -336,17 +301,13 @@ function CourseCard({
   rating,
   reviews,
   imageSrc,
-}: CourseCardProps) {
+}: Omit<CourseData, "id" | "category">) {
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden hover:shadow-md transition-shadow duration-200 cursor-pointer h-full flex flex-col">
-      {/* Top section with image */}
       <div className="relative h-[160px]">
-        {/* Subject header */}
         <div className="absolute top-0 left-0 right-0 h-10 bg-blue-600 flex items-center justify-center z-10">
           <span className="text-white font-bold">{subject}</span>
         </div>
-
-        {/* Class level badge */}
         {classLevel && (
           <div className="absolute top-0 right-0 z-10">
             <div className="relative">
@@ -355,8 +316,6 @@ function CourseCard({
             </div>
           </div>
         )}
-
-        {/* Course image */}
         <div className="h-54 w-auto bg-blue-100">
           <Link href={"/course"} className="block h-full w-full pt-4">
             <Image
@@ -370,42 +329,19 @@ function CourseCard({
         </div>
       </div>
 
-      {/* Content section */}
       <div className="p-3 mt-13 flex-1 flex flex-col">
         <div className="flex-1">
           <Link href={"/course"}>
             <h3 className="text-lg font-bold text-red-900 mb-1 line-clamp-1">{title}</h3>
           </Link>
           <p className="text-sm text-gray-700 mb-3 line-clamp-2">{description}</p>
-
-          {/* Course details */}
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-3">
-            <div className="flex items-center">
-              <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center mr-1">
-                <span className="text-xs">•</span>
-              </div>
-              <span className="text-xs">{lessons} Lessons</span>
-            </div>
-
-            <div className="flex items-center">
-              <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center mr-1">
-                <span className="text-xs">•</span>
-              </div>
-              <span className="text-xs">{hours} Hours</span>
-            </div>
-
-            <div className="flex items-center">
-              <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center mr-1">
-                <span className="text-xs">•</span>
-              </div>
-              <span className="text-xs">{language}</span>
-            </div>
-
-           
+            <CourseDetail label={`${lessons} Lessons`} />
+            <CourseDetail label={`${hours} Hours`} />
+            <CourseDetail label={language} />
           </div>
         </div>
 
-        {/* Rating section */}
         <div className="flex justify-end items-center mt-auto">
           <div className="flex items-center">
             <div className="flex">
@@ -422,6 +358,17 @@ function CourseCard({
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+function CourseDetail({ label }: { label: string }) {
+  return (
+    <div className="flex items-center">
+      <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center mr-1">
+        <span className="text-xs">•</span>
+      </div>
+      <span className="text-xs">{label}</span>
     </div>
   )
 }
