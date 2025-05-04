@@ -1,67 +1,71 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { createClient, Entry, EntrySkeletonType } from "contentful";
 import { Button } from "../ui/button";
 import CourseCard from "../ui/popularCoursesCard";
 
+const client = createClient({
+  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
+  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!,
+  environment: "master",
+});
+
 const PopularCourses = () => {
+  const [posts, setPosts] = useState<
+    Entry<EntrySkeletonType, undefined, string>[]
+  >([]);
+  const [loading, setLoading] = useState<Boolean>(true);
+
+  async function getPosts() {
+    try {
+      const entries = await client.getEntries({
+        content_type: "coursePost",
+        limit: 4,
+      });
+      setLoading(false);
+      setPosts(entries.items);
+    } catch (error) {
+      console.error("Error fetching entries:", error);
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
   return (
-    <>
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h2 className="text-2xl font-bold mb-2">Popular courses for you</h2>
-            <p className="text-gray-600">
-              Get the best course with the best price with world-class tutors
-            </p>
-          </div>
-          <Button variant="link" className="text-indigo-600">
-            See All Ads
-          </Button>
+    <section className="max-w-7xl mx-auto px-4 py-16">
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h2 className="text-2xl font-bold mb-2">Popular courses for you</h2>
+          <p className="text-gray-600">
+            Get the best course with the best price with world-class tutors
+          </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Button variant="link" className="text-indigo-600">
+          See All Ads
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map((course) => (
           <CourseCard
-            image="/assets/course_preview.webp"
-            title="Learn app development in 30 days"
-            category="Web Design"
+            key={course.sys.id}
+            slug={String(course.fields.slug)}
+            image={`https:${
+              (course.fields.thumbnail as any)?.fields?.file?.url
+            }`}
+            title={String(course.fields.title)}
+            category={String(course.fields.caategory)}
             students="500+"
-           
+            rating="4.8"
+            price={String(course.fields.price)}
           />
-          <CourseCard
-            image="/assets/course_preview.webp"
-            title="Advance motion graphics"
-            category="Animation Design"
-            students="400+"
-          />
-          <CourseCard
-            image="/assets/course_preview.webp"
-            title="Learn CMS Development"
-            category="Web Design"
-            students="300+"
-            
-          />
-          <CourseCard
-            image="/assets/course_preview.webp"
-            title="Learn Complete Web Design course"
-            category="Web Design"
-            students="500+"
-          
-          />
-          <CourseCard
-            image="/assets/course_preview.webp"
-            title="Advance Drawing"
-            category="Illustration"
-            students="400+"
-           
-          />
-          <CourseCard
-            image="/assets/course_preview.webp"
-            title="Advance videography course"
-            category="Video Editing"
-            students="300+"
-           
-          />
-        </div>
-      </section>
-    </>
+        ))}
+      </div>
+    </section>
   );
 };
 

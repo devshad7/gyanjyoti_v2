@@ -1,11 +1,13 @@
 import { ArrowRight, Clock, Monitor, Play, Shield, Star } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import { options } from "@/lib/richTextType";
 import { Badge } from "../ui/badge";
 import HeroVideoDialog from "../magicui/hero-video-dialog";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import StickyCourseNav from "./StickyCourseNav";
 
-const Course = () => {
+const Course = ({ course }: any) => {
   return (
     <>
       {/* Sticky Course Nav */}
@@ -26,7 +28,7 @@ const Course = () => {
                 variant="outline"
                 className="bg-yellow-400/90 text-black border-none px-4 py-1 text-sm font-medium"
               >
-                Illustration
+                {course.fields.caategory[0]}
               </Badge>
               <div className="flex items-center gap-1 ml-2 bg-gray-100 rounded-full px-3 py-1">
                 <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs">
@@ -37,13 +39,11 @@ const Course = () => {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Introduction to lighting on illustration
+              {course.fields.title}
             </h1>
 
             <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua
-              exercitation ullamco.
+              {course.fields.description}
             </p>
 
             <div className="rounded-lg overflow-hidden max-w-3xl mx-auto">
@@ -58,7 +58,7 @@ const Course = () => {
                 className="block"
                 animationStyle="from-center"
                 videoSrc="https://www.youtube.com/embed/RVCYtPko5_Q?rel=0"
-                thumbnailSrc="/assets/course_preview.webp"
+                thumbnailSrc={course.fields.thumbnail.fields.file.url}
                 thumbnailAlt="Hero Video"
               />
             </div>
@@ -73,26 +73,10 @@ const Course = () => {
               <section>
                 <h2 className="text-2xl font-bold mb-4">About the course</h2>
                 <p className="text-gray-700 mb-4">
-                  Posuere quam vitae varius condimentum est augue ullamcorper id
-                  faucibus facilisis diam eget mauris et et lectus sed sit magna
-                  a eu egestas nulla fermentum vestibulum viverra amet nulla
-                  ullamcorper id nisi feugiat suspendisse congue nullam nec
-                  libero est tortor volutpat eget nunc tempor tempor vitae
-                  aliquam sociis. Elementum aliquet elit.
-                </p>
-              </section>
-
-              <section>
-                <h3 className="text-xl font-bold mb-4">
-                  Lorem ipsum dolor sit
-                </h3>
-                <p className="text-gray-700">
-                  Posuere quam vitae varius condimentum est augue ullamcorper id
-                  faucibus facilisis diam eget mauris et et lectus sed sit magna
-                  a eu egestas nulla fermentum vestibulum viverra amet nulla
-                  ullamcorper id nisi feugiat suspendisse congue nullam nec
-                  libero est tortor volutpat eget nunc tempor tempor vitae
-                  aliquam sociis. Elementum aliquet elit.
+                  {documentToReactComponents(
+                    course.fields.aboutCourse,
+                    options
+                  )}
                 </p>
               </section>
 
@@ -101,49 +85,10 @@ const Course = () => {
                   In this course you will be able to:
                 </h2>
                 <p className="text-gray-700 mb-4">
-                  Duis justo lectus dolor sed cursus elit vestibulum orci
-                  sagittis amet quam quis quis dolors euismod vestibulum morbi
-                  in laoreet volutpat non et gravida risus et sed dolor nec.
-                </p>
-
-                <ul className="space-y-3">
-                  <li className="flex items-start">
-                    <span className="text-gray-700 mr-2">•</span>
-                    <span>
-                      Posuere quam vitae varius condimentum est augue
-                      ullamcorper
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-gray-700 mr-2">•</span>
-                    <span>
-                      Consectetur facilisis nunc neque pretium in in felis in
-                      ornare ut elementum diam
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-gray-700 mr-2">•</span>
-                    <span>
-                      Auctor nisl aenean turpis lacus morbi pretium hendrerit
-                      placerat dui dolor
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-gray-700 mr-2">•</span>
-                    <span>
-                      Ultrices nibh lacus netus sit tortor vestibulum duis
-                      egestas nulla amet dolor sociis
-                    </span>
-                  </li>
-                </ul>
-
-                <p className="text-gray-700 mt-4">
-                  Quam vitae varius condimentum est augue ullamcorper id
-                  faucibus facilisis diam eget mauris et et lectus sed sit magna
-                  a eu egestas nulla fermentum vestibulum viverra amet nulla
-                  ullamcorper id nisi feugiat suspendisse congue nullam nec
-                  libero est tortor volutpat eget nunc tempor tempor vitae
-                  aliquam sociis. Elementum aliquet elit.
+                  {documentToReactComponents(
+                    course.fields.courseOutcome,
+                    options
+                  )}
                 </p>
               </section>
             </div>
