@@ -26,7 +26,7 @@ const Hero = () => {
           <p className="text-gray-600 mb-8 max-w-xl text-base sm:text-lg font-normal animate-fade-in">
             Access high-quality courses, interactive lessons, and expert
             mentorship to expand your knowledge and skills in a supportive
-            digital learning environment.
+            digital learning environment with GyanJyoti.
           </p>
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 w-full animate-fade-in">

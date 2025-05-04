@@ -1,10 +1,10 @@
 import React from "react";
 import {
-  BarChart2,
   BookOpen,
   DollarSign,
-  MessageSquare,
   User,
+  Globe,
+  Atom,
 } from "lucide-react";
 import CategoryCard from "../ui/categoryCard";
 
@@ -21,43 +21,43 @@ const Categories = () => {
           <CategoryCard
             icon={<BookOpen className="w-6 h-6 text-indigo-600" />}
             title="General Stream Class 8-10"
-            url="/courses/design-and-development"
+            url="/courses"
             count="25+ courses available"
             bgColor="bg-blue-50"
           />
           <CategoryCard
-            icon={<MessageSquare className="w-6 h-6" />}
+            icon={<BookOpen className="w-6 h-6" />}
             title="Technical Stream CLass 9-10"
-            url="/courses/marketing-and-communication"
+            url="/courses"
             count="30+ courses available"
             bgColor="bg-indigo-50"
           />
           <CategoryCard
-            icon={<BarChart2 className="w-6 h-6 text-orange-600" />}
-            title="Digital Marketing"
-            url="/courses/digital-marketing"
-            count="150+ courses available"
+            icon={<Globe className="w-6 h-6 text-orange-600" />}
+            title="Web Development"
+            url="/courses"
+            count="10+ courses available"
             bgColor="bg-orange-50"
           />
           <CategoryCard
-            icon={<BarChart2 className="w-6 h-6 text-orange-600" />}
-            title="Business & Accounting"
-            url="/courses/business-accounting"
-            count="170+ courses available"
+            icon={<Atom className="w-6 h-6 text-orange-600" />}
+            title="Programming"
+            url="/courses"
+            count="7+ courses available"
             bgColor="bg-orange-50"
           />
           <CategoryCard
             icon={<DollarSign className="w-6 h-6 text-indigo-600" />}
-            title="Finance Management"
-            url="/courses/finance-management"
-            count="300+ courses available"
+            title="Digital Marketing"
+            url="/courses"
+            count="3+ courses available"
             bgColor="bg-purple-50"
           />
           <CategoryCard
             icon={<User className="w-6 h-6 text-green-600" />}
             title="Self Development"
-            url="/courses/self-development"
-            count="50+ courses available"
+            url="/courses"
+            count="soon....."
             bgColor="bg-green-50"
           />
         </div>
