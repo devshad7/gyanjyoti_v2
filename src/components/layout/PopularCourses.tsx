@@ -55,7 +55,8 @@ const PopularCourses = () => {
             key={course.sys.id}
             slug={String(course.fields.slug)}
             image={`https:${
-              (course.fields.thumbnail as any)?.fields?.file?.url
+              (course.fields.thumbnail as { fields: { file: { url: string } } })
+                ?.fields.file.url
             }`}
             title={String(course.fields.title)}
             category={String(course.fields.caategory)}
