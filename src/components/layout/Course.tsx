@@ -7,6 +7,7 @@ import HeroVideoDialog from "../magicui/hero-video-dialog";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import StickyCourseNav from "./StickyCourseNav";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Course = ({ course }: any) => {
   return (
     <>
