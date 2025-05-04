@@ -15,7 +15,7 @@ const PopularCourses = () => {
   const [posts, setPosts] = useState<
     Entry<EntrySkeletonType, undefined, string>[]
   >([]);
-  const [loading, setLoading] = useState<Boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   async function getPosts() {
     try {
