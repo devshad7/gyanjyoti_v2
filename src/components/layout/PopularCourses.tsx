@@ -5,11 +5,11 @@ import { createClient, Entry, EntrySkeletonType } from "contentful";
 import { Button } from "../ui/button";
 import CourseCard from "../ui/popularCoursesCard";
 
-const client = createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!,
-  environment: "master",
-});
+// const client = createClient({
+//   space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
+//   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!,
+//   environment: "master",
+// });
 
 const PopularCourses = () => {
   const [posts, setPosts] = useState<
@@ -17,23 +17,23 @@ const PopularCourses = () => {
   >([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  async function getPosts() {
-    try {
-      const entries = await client.getEntries({
-        content_type: "coursePost",
-        limit: 4,
-      });
-      setLoading(false);
-      setPosts(entries.items);
-    } catch (error) {
-      console.error("Error fetching entries:", error);
-      setLoading(false);
-    }
-  }
+  // async function getPosts() {
+  //   try {
+  //     const entries = await client.getEntries({
+  //       content_type: "coursePost",
+  //       limit: 4,
+  //     });
+  //     setLoading(false);
+  //     setPosts(entries.items);
+  //   } catch (error) {
+  //     console.error("Error fetching entries:", error);
+  //     setLoading(false);
+  //   }
+  // }
 
-  useEffect(() => {
-    getPosts();
-  }, []);
+  // useEffect(() => {
+  //   getPosts();
+  // }, []);
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-16">

@@ -49,6 +49,7 @@ const Navbar = () => {
     { name: "Mentors", href: "/mentors" },
     { name: "About", href: "/about" },
     { name: "Study Material", href: "/material" },
+    { name: "GyanQuest", href: "/gyan-quest" }
   ];
 
   return (
@@ -165,7 +166,7 @@ const Navbar = () => {
               {navItems.map((item) => (
                 <Link
                   key={item.name}
-                  href={item.href}
+                  href={item.href || "/"}
                   className={
                     pathname === item.href
                       ? "px-4 py-2 text-sm font-medium rounded-md transition-all duration-300 ease-in-out text-blue-600"
