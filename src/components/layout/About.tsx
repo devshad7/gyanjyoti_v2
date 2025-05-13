@@ -39,6 +39,7 @@ export default function AboutSection() {
             <Image
               src="assets/students.svg"
               alt="Gyanjoti Learning Platform"
+              loading="lazy"
               width={1200}
               height={800}
               className="w-full h-auto"
@@ -196,6 +197,7 @@ export default function AboutSection() {
           <div className="w-full lg:w-1/2">
             <Image
               src="/assets/Director.png?height=600&width=500"
+              loading="lazy"
               width={800}
               height={650}
               alt="Testimonial person"
