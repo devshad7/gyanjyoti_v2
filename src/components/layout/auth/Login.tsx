@@ -164,7 +164,12 @@ const Login = () => {
         {/* Animation / Illustration */}
         <div className="hidden md:block w-full md:w-1/2 relative mt-10 md:mt-0">
           <div className="relative mx-auto">
-            <img src="/assets/login.gif" alt="Login illustration" />
+             <Image
+                src="/assets/login.gif"
+                alt="Login illustration"
+                width={500}
+                height={450}
+              />
           </div>
         </div>
       </div>

@@ -422,4 +422,3 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
     </div>
   )
 }
-

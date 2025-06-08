@@ -3,7 +3,6 @@ export interface Mentor {
     name: string
     qualifications: string
     expertise: string[]
-    bio: string
     image: string
   }
   

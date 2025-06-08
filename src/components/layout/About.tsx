@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-
 export default function AboutSection() {
   return (
     <section className="max-w-7xl  mx-auto py-12 md:py-24 bg-gradient-to-b from-slate-50 to-white">
@@ -15,9 +14,10 @@ export default function AboutSection() {
               <div className="w-20 h-1 bg-yellow-400 mx-auto lg:mx-0 mb-6"></div>
             </div>
             <p className="text-slate-700 leading-relaxed text-lg font-body">
-              <span className="font-semibold">Gyanjoti</span> is a multiple
-              award-winning academic platform developed in Nepal and used
-              globally by students, parents and educators.
+              <span className="font-semibold">Gyanjyoti</span> is a leading
+              Nepali e‑learning platform offering high‑quality video courses,
+              interactive quizzes, and downloadable PDFs tailored for
+              secondary‑level students.
             </p>
             <p className="text-slate-700 leading-relaxed text-lg font-body">
               It helps enhance academic performance by delivering online lessons
@@ -27,12 +27,11 @@ export default function AboutSection() {
               progress.
             </p>
             <p className="text-slate-700 leading-relaxed text-lg font-body">
-              Furthermore, GyanJyoti&apos;s Chatroom feature enables effective
-              collaboration between students, teachers, parents and school
-              leaders to ensure everyone is informed about the student&apos;s
-              progress and can provide support as needed. The platform
-              personalizes direction and timely intervention, leading to better
-              academic outcomes.
+              With integrated tools-courses, quizzes, study materials, and the
+              Gyan AI Assistant-GyanJyoti supports real‑time learning
+              assistance. Its mobile app enables parents and students to track
+              attendance, assignments, timetables, and homework effortlessly,
+              enhancing academic oversight.
             </p>
           </div>
           <div className="relative rounded-xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-300 mx-auto lg:mx-0 max-w-md lg:max-w-full">
@@ -215,9 +214,10 @@ export default function AboutSection() {
               minds from Singapore and Cambridge, is our guiding light to a
               brighter future. We will begin with secondary education first and
               then work our way through the entire learning spectrum. Thanks to
-              a special combination of smart and an easy-to-use platform, we&apos;re
-              on track to making an impact on individual learners, educators,
-              educational institutions and the education system as a whole!
+              a special combination of smart and an easy-to-use platform,
+              we&apos;re on track to making an impact on individual learners,
+              educators, educational institutions and the education system as a
+              whole!
             </p>
 
             <div className="pt-4">

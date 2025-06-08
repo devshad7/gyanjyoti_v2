@@ -227,7 +227,12 @@ const Signup = () => {
         {/* Mobile Preview */}
         <div className="hidden md:block w-full md:w-1/2 relative mt-10 md:mt-0">
           <div className="relative mx-auto">
-            <img src="/assets/1.svg" alt="Signup Illustration" />
+             <Image
+                            src="/assets/sign-up.png"
+                            alt="Sign-up illustration"
+                            width={550}
+                            height={500}
+                          />
           </div>
         </div>
       </div>

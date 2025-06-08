@@ -6,7 +6,8 @@ const isProtectedRoute = createRouteMatcher([
   "/1(.*)",   
   "/v1(.*)",
   "/course(.*)",
-  "/gyan-quest(.*)"        
+  "/gyan-quest(.*)",
+  "/gyan-ai(.*)"       
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
