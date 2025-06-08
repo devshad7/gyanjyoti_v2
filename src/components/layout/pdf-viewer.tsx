@@ -181,7 +181,7 @@ export default function PDFViewer({ pdfUrl, title = "Document", className }: PDF
                 <p className="text-gray-600">PDF content would display here</p>
                 <div className="mt-8 flex justify-center">
                   <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gyan_logo-YiLLfGijHwOQwpUOroIoyogeZAoTil.png"
+                    src="/assets/Gyan_logo.png"
                     alt="GyanJyoti Logo"
                     className="w-32 h-auto opacity-20"
                   />

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-
+import HeroVideoDialog from "../magicui/hero-video-dialog";
 const Testimonial = () => {
   const testimonials = [
     {
@@ -72,11 +72,12 @@ const Testimonial = () => {
               <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded">
                 GyanJyoti
               </div>
-              <img
-                src="https://kzmnj56rdh5jn041q15d.lite.vusercontent.net/placeholder.svg?height=400&width=500"
-                alt="Student video testimonial"
-                className="w-full h-full object-cover"
-              />
+              <HeroVideoDialog
+                className="block "
+                animationStyle="from-center"
+                videoSrc="/assets/video/gyanjyoti.mp4"
+                thumbnailAlt="Hero Video" 
+                thumbnailSrc={"/assets/gyanthumb.png"}              />
             </div>
             <div className="p-6">
               <p className="mb-2">{testimonials[2].content}</p>

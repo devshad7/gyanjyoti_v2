@@ -6,7 +6,7 @@ export default function Stats() {
   const stats = [
     {
       icon: <BookOpen className="w-6 h-6" />,
-      value: "10k+",
+      value: "50+",
       label: "Total Courses",
       color: "bg-amber-50",
       iconColor: "text-amber-500",
@@ -14,7 +14,7 @@ export default function Stats() {
     },
     {
       icon: <Users className="w-6 h-6" />,
-      value: "500+",
+      value: "6+",
       label: "Expert Mentors",
       color: "bg-emerald-50",
       iconColor: "text-emerald-500",
@@ -22,8 +22,8 @@ export default function Stats() {
     },
     {
       icon: <GraduationCap className="w-6 h-6" />,
-      value: "300k+",
-      label: "Students Globally",
+      value: "320+",
+      label: "Students",
       color: "bg-rose-50",
       iconColor: "text-rose-500",
       valueColor: "text-rose-600",

@@ -23,12 +23,12 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-gray-600 mb-5">
-              Join the highest, tempur vita nulla. Phasellus laoreet, nunc elitr
-              condimentum lorem ipsum dolor.
+              An educational website that provides access to various
+              school-level books, science fiction, and mind games.
             </p>
             <div className="flex space-x-3">
               <a
-                href="#"
+                href="https://www.facebook.com/NexoLinx"
                 className="w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 transition-colors flex items-center justify-center text-white"
               >
                 <span className="sr-only">Facebook</span>
@@ -46,35 +46,31 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/nexolinx011/"
                 className="w-9 h-9 rounded-full bg-pink-600 hover:bg-pink-700 transition-colors flex items-center justify-center text-white"
               >
-                <span className="sr-only">Twitter</span>
+                <span className="sr-only">Instagram</span>
                 <svg
                   className="w-4 h-4"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
                 >
-                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.344 3.608 1.319.975.975 1.257 2.242 1.319 3.608.058 1.266.07 1.645.07 4.84s-.012 3.574-.07 4.84c-.062 1.366-.344 2.633-1.319 3.608-.975.975-2.242 1.257-3.608 1.319-1.266.058-1.645.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.344-3.608-1.319-.975-.975-1.257-2.242-1.319-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.574.07-4.84c.062-1.366.344-2.633 1.319-3.608.975-.975 2.242-1.257 3.608-1.319C8.416 2.175 8.796 2.163 12 2.163zm0 1.838c-3.17 0-3.548.012-4.796.07-1.006.047-1.555.216-1.918.362a3.601 3.601 0 0 0-1.313.857 3.601 3.601 0 0 0-.857 1.313c-.146.363-.315.912-.362 1.918-.058 1.248-.07 1.626-.07 4.796s.012 3.548.07 4.796c.047 1.006.216 1.555.362 1.918.2.5.476.952.857 1.313.361.381.813.657 1.313.857.363.146.912.315 1.918.362 1.248.058 1.626.07 4.796.07s3.548-.012 4.796-.07c1.006-.047 1.555-.216 1.918-.362a3.601 3.601 0 0 0 1.313-.857 3.601 3.601 0 0 0 .857-1.313c.146-.363.315-.912.362-1.918.058-1.248.07-1.626.07-4.796s-.012-3.548-.07-4.796c-.047-1.006-.216-1.555-.362-1.918a3.601 3.601 0 0 0-.857-1.313 3.601 3.601 0 0 0-1.313-.857c-.363-.146-.912-.315-1.918-.362-1.248-.058-1.626-.07-4.796-.07zm0 4.838a5.163 5.163 0 1 1 0 10.326 5.163 5.163 0 0 1 0-10.326zm0 1.838a3.325 3.325 0 1 0 0 6.65 3.325 3.325 0 0 0 0-6.65zm6.406-2.007a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z" />
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/nexolinx/"
                 className="w-9 h-9 rounded-full bg-amber-500 hover:bg-amber-600 transition-colors flex items-center justify-center text-white"
               >
-                <span className="sr-only">YouTube</span>
+                <span className="sr-only">Linkedin</span>
                 <svg
-                  className="w-4 h-4"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
-                    clipRule="evenodd"
-                  />
+                  <path d="M19 0h-14C2.239 0 1 1.239 1 3v18c0 1.761 1.239 3 3 3h14c1.761 0 3-1.239 3-3V3c0-1.761-1.239-3-3-3zm-11 19H5V9h3v10zm-1.5-11.268c-.966 0-1.75-.804-1.75-1.732S5.534 4.268 6.5 4.268c.965 0 1.75.804 1.75 1.732s-.785 1.732-1.75 1.732zM19 19h-3v-5.604c0-3.036-4-2.804-4 0V19h-3V9h3v1.337c1.396-2.586 7-2.777 7 2.476V19z" />
                 </svg>
               </a>
             </div>
@@ -100,18 +96,18 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/process"
+                  href="/courses"
                   className="text-gray-600 hover:text-pink-600 transition-colors"
                 >
-                  Our Process
+                  Courses
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/services"
+                  href="/mentors"
                   className="text-gray-600 hover:text-pink-600 transition-colors"
                 >
-                  Services
+                  Mentors
                 </Link>
               </li>
             </ul>
@@ -121,34 +117,34 @@ const Footer = () => {
             <ul className="space-y-3">
               <li>
                 <Link
-                  href="/premium"
+                  href="/material"
                   className="text-gray-600 hover:text-blue-600 transition-colors"
                 >
-                  Go Premium
+                  Study Materials
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/team"
+                  href="/gyan-quest"
                   className="text-gray-600 hover:text-blue-600 transition-colors"
                 >
-                  Team Plans
+                  Gyan Quest
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/refer"
+                  href="/gyan-ai"
                   className="text-gray-600 hover:text-blue-600 transition-colors"
                 >
-                  Refer a Friend
+                  Gyan AI
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/gift"
+                  href="/"
                   className="text-gray-600 hover:text-blue-600 transition-colors"
                 >
-                  Gift Cards
+                  Gyan Verse
                 </Link>
               </li>
             </ul>
@@ -174,7 +170,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/newsletter"
+                  href="/"
                   className="text-gray-600 hover:text-amber-500 transition-colors"
                 >
                   Newsletter
@@ -199,8 +195,9 @@ const Footer = () => {
             </p>
           </div>
           <div className="absolute bottom-0 right-0">
-            <p className="text-sm bg-gradient-to-r from-blue-600 to-pink-600 bg-clip-text text-transparent font-medium">
-              Designed and Developed by Nexolinx
+            <p className="text-md bg-gradient-to-r from-blue-600 to-pink-600 bg-clip-text text-transparent font-medium">
+              Designed and Developed by&nbsp;
+              <a className="text-blue-600 underline" href="https://www.nexolinx.com">Nexolinx</a>
             </p>
           </div>
         </div>

@@ -45,15 +45,7 @@ export function MentorCard({ mentor }: MentorCardProps) {
           ))}
         </div>
 
-        <Accordion type="single" collapsible>
-          <AccordionItem value="bio">
-            <AccordionTrigger className="text-sm font-medium px-0 py-1">Read Biography</AccordionTrigger>
-            <AccordionContent>
-              <p className="text-gray-600 text-sm">{mentor.bio}</p>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </CardContent>
+        </CardContent>
     </Card>
   )
 }
