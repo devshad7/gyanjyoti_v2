@@ -237,7 +237,7 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
               <CardFooter className="p-3 pt-1 text-xs text-gray-500 flex justify-between items-center bg-gray-50">
                 <div className="flex items-center">
                   <FileText className="h-3 w-3 mr-1" />
-                  {pdf.pages} pg
+                  -- pg
                 </div>
                 <Button
                   size="sm"
