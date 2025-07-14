@@ -19,7 +19,10 @@ const Footer = () => {
                     className="object-contain"
                   />
                 </div>
-                <h3 className="text-xl font-bold text-blue-600">GyanJyoti</h3>
+               <span className="tracking-tight md:block hidden">
+                <span className="text-[#275cc3] text-xl font-bold">Gyan</span>
+                <span className="text-[#e20869] text-xl font-bold">Jyoti</span>
+              </span>
               </div>
             </div>
             <p className="text-gray-600 mb-5">

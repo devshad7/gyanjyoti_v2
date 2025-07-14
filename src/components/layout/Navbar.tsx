@@ -84,8 +84,8 @@ const Navbar = () => {
                 />
               </div>
               <span className="tracking-tight md:block hidden">
-                <span className="text-blue-600 font-extrabold">Gyan</span>
-                <span className="text-pink-600 font-extrabold">Jyoti</span>
+                <span className="text-[#275cc3] font-extrabold">Gyan</span>
+                <span className="text-[#e20869] font-extrabold">Jyoti</span>
               </span>
             </Link>
           </div>

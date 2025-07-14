@@ -66,22 +66,22 @@ export function ChatHistory({ onSelectChat }: ChatHistoryProps) {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-6 border-b border-gray-100">
         <Button
           onClick={handleNewChat}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+          className="w-full bg-gradient-to-r from-[#275cc3] to-[#e20869] hover:from-[#275cc3]/90 hover:to-[#e20869]/90 text-white rounded-xl shadow-lg shadow-[#275cc3]/25 hover:shadow-xl hover:shadow-[#275cc3]/30 transition-all duration-200 flex items-center justify-center gap-2"
         >
-          <Plus className="mr-2 h-4 w-4" /> New Chat
+          <Plus className="h-4 w-4" /> New Chat
         </Button>
       </div>
 
-      <div className="p-3">
+      <div className="p-4">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <input
             type="text"
             placeholder="Search conversations..."
-            className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400"
+            className="w-full pl-10 pr-4 py-3 text-sm rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#275cc3]/30 focus:border-[#275cc3] focus:bg-white transition-all duration-200"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -90,24 +90,28 @@ export function ChatHistory({ onSelectChat }: ChatHistoryProps) {
 
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full">
-          <div className="p-3 space-y-2">
+          <div className="p-4 space-y-2">
             {filteredSessions.length > 0 ? (
               filteredSessions.map(([id, session]) => (
                 <div
                   key={id}
-                  className={`flex items-center justify-between rounded-lg ${
-                    id === currentSessionId ? "bg-blue-100" : "hover:bg-gray-100"
+                  className={`flex items-center justify-between rounded-xl transition-all duration-200 ${
+                    id === currentSessionId 
+                      ? "bg-gradient-to-r from-[#275cc3]/10 to-[#e20869]/10 border border-[#275cc3]/20" 
+                      : "hover:bg-gray-50 border border-transparent"
                   } group relative`}
                 >
                   <button
-                    className={`flex-1 text-left flex items-start h-auto py-3 px-3 rounded-lg ${
-                      id === currentSessionId ? "text-blue-600 font-medium" : "text-black"
+                    className={`flex-1 text-left flex items-start h-auto py-4 px-4 rounded-xl transition-all duration-200 ${
+                      id === currentSessionId ? "text-[#275cc3] font-medium" : "text-gray-700 hover:text-gray-900"
                     }`}
                     onClick={() => handleSelectChat(id)}
                   >
-                    <MessageSquare className="mr-2 h-4 w-4 flex-shrink-0" />
-                    <div className="truncate">
-                      {session.title || "New Conversation"}
+                    <MessageSquare className="mr-3 h-4 w-4 flex-shrink-0 mt-0.5" />
+                    <div className="truncate flex-1">
+                      <div className="truncate text-sm">
+                        {session.title || "New Conversation"}
+                      </div>
                       <div className="text-xs text-gray-500 mt-1">
                         {new Date(session.lastUpdated).toLocaleDateString()}
                       </div>
@@ -115,7 +119,7 @@ export function ChatHistory({ onSelectChat }: ChatHistoryProps) {
                   </button>
 
                   <button
-                    className="h-8 w-8 p-0 mr-1 flex items-center justify-center text-gray-600 hover:text-black"
+                    className="h-8 w-8 p-0 mr-2 flex items-center justify-center text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-all duration-200 rounded-lg hover:bg-gray-100"
                     onClick={() => toggleMenu(id)}
                   >
                     <MoreVertical className="h-4 w-4" />
@@ -123,22 +127,22 @@ export function ChatHistory({ onSelectChat }: ChatHistoryProps) {
                   </button>
 
                   {menuOpenFor === id && (
-                    <div className="absolute right-0 top-full mt-1 z-50 w-40 bg-gray-900 text-white rounded-md shadow-lg border border-gray-800 overflow-hidden">
+                    <div className="absolute right-2 top-full mt-2 z-50 w-44 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden">
                       <button
-                        className="w-full flex items-center px-3 py-2 text-sm hover:bg-gray-800"
+                        className="w-full flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                         onClick={() => handleRenameChat(id, session.title)}
                       >
-                        <Pencil className="mr-2 h-4 w-4" />
+                        <Pencil className="mr-3 h-4 w-4" />
                         <span>Rename</span>
                       </button>
                       <button
-                        className="w-full flex items-center px-3 py-2 text-sm text-red-400 hover:bg-gray-800"
+                        className="w-full flex items-center px-4 py-3 text-sm text-[#e20869] hover:bg-[#e20869]/10 transition-colors"
                         onClick={() => {
                           deleteChat(id)
                           setMenuOpenFor(null)
                         }}
                       >
-                        <Trash2 className="mr-2 h-4 w-4" />
+                        <Trash2 className="mr-3 h-4 w-4" />
                         <span>Delete</span>
                       </button>
                     </div>
@@ -146,7 +150,10 @@ export function ChatHistory({ onSelectChat }: ChatHistoryProps) {
                 </div>
               ))
             ) : (
-              <div className="text-center py-4 text-gray-500 text-sm">No conversations found</div>
+              <div className="text-center py-8 text-gray-500 text-sm">
+                <MessageSquare className="h-8 w-8 mx-auto mb-2 text-gray-300" />
+                No conversations found
+              </div>
             )}
           </div>
         </ScrollArea>
@@ -154,25 +161,25 @@ export function ChatHistory({ onSelectChat }: ChatHistoryProps) {
 
       {/* Rename Dialog */}
       {isRenaming && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold mb-4">Rename conversation</h3>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl p-8 w-full max-w-md mx-4 shadow-2xl">
+            <h3 className="text-xl font-bold mb-6 text-gray-900">Rename conversation</h3>
             <Input
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="Enter a new name"
-              className="w-full mb-4"
+              className="w-full mb-6 rounded-xl border-gray-200 focus:border-blue-300 focus:ring-2 focus:ring-blue-200"
               autoFocus
             />
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-3">
               <button
-                className="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100"
+                className="px-6 py-3 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors"
                 onClick={() => setIsRenaming(false)}
               >
                 Cancel
               </button>
               <button
-                className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-lg shadow-blue-500/25"
                 onClick={handleSaveRename}
               >
                 Save
