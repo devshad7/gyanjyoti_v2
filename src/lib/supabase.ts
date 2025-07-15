@@ -1,9 +1,30 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// Completely safe client creation that won't fail during build
+function createSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseKey)
+  // During build time or when env vars are missing, return a mock client
+  if (!supabaseUrl || !supabaseKey) {
+    // Create a mock client that won't cause build errors
+    return new Proxy({}, {
+      get() {
+        if (process.env.NODE_ENV === 'production') {
+          throw new Error('Supabase configuration is missing')
+        }
+        // Return a function that throws an error when called
+        return () => {
+          throw new Error('Supabase not configured for development')
+        }
+      }
+    }) as any
+  }
+
+  return createClient(supabaseUrl, supabaseKey)
+}
+
+export const supabase = createSupabaseClient()
 
 // Database schema types
 export interface Database {

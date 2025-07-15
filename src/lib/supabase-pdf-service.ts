@@ -63,7 +63,21 @@ console.log('Cloudinary initialized with config:', {
 })
 
 export class SupabasePDFService {
+  private static validateEnvironment() {
+    // During build time, skip validation to avoid build errors
+    if (process.env.NODE_ENV !== 'production' && !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      console.warn('Supabase environment variables not available during build')
+      return false
+    }
+    
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      throw new Error('Supabase environment variables are not configured properly')
+    }
+    return true
+  }
+
   static async uploadFile(file: File, folder: string = "pdfs"): Promise<string> {
+    if (!this.validateEnvironment()) return Promise.reject(new Error('Environment not ready'))
     try {
       // Check if file exceeds Cloudinary free tier limits
       if (PDFCompressor.needsCompression(file)) {
@@ -254,6 +268,7 @@ export class SupabasePDFService {
   }
 
   static async getPDFById(id: string): Promise<PDF | null> {
+    if (!this.validateEnvironment()) return null
     try {
       const { data, error } = await supabase
         .from('pdfs')
@@ -369,6 +384,7 @@ export class SupabasePDFService {
   }
 
   static async incrementDownloadCount(id: string): Promise<void> {
+    this.validateEnvironment()
     try {
       const { error } = await supabase.rpc('increment_download_count', {
         pdf_id: id
@@ -403,7 +419,7 @@ export class SupabasePDFService {
         throw new Error(`Database error: ${error.message}`)
       }
 
-      const classes = [...new Set((data || []).map(row => row.class))]
+      const classes = [...new Set((data || []).map((row: { class: any; }) => row.class as string))] as string[]
       return classes.sort()
     } catch (error) {
       console.error('Error fetching classes:', error)
@@ -422,7 +438,7 @@ export class SupabasePDFService {
         throw new Error(`Database error: ${error.message}`)
       }
 
-      const subjects = [...new Set((data || []).map(row => row.subject))]
+      const subjects = [...new Set((data || []).map((row: { subject: any; }) => row.subject))] as string[]
       return subjects.sort()
     } catch (error) {
       console.error('Error fetching subjects:', error)
