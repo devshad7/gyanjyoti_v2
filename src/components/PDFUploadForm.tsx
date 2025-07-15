@@ -335,21 +335,21 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
                 <SelectValue placeholder="Select subject" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="mathematics">Mathematics</SelectItem>
-                <SelectItem value="science">Science and Technology</SelectItem>
-                <SelectItem value="english">English</SelectItem>
-                <SelectItem value="neplai">Nepali</SelectItem>
-                <SelectItem value="social-studies">Social Studies</SelectItem>
-                <SelectItem value="computer-science">Computer Science</SelectItem>
-                <SelectItem value="optional-maths">Optional Maths</SelectItem>
-                <SelectItem value="dbms">DBMS</SelectItem>
-                <SelectItem value="dsa-c++">DSA & C++</SelectItem>
-                <SelectItem value="ddm">DDM</SelectItem>
-                <SelectItem value="cherm">CHERM</SelectItem>
-                <SelectItem value="fca">FCA</SelectItem>
-                <SelectItem value="fes">FES</SelectItem>
-                <SelectItem value="c">C</SelectItem>
-                <SelectItem value="wd">WD</SelectItem>
+                <SelectItem value="Mathematics">Mathematics</SelectItem>
+                <SelectItem value="Science">Science and Technology</SelectItem>
+                <SelectItem value="English">English</SelectItem>
+                <SelectItem value="Nepali">Nepali</SelectItem>
+                <SelectItem value="Social-studies">Social Studies</SelectItem>
+                <SelectItem value="Computer-science">Computer Science</SelectItem>
+                <SelectItem value="Optional Maths">Optional Maths</SelectItem>
+                <SelectItem value="DBMS">DBMS</SelectItem>
+                <SelectItem value="DSA & C++">DSA & C++</SelectItem>
+                <SelectItem value="DDM">DDM</SelectItem>
+                <SelectItem value="CHERM">CHERM</SelectItem>
+                <SelectItem value="FCA">FCA</SelectItem>
+                <SelectItem value="FES">FES</SelectItem>
+                <SelectItem value="C">C</SelectItem>
+                <SelectItem value="WD">WD</SelectItem>
               </SelectContent>
             </Select>
           </div>
