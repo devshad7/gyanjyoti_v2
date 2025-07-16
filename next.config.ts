@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.ctfassets.net",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
   typescript: {
@@ -14,6 +18,17 @@ const nextConfig: NextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  // Configure file upload limits
+  experimental: {
+    serverComponentsExternalPackages: ['cloudinary'],
+  },
+  // API route configuration
+  api: {
+    bodyParser: {
+      sizeLimit: '50mb', // Set desired value here
+    },
+    responseLimit: '50mb',
   },
 };
 

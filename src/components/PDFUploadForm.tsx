@@ -136,14 +136,41 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       uploadFormData.append("description", formData.description);
       uploadFormData.append("tags", formData.tags);
 
+      // Create an AbortController for timeout handling
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minutes timeout
+
       const response = await fetch("/api/pdfs", {
         method: "POST",
         body: uploadFormData,
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Upload failed");
+        let errorMessage = "Upload failed";
+        try {
+          const error = await response.json();
+          errorMessage = error.error || errorMessage;
+        } catch (parseError) {
+          // If response is not JSON (e.g., HTML error page), get text content
+          try {
+            const errorText = await response.text();
+            console.error("Non-JSON error response:", errorText);
+            // Extract meaningful error from HTML if possible
+            if (errorText.includes("Request Entity Too Large")) {
+              errorMessage = "File size too large. Please compress your PDF and try again.";
+            } else if (errorText.includes("504") || errorText.includes("timeout")) {
+              errorMessage = "Upload timeout. Please try again or use a smaller file.";
+            } else {
+              errorMessage = `Server error (${response.status}): ${response.statusText}`;
+            }
+          } catch (textError) {
+            errorMessage = `Server error (${response.status}): ${response.statusText}`;
+          }
+        }
+        throw new Error(errorMessage);
       }
 
       const result = await response.json();
@@ -175,12 +202,20 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       onUploadSuccess?.();
     } catch (error) {
       console.error("Upload error:", error);
+      
+      let errorMessage = "Failed to upload PDF. Please try again.";
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          errorMessage = "Upload timeout. The file may be too large or your connection is slow. Please try again with a smaller file.";
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
       toast({
         title: "Upload failed",
-        description:
-          error instanceof Error
-            ? error.message
-            : "Failed to upload PDF. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
