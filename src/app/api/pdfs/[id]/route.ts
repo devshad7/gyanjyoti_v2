@@ -4,10 +4,11 @@ import { SupabasePDFService } from "@/lib/supabase-pdf-service"
 // GET /api/pdfs/[id] - Get a specific PDF
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const pdf = await SupabasePDFService.getPDFById(params.id)
+    const { id } = await params
+    const pdf = await SupabasePDFService.getPDFById(id)
     
     if (!pdf) {
       return NextResponse.json(
@@ -29,17 +30,18 @@ export async function GET(
 // PUT /api/pdfs/[id] - Update a PDF
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const body = await request.json()
     
     const input = {
-      id: params.id,
+      id,
       ...body
     }
     
-    const pdf = await SupabasePDFService.updatePDF(params.id, body)
+    const pdf = await SupabasePDFService.updatePDF(id, body)
     
     if (!pdf) {
       return NextResponse.json(
@@ -61,10 +63,11 @@ export async function PUT(
 // DELETE /api/pdfs/[id] - Delete a PDF
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await SupabasePDFService.deletePDF(params.id)
+    const { id } = await params
+    await SupabasePDFService.deletePDF(id)
     
     return NextResponse.json({ success: true })
   } catch (error) {

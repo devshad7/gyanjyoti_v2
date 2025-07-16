@@ -13,13 +13,13 @@ const client = createClient({
 });
 
 type PageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 const Page = async ({ params }: PageProps) => {
-  const { slug } = params;
+  const { slug } = await params;
 
   const entries = await client.getEntries({
     content_type: "coursePost",

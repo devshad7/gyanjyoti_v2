@@ -1,7 +1,10 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
+
+// Type for mock client during development
+type MockSupabaseClient = Record<string, (...args: unknown[]) => never>
 
 // Completely safe client creation that won't fail during build
-function createSupabaseClient() {
+function createSupabaseClient(): SupabaseClient | MockSupabaseClient {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -18,7 +21,7 @@ function createSupabaseClient() {
           throw new Error('Supabase not configured for development')
         }
       }
-    }) as any
+    }) as MockSupabaseClient
   }
 
   return createClient(supabaseUrl, supabaseKey)

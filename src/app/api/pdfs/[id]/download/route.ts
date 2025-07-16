@@ -9,9 +9,10 @@ async function getSupabasePDFService() {
 // POST /api/pdfs/[id]/download - Track download and return PDF URL
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     // Validate environment variables at runtime
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
       console.error('Supabase environment variables missing')
@@ -22,7 +23,7 @@ export async function POST(
     }
 
     const SupabasePDFService = await getSupabasePDFService()
-    const pdf = await SupabasePDFService.getPDFById(params.id)
+    const pdf = await SupabasePDFService.getPDFById(id)
     
     if (!pdf) {
       return NextResponse.json(
@@ -32,7 +33,7 @@ export async function POST(
     }
     
     // Increment download count
-    await SupabasePDFService.incrementDownloadCount(params.id)
+    await SupabasePDFService.incrementDownloadCount(id)
     
     return NextResponse.json({ 
       url: pdf.url,

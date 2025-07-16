@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -354,12 +354,9 @@ const quizData = {
   },
 };
 
-export default function SubjectQuizPage({
-  params,
-}: {
-  params: { subject: string };
-}) {
+export default function SubjectQuizPage() {
   const router = useRouter();
+  const params = useParams();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
@@ -367,7 +364,7 @@ export default function SubjectQuizPage({
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [answers, setAnswers] = useState<string[]>([]);
 
-  const subject = params.subject;
+  const subject = params.subject as string;
   const quiz = quizData[subject as keyof typeof quizData];
 
   // Handle invalid subject
