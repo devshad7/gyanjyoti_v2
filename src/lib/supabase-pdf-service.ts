@@ -120,7 +120,7 @@ export class SupabasePDFService {
             public_id: `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`,
             access_control: { access_type: 'anonymous' },
             invalidate: true,
-            timeout: 120000, // 2 minutes timeout
+            timeout: 50000, // 50 seconds timeout (within Vercel limits)
             // Force allow large files
             overwrite: true,
             notification_url: undefined, // Disable notifications that might interfere

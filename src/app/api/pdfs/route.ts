@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { SupabasePDFService } from "@/lib/supabase-pdf-service"
 
 // Configure runtime for handling large file uploads
-export const maxDuration = 120; // 2 minutes
+export const maxDuration = 60; // 1 minute (Vercel hobby plan limit)
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 

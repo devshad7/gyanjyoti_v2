@@ -138,7 +138,7 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
 
       // Create an AbortController for timeout handling
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minutes timeout
+      const timeoutId = setTimeout(() => controller.abort(), 55000); // 55 seconds timeout (slightly less than server limit)
 
       const response = await fetch("/api/pdfs", {
         method: "POST",
@@ -207,7 +207,7 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
-          errorMessage = "Upload timeout. The file may be too large or your connection is slow. Please try again with a smaller file.";
+          errorMessage = "Upload timeout (55 seconds exceeded). The file may be too large or your connection is slow. Please try again with a smaller file.";
         } else {
           errorMessage = error.message;
         }
