@@ -19,16 +19,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Configure file upload limits
+  // Configure external packages for server components
   experimental: {
     serverComponentsExternalPackages: ['cloudinary'],
-  },
-  // API route configuration
-  api: {
-    bodyParser: {
-      sizeLimit: '50mb', // Set desired value here
-    },
-    responseLimit: '50mb',
   },
 };
 

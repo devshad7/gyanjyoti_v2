@@ -84,8 +84,8 @@ export class SupabasePDFService {
         throw new Error(PDFCompressor.getOversizeErrorMessage(file));
       }
 
-      // File size validation (keep our 50MB app limit for future upgrades)
-      const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+      // File size validation (10MB limit for PDFs)
+      const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
       if (file.size > MAX_FILE_SIZE) {
         throw new Error(`File size too large. Maximum allowed size is ${MAX_FILE_SIZE / (1024 * 1024)}MB, but got ${(file.size / (1024 * 1024)).toFixed(2)}MB`);
       }

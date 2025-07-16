@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectContent,
@@ -29,6 +30,7 @@ interface PDFUploadFormProps {
 
 export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [file, setFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [formData, setFormData] = useState({
@@ -122,7 +124,19 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       return;
     }
 
+    // Additional validation for live environment - be more conservative
+    if (file.size > 8 * 1024 * 1024) { // 8MB threshold for live uploads
+      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+      toast({
+        title: "File size warning",
+        description: `File is ${fileSizeMB}MB. Files over 8MB may timeout on live servers. Consider compressing your PDF first.`,
+        variant: "destructive",
+      });
+      // Don't return - let user proceed if they want to try
+    }
+
     setIsUploading(true);
+    setUploadProgress(0);
 
     try {
       const uploadFormData = new FormData();
@@ -140,34 +154,65 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 55000); // 55 seconds timeout (slightly less than server limit)
 
+      // Simulate upload progress
+      const progressInterval = setInterval(() => {
+        setUploadProgress(prev => {
+          if (prev < 90) return prev + Math.random() * 10;
+          return prev;
+        });
+      }, 500);
+
+      // Prepare headers for better debugging and upload handling
+      const uploadHeaders: HeadersInit = {
+        'Accept': 'application/json',
+      };
+      
+      // Add file size header for better server-side handling
+      if (file.size) {
+        uploadHeaders['X-Upload-Size'] = file.size.toString();
+      }
+
       const response = await fetch("/api/pdfs", {
         method: "POST",
         body: uploadFormData,
         signal: controller.signal,
+        headers: uploadHeaders,
       });
 
       clearTimeout(timeoutId);
+      clearInterval(progressInterval);
+      setUploadProgress(100);
 
       if (!response.ok) {
         let errorMessage = "Upload failed";
-        try {
-          const error = await response.json();
-          errorMessage = error.error || errorMessage;
-        } catch (parseError) {
-          // If response is not JSON (e.g., HTML error page), get text content
+        
+        // Handle specific HTTP status codes
+        if (response.status === 413) {
+          errorMessage = "File size too large for upload. Please compress your PDF to under 10MB and try again.";
+        } else {
           try {
-            const errorText = await response.text();
-            console.error("Non-JSON error response:", errorText);
-            // Extract meaningful error from HTML if possible
-            if (errorText.includes("Request Entity Too Large")) {
-              errorMessage = "File size too large. Please compress your PDF and try again.";
-            } else if (errorText.includes("504") || errorText.includes("timeout")) {
-              errorMessage = "Upload timeout. Please try again or use a smaller file.";
-            } else {
-              errorMessage = `Server error (${response.status}): ${response.statusText}`;
+            const error = await response.json();
+            errorMessage = error.error || errorMessage;
+          } catch (parseError) {
+            // If response is not JSON (e.g., HTML error page), get text content
+            try {
+              const errorText = await response.text();
+              console.error("Non-JSON error response:", errorText);
+              // Extract meaningful error from HTML if possible
+              if (errorText.includes("Request Entity Too Large") || response.status === 413) {
+                errorMessage = "File size too large. Please compress your PDF to under 10MB and try again.";
+              } else if (errorText.includes("504") || errorText.includes("timeout")) {
+                errorMessage = "Upload timeout. Please try again or use a smaller file.";
+              } else {
+                errorMessage = `Server error (${response.status}): ${response.statusText}`;
+              }
+            } catch (textError) {
+              if (response.status === 413) {
+                errorMessage = "File size too large. Please compress your PDF to under 10MB and try again.";
+              } else {
+                errorMessage = `Server error (${response.status}): ${response.statusText}`;
+              }
             }
-          } catch (textError) {
-            errorMessage = `Server error (${response.status}): ${response.statusText}`;
           }
         }
         throw new Error(errorMessage);
@@ -183,6 +228,7 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       // Reset form
       setFile(null);
       setThumbnail(null);
+      setUploadProgress(0);
       setFormData({
         title: "",
         subject: "",
@@ -220,6 +266,7 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       });
     } finally {
       setIsUploading(false);
+      setUploadProgress(0);
     }
   };
 
@@ -439,23 +486,34 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
           </div>
 
           {/* Submit Button */}
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isUploading || !file}
-          >
-            {isUploading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-                Uploading...
-              </>
-            ) : (
-              <>
-                <Upload className="h-4 w-4 mr-2" />
-                Upload PDF
-              </>
+          <div className="space-y-4">
+            {isUploading && (
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>Uploading...</span>
+                  <span>{Math.round(uploadProgress)}%</span>
+                </div>
+                <Progress value={uploadProgress} className="w-full" />
+              </div>
             )}
-          </Button>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isUploading || !file}
+            >
+              {isUploading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                  Uploading... {Math.round(uploadProgress)}%
+                </>
+              ) : (
+                <>
+                  <Upload className="h-4 w-4 mr-2" />
+                  Upload PDF
+                </>
+              )}
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Card>

@@ -6,6 +6,9 @@ export const maxDuration = 60; // 1 minute (Vercel hobby plan limit)
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
+// Note: Next.js App Router doesn't use the config export for body parsing
+// Body parsing is handled automatically with better streaming support
+
 // GET /api/pdfs - Fetch PDFs with optional filters
 export async function GET(request: NextRequest) {
   try {
@@ -43,18 +46,38 @@ export async function POST(request: NextRequest) {
     console.log("Request headers:", {
       contentType: request.headers.get('content-type'),
       contentLength: request.headers.get('content-length'),
+      uploadSize: request.headers.get('x-upload-size'),
       userAgent: request.headers.get('user-agent')?.substring(0, 50) + '...'
     });
     
-    // Parse form data with error handling
+    // Parse form data with better error handling and streaming
     try {
+      // Get content length if available
+      const contentLength = request.headers.get('content-length');
+      console.log('Request content length:', contentLength);
+      
       formData = await request.formData();
       console.log("Form data parsed successfully");
     } catch (formError) {
       console.error("Error parsing form data:", formError);
+      
+      // Check if it's a size-related error
+      if (formError instanceof Error && 
+          (formError.message.includes('size') || 
+           formError.message.includes('limit') ||
+           formError.message.includes('413'))) {
+        return NextResponse.json(
+          { 
+            error: "File size too large. Please ensure your PDF is under 10MB and try again.",
+            details: process.env.NODE_ENV === 'development' ? formError?.toString() : undefined
+          },
+          { status: 413 }
+        );
+      }
+      
       return NextResponse.json(
         { 
-          error: "Failed to parse upload data. Please check your file size and try again.",
+          error: "Failed to parse upload data. Please check your file and try again.",
           details: process.env.NODE_ENV === 'development' ? formError?.toString() : undefined
         },
         { status: 400 }
