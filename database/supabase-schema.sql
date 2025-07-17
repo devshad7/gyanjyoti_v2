@@ -58,3 +58,58 @@ CREATE POLICY "PDFs can be deleted by authenticated users" ON pdfs
 -- Grant permissions
 GRANT ALL ON pdfs TO authenticated;
 GRANT SELECT ON pdfs TO anon;
+
+-- Create Notes table
+CREATE TABLE IF NOT EXISTS notes (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    title TEXT NOT NULL,
+    subject TEXT NOT NULL,
+    class TEXT NOT NULL,
+    tags TEXT[],
+    images JSONB DEFAULT '[]'::jsonb,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    favorite BOOLEAN DEFAULT FALSE,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_by TEXT,
+    view_count INTEGER DEFAULT 0
+);
+
+-- Create indexes for notes table
+CREATE INDEX IF NOT EXISTS idx_notes_subject ON notes(subject);
+CREATE INDEX IF NOT EXISTS idx_notes_class ON notes(class);
+CREATE INDEX IF NOT EXISTS idx_notes_favorite ON notes(favorite);
+CREATE INDEX IF NOT EXISTS idx_notes_is_active ON notes(is_active);
+CREATE INDEX IF NOT EXISTS idx_notes_created_at ON notes(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_notes_title_search ON notes USING gin(to_tsvector('english', title));
+
+-- Enable RLS for notes
+ALTER TABLE notes ENABLE ROW LEVEL SECURITY;
+
+-- Create policies for notes
+CREATE POLICY "Notes are viewable by everyone" ON notes
+    FOR SELECT USING (is_active = true);
+
+CREATE POLICY "Notes can be inserted by authenticated users" ON notes
+    FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Notes can be updated by authenticated users" ON notes
+    FOR UPDATE USING (true);
+
+CREATE POLICY "Notes can be deleted by authenticated users" ON notes
+    FOR DELETE USING (true);
+
+-- Grant permissions for notes
+GRANT ALL ON notes TO authenticated;
+GRANT SELECT ON notes TO anon;
+
+-- Function to increment view count for notes
+CREATE OR REPLACE FUNCTION increment_note_view_count(note_id UUID)
+RETURNS VOID AS $$
+BEGIN
+    UPDATE notes 
+    SET view_count = view_count + 1,
+        updated_at = NOW()
+    WHERE id = note_id;
+END;
+$$ LANGUAGE plpgsql;

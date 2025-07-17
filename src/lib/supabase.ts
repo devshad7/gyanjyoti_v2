@@ -92,6 +92,49 @@ export interface Database {
           created_at?: string
         }
       }
+      notes: {
+        Row: {
+          id: string
+          title: string
+          subject: string
+          class: string
+          tags: string[] | null
+          images: string
+          created_at: string
+          updated_at: string
+          favorite: boolean
+          is_active: boolean
+          created_by: string | null
+          view_count: number
+        }
+        Insert: {
+          id?: string
+          title: string
+          subject: string
+          class: string
+          tags?: string[] | null
+          images?: string
+          created_at?: string
+          updated_at?: string
+          favorite?: boolean
+          is_active?: boolean
+          created_by?: string | null
+          view_count?: number
+        }
+        Update: {
+          id?: string
+          title?: string
+          subject?: string
+          class?: string
+          tags?: string[] | null
+          images?: string
+          updated_at?: string
+          favorite?: boolean
+          is_active?: boolean
+          created_by?: string | null
+          view_count?: number
+        }
+      }
     }
   }
 }
