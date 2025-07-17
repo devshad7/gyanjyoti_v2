@@ -308,7 +308,7 @@ ${note.images.length > 0 ? '\nImage URLs:\n' + note.images.map((img, idx) => `${
                   <img
                     src={note.images[0]?.url || "/assets/eng.jpeg"}
                     alt={note.images[0]?.caption || note.title}
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-[40vh] object-cover object-top"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement
                       target.src = "/assets/eng.jpeg"
