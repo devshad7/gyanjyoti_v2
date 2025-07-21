@@ -33,6 +33,7 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [file, setFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
   const [formData, setFormData] = useState({
     title: "",
     subject: "",
@@ -103,6 +104,48 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
     setFormData((prev) => ({ ...prev, [field]: value }));
   }, []);
 
+  const uploadWithRetry = async (uploadFormData: FormData, controller: AbortController, maxRetries = 2): Promise<Response> => {
+    let lastError: Error | null = null;
+
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`Upload attempt ${attempt + 1}/${maxRetries + 1}`);
+        
+        const response = await fetch("/api/pdfs", {
+          method: "POST",
+          body: uploadFormData,
+          signal: controller.signal,
+        });
+
+        // If we get a response, return it (even if not ok, we'll handle it in the caller)
+        return response;
+
+      } catch (error) {
+        lastError = error as Error;
+        console.warn(`Upload attempt ${attempt + 1} failed:`, error);
+
+        // Don't retry for certain types of errors
+        if (error instanceof Error) {
+          if (error.name === 'AbortError' || 
+              error.message.includes('413') || 
+              error.message.includes('File size too large')) {
+            throw error; // Don't retry for timeout or file size errors
+          }
+        }
+
+        // If this isn't the last attempt, wait before retrying
+        if (attempt < maxRetries) {
+          const retryDelay = Math.min(1000 * Math.pow(2, attempt), 5000); // Exponential backoff, max 5s
+          console.log(`Retrying in ${retryDelay}ms...`);
+          await new Promise(resolve => setTimeout(resolve, retryDelay));
+        }
+      }
+    }
+
+    // If we get here, all attempts failed
+    throw lastError || new Error('Upload failed after retries');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -144,7 +187,7 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
 
     try {
       const uploadFormData = new FormData();
-      uploadFormData.append("pdf", file);
+      uploadFormData.append("file", file); // Changed from "pdf" to "file"
       if (thumbnail) {
         uploadFormData.append("thumbnail", thumbnail);
       }
@@ -169,11 +212,7 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       }, 500);
 
       // Remove the custom headers that might cause issues
-      const response = await fetch("/api/upload-pdf", {
-        method: "POST",
-        body: uploadFormData,
-        signal: controller.signal,
-      });
+      const response = await uploadWithRetry(uploadFormData, controller);
 
       // Clean up intervals and timeouts
       if (timeoutId) clearTimeout(timeoutId);
@@ -183,22 +222,40 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       if (!response.ok) {
         let errorMessage = "Upload failed. Please try again.";
         
-        // Handle specific error cases
+        // Handle specific error cases with more detailed messaging
         if (response.status === 413) {
           errorMessage = "File size too large for upload. Please compress your PDF to under 10MB and try again.";
         } else if (response.status === 504 || response.status === 502) {
           errorMessage = "Upload timeout. Please try again with a smaller file or better internet connection.";
-        } else if (response.status === 422) {
+        } else if (response.status === 422 || response.status === 400) {
           try {
             const errorData = await response.json();
-            errorMessage = errorData.error || "Invalid file format or corrupted file.";
+            errorMessage = errorData.error || "Invalid file format or missing required fields.";
           } catch {
             errorMessage = "Invalid file. Please check your PDF and try again.";
           }
         } else if (response.status === 500) {
-          errorMessage = "Server error occurred. Please try again later.";
+          try {
+            const errorData = await response.json();
+            // Check for specific server errors
+            if (errorData.error?.includes('Cloudinary') || errorData.error?.includes('CLOUDINARY')) {
+              errorMessage = "File upload service is temporarily unavailable. Please try again later.";
+            } else if (errorData.error?.includes('Supabase') || errorData.error?.includes('Database')) {
+              errorMessage = "Database service is temporarily unavailable. Please try again later.";
+            } else if (errorData.error?.includes('size too large') || errorData.error?.includes('too large for Cloudinary')) {
+              errorMessage = "File size exceeds service limits. Please compress your PDF and try again.";
+            } else {
+              errorMessage = errorData.error || "Server error occurred. Please try again later.";
+            }
+          } catch {
+            errorMessage = "Server error occurred. Please try again later.";
+          }
+        } else if (response.status === 503) {
+          errorMessage = "Upload service is temporarily unavailable. Please try again later.";
         } else if (response.status === 404) {
           errorMessage = "Upload endpoint not found. Please contact support.";
+        } else if (response.status === 408) {
+          errorMessage = "Request timeout. Please try again with a smaller file.";
         } else {
           try {
             const errorData = await response.json();
@@ -230,6 +287,7 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       setFile(null);
       setThumbnail(null);
       setUploadProgress(0);
+      setRetryCount(0);
       setFormData({
         title: "",
         subject: "",
@@ -260,10 +318,26 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           errorMessage = "Upload timeout (60 seconds exceeded). The file may be too large or your connection is slow. Please try again with a smaller file.";
-        } else if (error.message.includes("File size too large") || error.message.includes("Body exceeded")) {
+        } else if (error.message.includes("File size too large") || 
+                   error.message.includes("Body exceeded") ||
+                   error.message.includes("size exceeds")) {
           errorMessage = "File size too large for upload. Please compress your PDF to under 10MB and try again.";
-        } else if (error.message.includes("NetworkError") || error.message.includes("Failed to fetch")) {
+        } else if (error.message.includes("NetworkError") || 
+                   error.message.includes("Failed to fetch") ||
+                   error.message.includes("network")) {
           errorMessage = "Network error. Please check your internet connection and try again.";
+        } else if (error.message.includes("Cloudinary") || 
+                   error.message.includes("upload service")) {
+          errorMessage = "File upload service is temporarily unavailable. Please try again later.";
+        } else if (error.message.includes("Supabase") || 
+                   error.message.includes("Database")) {
+          errorMessage = "Database service is temporarily unavailable. Please try again later.";
+        } else if (error.message.includes("timeout") || 
+                   error.message.includes("TIMEOUT")) {
+          errorMessage = "Upload timeout. Please try again with a smaller file or check your internet connection.";
+        } else if (error.message.includes("CORS") || 
+                   error.message.includes("Cross-Origin")) {
+          errorMessage = "Security error. Please refresh the page and try again.";
         } else {
           errorMessage = error.message;
         }
@@ -280,6 +354,7 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       if (progressInterval) clearInterval(progressInterval);
       setIsUploading(false);
       setUploadProgress(0);
+      setRetryCount(0);
     }
   };
 
