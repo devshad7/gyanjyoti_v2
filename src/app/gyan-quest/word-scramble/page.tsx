@@ -14,7 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Timer, RefreshCw, Trophy, HelpCircle, Check, X } from "lucide-react";
+import { Timer, RefreshCw, Trophy, HelpCircle, Check, X,ArrowLeft } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 // Word list for the game
@@ -205,6 +205,14 @@ export default function WordScrambleGame() {
     <>
       <Navbar />
       <div className="container mx-auto px-4 py-8">
+          <div className="mb-6">
+        <Button variant="outline" asChild className="mb-4 bg-transparent">
+          <Link href="/gyan-quest">
+           <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Gyan Quest
+          </Link>
+        </Button>
+      </div>
         <div className="max-w-2xl mx-auto">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold mb-2 text-pink-600">

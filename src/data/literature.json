@@ -1,0 +1,186 @@
+{
+  "title": "Literature Quiz",
+  "description": "Test your literary knowledge",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Who wrote 'Romeo and Juliet'?",
+      "options": ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+      "correctAnswer": "William Shakespeare",
+      "explanation": "'Romeo and Juliet' is a tragedy written by William Shakespeare early in his career."
+    },
+    {
+      "id": 2,
+      "question": "Which novel begins with the line 'It was the best of times, it was the worst of times'?",
+      "options": ["Great Expectations", "Oliver Twist", "A Tale of Two Cities", "David Copperfield"],
+      "correctAnswer": "A Tale of Two Cities",
+      "explanation": "'A Tale of Two Cities' by Charles Dickens begins with this famous opening line."
+    },
+    {
+      "id": 3,
+      "question": "Who is the author of 'To Kill a Mockingbird'?",
+      "options": ["Harper Lee", "J.D. Salinger", "F. Scott Fitzgerald", "Ernest Hemingway"],
+      "correctAnswer": "Harper Lee",
+      "explanation": "'To Kill a Mockingbird' is a novel by Harper Lee published in 1960."
+    },
+    {
+      "id": 4,
+      "question": "Which of these is NOT one of the Harry Potter books?",
+      "options": [
+        "Harry Potter and the Philosopher's Stone",
+        "Harry Potter and the Chamber of Secrets",
+        "Harry Potter and the Cursed Child",
+        "Harry Potter and the Mystical Hallows"
+      ],
+      "correctAnswer": "Harry Potter and the Mystical Hallows",
+      "explanation": "There is no Harry Potter book titled 'Harry Potter and the Mystical Hallows'. The seventh book is called 'Harry Potter and the Deathly Hallows'."
+    },
+    {
+      "id": 5,
+      "question": "Who wrote '1984'?",
+      "options": ["Aldous Huxley", "George Orwell", "Ray Bradbury", "H.G. Wells"],
+      "correctAnswer": "George Orwell",
+      "explanation": "'1984' is a dystopian novel by English novelist George Orwell, published in 1949."
+    },
+    {
+      "id": 6,
+      "question": "Which epic poem tells the story of Odysseus?",
+      "options": ["The Iliad", "The Odyssey", "The Aeneid", "Beowulf"],
+      "correctAnswer": "The Odyssey",
+      "explanation": "The Odyssey, attributed to Homer, tells the story of Odysseus's journey home after the Trojan War."
+    },
+    {
+      "id": 7,
+      "question": "Who wrote 'Pride and Prejudice'?",
+      "options": ["Charlotte Brontë", "Emily Brontë", "Jane Austen", "George Eliot"],
+      "correctAnswer": "Jane Austen",
+      "explanation": "'Pride and Prejudice' is a novel by Jane Austen, first published in 1813."
+    },
+    {
+      "id": 8,
+      "question": "Which Shakespeare play features the characters Hamlet, Claudius, and Ophelia?",
+      "options": ["Macbeth", "Hamlet", "King Lear", "Othello"],
+      "correctAnswer": "Hamlet",
+      "explanation": "Hamlet, Claudius, and Ophelia are all characters in Shakespeare's tragedy 'Hamlet'."
+    },
+    {
+      "id": 9,
+      "question": "Who wrote 'The Great Gatsby'?",
+      "options": ["Ernest Hemingway", "F. Scott Fitzgerald", "John Steinbeck", "William Faulkner"],
+      "correctAnswer": "F. Scott Fitzgerald",
+      "explanation": "'The Great Gatsby' is a novel by American writer F. Scott Fitzgerald, published in 1925."
+    },
+    {
+      "id": 10,
+      "question": "Which novel features the character Atticus Finch?",
+      "options": ["Of Mice and Men", "The Catcher in the Rye", "To Kill a Mockingbird", "Lord of the Flies"],
+      "correctAnswer": "To Kill a Mockingbird",
+      "explanation": "Atticus Finch is a central character in Harper Lee's 'To Kill a Mockingbird'."
+    },
+    {
+      "id": 11,
+      "question": "Who wrote 'One Hundred Years of Solitude'?",
+      "options": ["Jorge Luis Borges", "Gabriel García Márquez", "Mario Vargas Llosa", "Pablo Neruda"],
+      "correctAnswer": "Gabriel García Márquez",
+      "explanation": "'One Hundred Years of Solitude' is a novel by Colombian author Gabriel García Márquez, published in 1967."
+    },
+    {
+      "id": 12,
+      "question": "Which dystopian novel features the concept of 'Big Brother'?",
+      "options": ["Brave New World", "Fahrenheit 451", "1984", "The Handmaid's Tale"],
+      "correctAnswer": "1984",
+      "explanation": "'Big Brother' is a central concept in George Orwell's dystopian novel '1984'."
+    },
+    {
+      "id": 13,
+      "question": "Who wrote 'The Catcher in the Rye'?",
+      "options": ["J.D. Salinger", "Harper Lee", "Truman Capote", "Kurt Vonnegut"],
+      "correctAnswer": "J.D. Salinger",
+      "explanation": "'The Catcher in the Rye' is a novel by American author J.D. Salinger, published in 1951."
+    },
+    {
+      "id": 14,
+      "question": "Which poem begins with 'Two roads diverged in a yellow wood'?",
+      "options": ["The Waste Land", "The Road Not Taken", "Stopping by Woods", "Fire and Ice"],
+      "correctAnswer": "The Road Not Taken",
+      "explanation": "'The Road Not Taken' by Robert Frost begins with this famous line."
+    },
+    {
+      "id": 15,
+      "question": "Who wrote 'Wuthering Heights'?",
+      "options": ["Charlotte Brontë", "Emily Brontë", "Anne Brontë", "Jane Austen"],
+      "correctAnswer": "Emily Brontë",
+      "explanation": "'Wuthering Heights' is the only novel by Emily Brontë, published in 1847."
+    },
+    {
+      "id": 16,
+      "question": "Which novel features the character Jay Gatsby?",
+      "options": ["The Sun Also Rises", "The Great Gatsby", "This Side of Paradise", "Tender Is the Night"],
+      "correctAnswer": "The Great Gatsby",
+      "explanation": "Jay Gatsby is the titular character in F. Scott Fitzgerald's 'The Great Gatsby'."
+    },
+    {
+      "id": 17,
+      "question": "Who wrote 'Lord of the Flies'?",
+      "options": ["George Orwell", "William Golding", "Aldous Huxley", "Ray Bradbury"],
+      "correctAnswer": "William Golding",
+      "explanation": "'Lord of the Flies' is a novel by British author William Golding, published in 1954."
+    },
+    {
+      "id": 18,
+      "question": "Which Shakespeare play contains the famous balcony scene?",
+      "options": ["Hamlet", "Macbeth", "Romeo and Juliet", "A Midsummer Night's Dream"],
+      "correctAnswer": "Romeo and Juliet",
+      "explanation": "The famous balcony scene occurs in Shakespeare's 'Romeo and Juliet'."
+    },
+    {
+      "id": 19,
+      "question": "Who wrote 'The Adventures of Huckleberry Finn'?",
+      "options": ["Mark Twain", "Herman Melville", "Nathaniel Hawthorne", "Washington Irving"],
+      "correctAnswer": "Mark Twain",
+      "explanation": "'The Adventures of Huckleberry Finn' is a novel by American author Mark Twain, published in 1884."
+    },
+    {
+      "id": 20,
+      "question": "Which novel begins with 'Call me Ishmael'?",
+      "options": ["The Scarlet Letter", "Moby Dick", "Billy Budd", "Typee"],
+      "correctAnswer": "Moby Dick",
+      "explanation": "'Moby Dick' by Herman Melville begins with the famous opening line 'Call me Ishmael'."
+    },
+    {
+      "id": 21,
+      "question": "Who wrote 'Jane Eyre'?",
+      "options": ["Emily Brontë", "Charlotte Brontë", "Anne Brontë", "George Eliot"],
+      "correctAnswer": "Charlotte Brontë",
+      "explanation": "'Jane Eyre' is a novel by English writer Charlotte Brontë, published in 1847."
+    },
+    {
+      "id": 22,
+      "question": "Which poet wrote 'The Raven'?",
+      "options": ["Walt Whitman", "Emily Dickinson", "Edgar Allan Poe", "Robert Frost"],
+      "correctAnswer": "Edgar Allan Poe",
+      "explanation": "'The Raven' is a narrative poem by American writer Edgar Allan Poe, published in 1845."
+    },
+    {
+      "id": 23,
+      "question": "Who wrote 'Of Mice and Men'?",
+      "options": ["John Steinbeck", "Ernest Hemingway", "William Faulkner", "Sinclair Lewis"],
+      "correctAnswer": "John Steinbeck",
+      "explanation": "'Of Mice and Men' is a novella by American author John Steinbeck, published in 1937."
+    },
+    {
+      "id": 24,
+      "question": "Which novel features the character Scout Finch?",
+      "options": ["The Catcher in the Rye", "To Kill a Mockingbird", "Lord of the Flies", "Of Mice and Men"],
+      "correctAnswer": "To Kill a Mockingbird",
+      "explanation": "Scout Finch is the narrator and protagonist of Harper Lee's 'To Kill a Mockingbird'."
+    },
+    {
+      "id": 25,
+      "question": "Who wrote 'Fahrenheit 451'?",
+      "options": ["George Orwell", "Aldous Huxley", "Ray Bradbury", "Kurt Vonnegut"],
+      "correctAnswer": "Ray Bradbury",
+      "explanation": "'Fahrenheit 451' is a dystopian novel by American writer Ray Bradbury, published in 1953."
+    }
+  ]
+}

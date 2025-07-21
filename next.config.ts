@@ -22,6 +22,9 @@ const nextConfig: NextConfig = {
   // Configure external packages for server components
   experimental: {
     serverComponentsExternalPackages: ['cloudinary'],
+    serverActions: {
+      bodySizeLimit: '10mb', // Add this to fix PDF upload size limit
+    },
   },
 };
 

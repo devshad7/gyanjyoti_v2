@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-
+              
 const games = [
   {
     id: "memory-match",
@@ -55,24 +55,32 @@ const games = [
 
 export default function MindGamesPage() {
   return (
-    <div className="container mx-auto max-w-7xl px-4 py-2">
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {games.map((game) => (
-          <Card key={game.id} className={`border-2 ${game.color} hover:shadow-lg transition-shadow`}>
+    <div className="container mx-auto max-w-7xl px-4 py-8">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800">Mind Games</h1>
+        <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+          Challenge your brain with our collection of engaging mind games designed to improve cognitive abilities.
+        </p>
+      </div>
+
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">        {games.map((game) => (
+          <Card
+            key={game.id}
+            className={`border-2 ${game.color} hover:shadow-lg transition-all duration-300 hover:scale-105`}
+          >
             <CardHeader>
               <div className="flex items-center gap-3">
                 <span className="text-3xl">{game.icon}</span>
-                <CardTitle>{game.title}</CardTitle>
+                <CardTitle className="text-lg md:text-xl">{game.title}</CardTitle>
               </div>
-              <CardDescription>{game.description}</CardDescription>
+              <CardDescription className="text-sm md:text-base">{game.description}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="mb-4">
                 <h4 className="text-sm font-semibold mb-2">Skills Developed:</h4>
                 <div className="flex flex-wrap gap-2">
                   {game.skills.map((skill, index) => (
-                    <span key={index} className="px-2 py-1 bg-white rounded-full text-sm border">
+                    <span key={index} className="px-2 py-1 bg-white rounded-full text-xs md:text-sm border font-medium">
                       {skill}
                     </span>
                   ))}
@@ -88,32 +96,29 @@ export default function MindGamesPage() {
         ))}
       </div>
 
-      <div className="mt-16 bg-pink-50 rounded-xl p-8">
+      <div className="bg-gradient-to-br from-pink-50 to-purple-100 rounded-2xl p-6 md:p-8">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-4 text-pink-600">Benefits of Mind Games</h2>
-          <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-pink-600">Benefits of Mind Games</h2>
+          <p className="text-base md:text-lg text-gray-700 max-w-3xl mx-auto">
             Regular mental exercise through mind games can provide numerous cognitive benefits.
           </p>
         </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold mb-3 text-pink-600">Improved Memory</h3>
-            <p className="text-gray-700">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <h3 className="text-lg md:text-xl font-semibold mb-3 text-pink-600">Improved Memory</h3>
+            <p className="text-gray-700 text-sm md:text-base">
               Memory games help strengthen both short-term and long-term memory, making it easier to recall information.
             </p>
           </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold mb-3 text-blue-600">Enhanced Concentration</h3>
-            <p className="text-gray-700">
+          <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <h3 className="text-lg md:text-xl font-semibold mb-3 text-blue-600">Enhanced Concentration</h3>
+            <p className="text-gray-700 text-sm md:text-base">
               Mind games require focus and attention, helping to improve your ability to concentrate for longer periods.
             </p>
           </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold mb-3 text-yellow-600">Better Problem-Solving</h3>
-            <p className="text-gray-700">
+          <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <h3 className="text-lg md:text-xl font-semibold mb-3 text-yellow-600">Better Problem-Solving</h3>
+            <p className="text-gray-700 text-sm md:text-base">
               Regularly engaging with puzzles and games enhances your ability to think critically and solve complex
               problems.
             </p>

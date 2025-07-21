@@ -74,6 +74,16 @@ export default function AdminNotesForm({ className }: AdminNotesFormProps) {
   const allSubjects = [...new Set([...predefinedSubjects, ...subjects])]
   const allClasses = [...new Set([...predefinedClasses, ...classes])]
 
+  // Helper function to format file size
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return `${bytes} B`
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+  }
+
+  // Calculate total file size
+  const totalFileSize = selectedImages.reduce((total, file) => total + file.size, 0)
+
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
@@ -88,6 +98,29 @@ export default function AdminNotesForm({ className }: AdminNotesFormProps) {
       setErrorMessage("Please select only image files")
       setSubmitStatus('error')
       setTimeout(() => setSubmitStatus('idle'), 3000)
+      return
+    }
+
+    // Validate file sizes (5MB per file, 20MB total)
+    const maxFileSize = 5 * 1024 * 1024 // 5MB
+    const maxTotalSize = 20 * 1024 * 1024 // 20MB
+    
+    const oversizedFiles = validFiles.filter(file => file.size > maxFileSize)
+    if (oversizedFiles.length > 0) {
+      setErrorMessage(`File size too large. Maximum 5MB per image. Found ${oversizedFiles.length} oversized file(s).`)
+      setSubmitStatus('error')
+      setTimeout(() => setSubmitStatus('idle'), 5000)
+      return
+    }
+
+    // Check total size including existing files
+    const currentTotalSize = selectedImages.reduce((total, file) => total + file.size, 0)
+    const newTotalSize = validFiles.reduce((total, file) => total + file.size, 0)
+    
+    if (currentTotalSize + newTotalSize > maxTotalSize) {
+      setErrorMessage("Total file size too large. Maximum 20MB for all images combined.")
+      setSubmitStatus('error')
+      setTimeout(() => setSubmitStatus('idle'), 5000)
       return
     }
 
@@ -299,8 +332,13 @@ export default function AdminNotesForm({ className }: AdminNotesFormProps) {
           {/* Image Upload */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">
-                Images {process.env.NODE_ENV === 'development' ? '(Optional in Development)' : ''}
+              <CardTitle className="text-lg flex items-center justify-between">
+                <span>Images {process.env.NODE_ENV === 'development' ? '(Optional in Development)' : ''}</span>
+                {selectedImages.length > 0 && (
+                  <span className="text-sm font-normal text-gray-500">
+                    {selectedImages.length}/10 files • {formatFileSize(totalFileSize)}/20MB
+                  </span>
+                )}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -313,7 +351,7 @@ export default function AdminNotesForm({ className }: AdminNotesFormProps) {
                   className="w-full border-dashed border-2 h-20"
                 >
                   <Upload className="h-6 w-6 mr-2" />
-                  Upload Images (Max 10)
+                  Upload Images (Max 10, 5MB each)
                 </Button>
                 <input
                   ref={fileInputRef}
@@ -323,6 +361,9 @@ export default function AdminNotesForm({ className }: AdminNotesFormProps) {
                   onChange={handleImageUpload}
                   className="hidden"
                 />
+                <p className="text-xs text-gray-500 mt-2">
+                  Maximum 5MB per image, 20MB total. Supported formats: JPG, PNG, GIF, WebP
+                </p>
               </div>
 
               {selectedImages.length > 0 && (
@@ -351,9 +392,14 @@ export default function AdminNotesForm({ className }: AdminNotesFormProps) {
                         className="text-xs"
                         disabled={isSubmitting}
                       />
-                      <p className="text-xs text-gray-500 mt-1 truncate">
-                        {file.name}
-                      </p>
+                      <div className="flex justify-between items-center mt-1">
+                        <p className="text-xs text-gray-500 truncate flex-1">
+                          {file.name}
+                        </p>
+                        <p className="text-xs text-gray-400 ml-2 flex-shrink-0">
+                          {formatFileSize(file.size)}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>

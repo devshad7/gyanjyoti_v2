@@ -12,6 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { cn } from "@/lib/utils"
 import { useNotes, useNotesMetadata } from "@/hooks/use-notes"
 import { Note } from "@/types/note"
+import JSZip from 'jszip'
 
 interface NotesCardsComponentProps {
   className?: string
@@ -99,36 +100,144 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
     setIsDialogOpen(true)
   }
 
-  const handleDownloadNote = (note: Note) => {
+  const handleDownloadNote = async (note: Note) => {
     try {
-      // Create a simple text file with note details
-      const content = `Title: ${note.title}
+      // Show loading state
+      const downloadButton = document.querySelector('.download-button') as HTMLButtonElement
+      const originalContent = downloadButton?.innerHTML
+      
+      if (downloadButton) {
+        downloadButton.disabled = true
+        downloadButton.innerHTML = '<div class="flex items-center"><div class="animate-spin h-3 w-3 border-2 border-white border-t-transparent rounded-full mr-2"></div>Downloading...</div>'
+      }
+
+      // Create comprehensive note content
+      const noteContent = `GYAN JYOTI NOTES
+==================
+
+Title: ${note.title}
 Subject: ${note.subject}
 Class: ${note.class}
 Tags: ${note.tags.join(', ')}
 Created: ${formatDate(note.created_at)}
 Updated: ${formatDate(note.updated_at)}
+Favorite: ${note.favorite ? 'Yes' : 'No'}
+View Count: ${note.view_count || 0}
 
-Images: ${note.images.length} image(s)
+Total Images: ${note.images.length}
 
-Note Details:
-- Favorite: ${note.favorite ? 'Yes' : 'No'}
-- View Count: ${note.view_count || 0}
-${note.images.length > 0 ? '\nImage URLs:\n' + note.images.map((img, idx) => `${idx + 1}. ${img.url}${img.caption ? ` (${img.caption})` : ''}`).join('\n') : ''}
+${note.images.length > 0 ? 'IMAGES INCLUDED:\n' + note.images.map((img, idx) => `${idx + 1}. ${img.caption || `Image ${idx + 1}`}`).join('\n') : 'No images attached'}
+
+=====================================
+Generated on: ${formatDate(new Date())}
+From: Gyan Jyoti Learning Platform
 `
-      
-      const blob = new Blob([content], { type: 'text/plain' })
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `${note.title.replace(/[^a-zA-Z0-9\s]/g, '_').replace(/\s+/g, '_')}.txt`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      window.URL.revokeObjectURL(url)
+
+      if (note.images.length > 0) {
+        // Create zip file with text and images
+        const zip = new JSZip()
+        
+        // Add note details as text file
+        zip.file(`${note.title.replace(/[^a-zA-Z0-9\s]/g, '_').replace(/\s+/g, '_')}_details.txt`, noteContent)
+
+        // Create images folder
+        const imagesFolder = zip.folder("images")
+
+        // Download and add images
+        const downloadPromises = note.images.map(async (image, index) => {
+          try {
+            // Use a proxy approach for CORS issues
+            const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(image.url)}`
+            let response = await fetch(proxyUrl)
+            
+            // Fallback to direct fetch if proxy fails
+            if (!response.ok) {
+              response = await fetch(image.url, { mode: 'cors' })
+            }
+            
+            if (response.ok) {
+              const blob = await response.blob()
+              const fileExtension = image.url.includes('.') 
+                ? image.url.split('.').pop()?.split('?')[0] || 'jpg'
+                : 'jpg'
+              
+              const fileName = image.caption 
+                ? `${image.caption.replace(/[^a-zA-Z0-9\s]/g, '_').replace(/\s+/g, '_')}.${fileExtension}`
+                : `image_${index + 1}.${fileExtension}`
+              
+              imagesFolder?.file(fileName, blob)
+              return true
+            } else {
+              console.warn(`Failed to download image ${index + 1}: HTTP ${response.status}`)
+              return false
+            }
+          } catch (err) {
+            console.warn(`Error downloading image ${index + 1}:`, err)
+            // Add a text file noting the failed download
+            imagesFolder?.file(`image_${index + 1}_failed.txt`, `Failed to download image: ${image.url}\nReason: ${err}`)
+            return false
+          }
+        })
+
+        // Wait for all downloads
+        const results = await Promise.allSettled(downloadPromises)
+        const successfulDownloads = results.filter(result => result.status === 'fulfilled' && result.value).length
+
+        // Add download summary
+        zip.file('download_summary.txt', `Download Summary
+===============
+Total images attempted: ${note.images.length}
+Successfully downloaded: ${successfulDownloads}
+Failed downloads: ${note.images.length - successfulDownloads}
+
+If some images failed to download, you can find their URLs in the note details file.
+`)
+
+        // Generate and download zip
+        const zipBlob = await zip.generateAsync({ 
+          type: 'blob',
+          compression: 'DEFLATE',
+          compressionOptions: { level: 6 }
+        })
+        
+        const url = window.URL.createObjectURL(zipBlob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `${note.title.replace(/[^a-zA-Z0-9\s]/g, '_').replace(/\s+/g, '_')}_complete.zip`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url)
+
+      } else {
+        // Download just the text file if no images
+        const blob = new Blob([noteContent], { type: 'text/plain;charset=utf-8' })
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `${note.title.replace(/[^a-zA-Z0-9\s]/g, '_').replace(/\s+/g, '_')}_details.txt`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url)
+      }
+
+      // Reset button
+      if (downloadButton && originalContent) {
+        downloadButton.disabled = false
+        downloadButton.innerHTML = originalContent
+      }
+
     } catch (error) {
       console.error('Error downloading note:', error)
       alert('Failed to download note. Please try again.')
+      
+      // Reset button on error
+      const downloadButton = document.querySelector('.download-button') as HTMLButtonElement
+      if (downloadButton) {
+        downloadButton.disabled = false
+        downloadButton.innerHTML = '<svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> Download Note'
+      }
     }
   }
 
@@ -181,6 +290,36 @@ ${note.images.length > 0 ? '\nImage URLs:\n' + note.images.map((img, idx) => `${
 
   const handleResetZoom = () => {
     setZoomLevel(1)
+  }
+
+  const downloadSingleImage = async (imageUrl: string, imageName: string) => {
+    try {
+      // Try direct download first
+      let response = await fetch(imageUrl, { mode: 'cors' })
+      
+      // Fallback to proxy if CORS fails
+      if (!response.ok) {
+        const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(imageUrl)}`
+        response = await fetch(proxyUrl)
+      }
+
+      if (response.ok) {
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = imageName
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url)
+      } else {
+        throw new Error('Failed to download image')
+      }
+    } catch (error) {
+      console.error('Error downloading image:', error)
+      alert('Failed to download image. Please try again or save image manually.')
+    }
   }
 
   useEffect(() => {
@@ -434,13 +573,32 @@ ${note.images.length > 0 ? '\nImage URLs:\n' + note.images.map((img, idx) => `${
                     </div>
                   )}
 
-                  {/* Maximize button */}
-                  <button
-                    onClick={() => openFullScreen(selectedNote.images[currentImageIndex].url)}
-                    className="absolute top-2 right-2 bg-black/50 text-white rounded-full p-1 hover:bg-black/70 transition-colors"
-                  >
-                    <Maximize2 className="h-4 w-4" />
-                  </button>
+                  {/* Action buttons */}
+                  <div className="absolute top-2 right-2 flex gap-1">
+                    <button
+                      onClick={() => {
+                        const image = selectedNote.images[currentImageIndex]
+                        const fileExtension = image.url.includes('.') 
+                          ? image.url.split('.').pop()?.split('?')[0] || 'jpg'
+                          : 'jpg'
+                        const fileName = image.caption 
+                          ? `${image.caption.replace(/[^a-zA-Z0-9\s]/g, '_').replace(/\s+/g, '_')}.${fileExtension}`
+                          : `${selectedNote.title.replace(/[^a-zA-Z0-9\s]/g, '_')}_image_${currentImageIndex + 1}.${fileExtension}`
+                        downloadSingleImage(image.url, fileName)
+                      }}
+                      className="bg-black/50 text-white rounded-full p-1 hover:bg-black/70 transition-colors"
+                      title="Download this image"
+                    >
+                      <Download className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => openFullScreen(selectedNote.images[currentImageIndex].url)}
+                      className="bg-black/50 text-white rounded-full p-1 hover:bg-black/70 transition-colors"
+                      title="View fullscreen"
+                    >
+                      <Maximize2 className="h-4 w-4" />
+                    </button>
+                  </div>
                 </div>
               ) : null}
 
@@ -527,7 +685,7 @@ ${note.images.length > 0 ? '\nImage URLs:\n' + note.images.map((img, idx) => `${
 
               <Button
                 onClick={() => selectedNote && handleDownloadNote(selectedNote)}
-                className="w-full bg-[#1e40af] hover:bg-[#1e40af]/90 text-xs py-1 h-auto"
+                className="download-button w-full bg-[#1e40af] hover:bg-[#1e40af]/90 text-xs py-1 h-auto"
               >
                 <Download className="h-3 w-3 mr-1" /> Download Note
               </Button>

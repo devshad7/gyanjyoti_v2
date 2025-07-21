@@ -60,7 +60,13 @@ export async function PUT(
       index++
     }
 
-    const updateData: any = {}
+    const updateData: Partial<{
+      title: string
+      subject: string
+      class: string
+      tags: string[]
+      favorite: boolean
+    }> = {}
     if (title) updateData.title = title
     if (subject) updateData.subject = subject
     if (class_name) updateData.class = class_name

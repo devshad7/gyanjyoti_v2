@@ -402,7 +402,7 @@ export default function AdminNotesPage() {
           <DialogHeader>
             <DialogTitle>Delete Note</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete "{noteToDelete?.title}"? This action cannot be undone.
+              Are you sure you want to delete&quot;{noteToDelete?.title}&quot;? This action cannot be undone.
               All associated images will also be deleted.
             </DialogDescription>
           </DialogHeader>

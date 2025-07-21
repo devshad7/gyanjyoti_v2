@@ -1,0 +1,206 @@
+{
+  "title": "Computer Science Quiz",
+  "description": "Test your computer science knowledge",
+  "questions": [
+    {
+      "id": 1,
+      "question": "What does CPU stand for?",
+      "options": [
+        "Central Processing Unit",
+        "Computer Personal Unit",
+        "Central Program Unit",
+        "Computer Processing Unit"
+      ],
+      "correctAnswer": "Central Processing Unit",
+      "explanation": "CPU stands for Central Processing Unit, which is the main component that executes instructions in a computer."
+    },
+    {
+      "id": 2,
+      "question": "Which programming language is known as the 'mother of all languages'?",
+      "options": ["Java", "Python", "C", "Assembly"],
+      "correctAnswer": "C",
+      "explanation": "C is often called the 'mother of all languages' because many modern programming languages are derived from or influenced by C."
+    },
+    {
+      "id": 3,
+      "question": "What does HTML stand for?",
+      "options": [
+        "Hyper Text Markup Language",
+        "High Tech Modern Language",
+        "Home Tool Markup Language",
+        "Hyperlink and Text Markup Language"
+      ],
+      "correctAnswer": "Hyper Text Markup Language",
+      "explanation": "HTML stands for HyperText Markup Language, used for creating web pages and web applications."
+    },
+    {
+      "id": 4,
+      "question": "Which data structure follows the LIFO principle?",
+      "options": ["Queue", "Stack", "Array", "Linked List"],
+      "correctAnswer": "Stack",
+      "explanation": "Stack follows the LIFO (Last In, First Out) principle, where the last element added is the first one to be removed."
+    },
+    {
+      "id": 5,
+      "question": "What is the time complexity of binary search?",
+      "options": ["O(n)", "O(log n)", "O(n²)", "O(1)"],
+      "correctAnswer": "O(log n)",
+      "explanation": "Binary search has a time complexity of O(log n) because it eliminates half of the search space in each iteration."
+    },
+    {
+      "id": 6,
+      "question": "Which protocol is used for secure web communication?",
+      "options": ["HTTP", "HTTPS", "FTP", "SMTP"],
+      "correctAnswer": "HTTPS",
+      "explanation": "HTTPS (HyperText Transfer Protocol Secure) is used for secure communication over the internet."
+    },
+    {
+      "id": 7,
+      "question": "What does SQL stand for?",
+      "options": [
+        "Structured Query Language",
+        "Simple Query Language",
+        "Standard Query Language",
+        "System Query Language"
+      ],
+      "correctAnswer": "Structured Query Language",
+      "explanation": "SQL stands for Structured Query Language, used for managing and querying relational databases."
+    },
+    {
+      "id": 8,
+      "question": "Which sorting algorithm has the best average-case time complexity?",
+      "options": ["Bubble Sort", "Selection Sort", "Merge Sort", "Insertion Sort"],
+      "correctAnswer": "Merge Sort",
+      "explanation": "Merge Sort has an average-case time complexity of O(n log n), which is optimal for comparison-based sorting algorithms."
+    },
+    {
+      "id": 9,
+      "question": "What is the binary representation of decimal number 10?",
+      "options": ["1010", "1100", "1001", "1110"],
+      "correctAnswer": "1010",
+      "explanation": "The decimal number 10 in binary is 1010 (1×8 + 0×4 + 1×2 + 0×1 = 10)."
+    },
+    {
+      "id": 10,
+      "question": "Which company developed the Java programming language?",
+      "options": ["Microsoft", "Sun Microsystems", "IBM", "Google"],
+      "correctAnswer": "Sun Microsystems",
+      "explanation": "Java was originally developed by Sun Microsystems in 1995, which was later acquired by Oracle."
+    },
+    {
+      "id": 11,
+      "question": "What does API stand for?",
+      "options": [
+        "Application Programming Interface",
+        "Advanced Programming Interface",
+        "Application Program Integration",
+        "Advanced Program Integration"
+      ],
+      "correctAnswer": "Application Programming Interface",
+      "explanation": "API stands for Application Programming Interface, which allows different software applications to communicate with each other."
+    },
+    {
+      "id": 12,
+      "question": "Which data structure is used to implement recursion?",
+      "options": ["Queue", "Stack", "Array", "Tree"],
+      "correctAnswer": "Stack",
+      "explanation": "Recursion is implemented using a stack data structure to keep track of function calls and their local variables."
+    },
+    {
+      "id": 13,
+      "question": "What is the maximum number of nodes in a binary tree of height h?",
+      "options": ["2^h", "2^h - 1", "2^(h+1) - 1", "2^(h-1)"],
+      "correctAnswer": "2^(h+1) - 1",
+      "explanation": "A binary tree of height h can have at most 2^(h+1) - 1 nodes when it's a complete binary tree."
+    },
+    {
+      "id": 14,
+      "question": "Which programming paradigm does Python primarily support?",
+      "options": ["Only Object-Oriented", "Only Functional", "Only Procedural", "Multi-paradigm"],
+      "correctAnswer": "Multi-paradigm",
+      "explanation": "Python is a multi-paradigm language that supports object-oriented, procedural, and functional programming styles."
+    },
+    {
+      "id": 15,
+      "question": "What does CSS stand for?",
+      "options": ["Computer Style Sheets", "Cascading Style Sheets", "Creative Style Sheets", "Colorful Style Sheets"],
+      "correctAnswer": "Cascading Style Sheets",
+      "explanation": "CSS stands for Cascading Style Sheets, used for styling and formatting web pages."
+    },
+    {
+      "id": 16,
+      "question": "Which algorithm is used to find the shortest path in a graph?",
+      "options": ["Bubble Sort", "Binary Search", "Dijkstra's Algorithm", "Linear Search"],
+      "correctAnswer": "Dijkstra's Algorithm",
+      "explanation": "Dijkstra's Algorithm is used to find the shortest path between nodes in a weighted graph."
+    },
+    {
+      "id": 17,
+      "question": "What is the space complexity of merge sort?",
+      "options": ["O(1)", "O(log n)", "O(n)", "O(n²)"],
+      "correctAnswer": "O(n)",
+      "explanation": "Merge sort has a space complexity of O(n) due to the additional space required for merging subarrays."
+    },
+    {
+      "id": 18,
+      "question": "Which database model is MongoDB based on?",
+      "options": ["Relational", "Document", "Graph", "Key-Value"],
+      "correctAnswer": "Document",
+      "explanation": "MongoDB is a document-based NoSQL database that stores data in flexible, JSON-like documents."
+    },
+    {
+      "id": 19,
+      "question": "What does OOP stand for?",
+      "options": [
+        "Object-Oriented Programming",
+        "Objective-Oriented Programming",
+        "Object-Optimized Programming",
+        "Operational-Oriented Programming"
+      ],
+      "correctAnswer": "Object-Oriented Programming",
+      "explanation": "OOP stands for Object-Oriented Programming, a programming paradigm based on objects and classes."
+    },
+    {
+      "id": 20,
+      "question": "Which HTTP status code indicates 'Not Found'?",
+      "options": ["200", "301", "404", "500"],
+      "correctAnswer": "404",
+      "explanation": "HTTP status code 404 indicates that the requested resource could not be found on the server."
+    },
+    {
+      "id": 21,
+      "question": "What is the primary purpose of version control systems like Git?",
+      "options": ["Code compilation", "Code execution", "Track changes in code", "Code debugging"],
+      "correctAnswer": "Track changes in code",
+      "explanation": "Version control systems like Git are primarily used to track changes in source code during software development."
+    },
+    {
+      "id": 22,
+      "question": "Which data structure is best for implementing a priority queue?",
+      "options": ["Array", "Linked List", "Heap", "Stack"],
+      "correctAnswer": "Heap",
+      "explanation": "A heap is the most efficient data structure for implementing a priority queue, providing O(log n) insertion and deletion."
+    },
+    {
+      "id": 23,
+      "question": "What does RAM stand for?",
+      "options": ["Random Access Memory", "Read Access Memory", "Rapid Access Memory", "Remote Access Memory"],
+      "correctAnswer": "Random Access Memory",
+      "explanation": "RAM stands for Random Access Memory, which provides temporary storage for data and programs currently in use."
+    },
+    {
+      "id": 24,
+      "question": "Which programming language is primarily used for iOS app development?",
+      "options": ["Java", "Kotlin", "Swift", "C#"],
+      "correctAnswer": "Swift",
+      "explanation": "Swift is the primary programming language used for iOS app development, developed by Apple."
+    },
+    {
+      "id": 25,
+      "question": "What is the purpose of a compiler?",
+      "options": ["Execute code", "Debug code", "Translate source code to machine code", "Format code"],
+      "correctAnswer": "Translate source code to machine code",
+      "explanation": "A compiler translates high-level source code into machine code that can be executed by the computer's processor."
+    }
+  ]
+}

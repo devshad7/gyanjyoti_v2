@@ -1,0 +1,181 @@
+{
+  "title": "History Quiz",
+  "description": "Test your historical knowledge",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Who was the first President of the United States?",
+      "options": ["Thomas Jefferson", "John Adams", "George Washington", "Benjamin Franklin"],
+      "correctAnswer": "George Washington",
+      "explanation": "George Washington was the first President of the United States, serving from 1789 to 1797."
+    },
+    {
+      "id": 2,
+      "question": "In which year did World War II end?",
+      "options": ["1943", "1944", "1945", "1946"],
+      "correctAnswer": "1945",
+      "explanation": "World War II ended in 1945 with the surrender of Germany in May and Japan in September."
+    },
+    {
+      "id": 3,
+      "question": "Which ancient civilization built the pyramids at Giza?",
+      "options": ["Mesopotamians", "Egyptians", "Greeks", "Romans"],
+      "correctAnswer": "Egyptians",
+      "explanation": "The pyramids at Giza were built by the ancient Egyptians as tombs for their pharaohs."
+    },
+    {
+      "id": 4,
+      "question": "Who wrote the 'I Have a Dream' speech?",
+      "options": ["Malcolm X", "Martin Luther King Jr.", "Rosa Parks", "Barack Obama"],
+      "correctAnswer": "Martin Luther King Jr.",
+      "explanation": "Martin Luther King Jr. delivered his famous 'I Have a Dream' speech during the March on Washington for Jobs and Freedom on August 28, 1963."
+    },
+    {
+      "id": 5,
+      "question": "Which empire was ruled by Genghis Khan?",
+      "options": ["Roman Empire", "Ottoman Empire", "Mongol Empire", "Byzantine Empire"],
+      "correctAnswer": "Mongol Empire",
+      "explanation": "Genghis Khan was the founder and first Great Khan of the Mongol Empire, which became the largest contiguous empire in history after his death."
+    },
+    {
+      "id": 6,
+      "question": "In which year did the Berlin Wall fall?",
+      "options": ["1987", "1988", "1989", "1990"],
+      "correctAnswer": "1989",
+      "explanation": "The Berlin Wall fell on November 9, 1989, marking a significant moment in the end of the Cold War."
+    },
+    {
+      "id": 7,
+      "question": "Who was the first person to walk on the moon?",
+      "options": ["Buzz Aldrin", "Neil Armstrong", "John Glenn", "Alan Shepard"],
+      "correctAnswer": "Neil Armstrong",
+      "explanation": "Neil Armstrong was the first person to walk on the moon on July 20, 1969, during the Apollo 11 mission."
+    },
+    {
+      "id": 8,
+      "question": "Which war was fought between the North and South in America?",
+      "options": ["Revolutionary War", "War of 1812", "Civil War", "Spanish-American War"],
+      "correctAnswer": "Civil War",
+      "explanation": "The American Civil War (1861-1865) was fought between the Northern states (Union) and Southern states (Confederacy)."
+    },
+    {
+      "id": 9,
+      "question": "Who was the last Pharaoh of Egypt?",
+      "options": ["Tutankhamun", "Ramesses II", "Cleopatra VII", "Akhenaten"],
+      "correctAnswer": "Cleopatra VII",
+      "explanation": "Cleopatra VII was the last active pharaoh of Ptolemaic Egypt, ruling until her death in 30 BC."
+    },
+    {
+      "id": 10,
+      "question": "In which year did the Titanic sink?",
+      "options": ["1910", "1911", "1912", "1913"],
+      "correctAnswer": "1912",
+      "explanation": "The RMS Titanic sank on April 15, 1912, after hitting an iceberg during its maiden voyage."
+    },
+    {
+      "id": 11,
+      "question": "Which ancient wonder of the world was located in Alexandria?",
+      "options": ["Colossus of Rhodes", "Lighthouse of Alexandria", "Hanging Gardens", "Temple of Artemis"],
+      "correctAnswer": "Lighthouse of Alexandria",
+      "explanation": "The Lighthouse of Alexandria (Pharos of Alexandria) was one of the Seven Wonders of the Ancient World."
+    },
+    {
+      "id": 12,
+      "question": "Who painted the ceiling of the Sistine Chapel?",
+      "options": ["Leonardo da Vinci", "Raphael", "Michelangelo", "Donatello"],
+      "correctAnswer": "Michelangelo",
+      "explanation": "Michelangelo painted the ceiling of the Sistine Chapel between 1508 and 1512."
+    },
+    {
+      "id": 13,
+      "question": "Which revolution began in 1789?",
+      "options": ["American Revolution", "French Revolution", "Russian Revolution", "Industrial Revolution"],
+      "correctAnswer": "French Revolution",
+      "explanation": "The French Revolution began in 1789 and lasted until 1799, fundamentally changing French society."
+    },
+    {
+      "id": 14,
+      "question": "Who was the first woman to win a Nobel Prize?",
+      "options": ["Marie Curie", "Mother Teresa", "Jane Addams", "Bertha von Suttner"],
+      "correctAnswer": "Marie Curie",
+      "explanation": "Marie Curie was the first woman to win a Nobel Prize, receiving the Nobel Prize in Physics in 1903."
+    },
+    {
+      "id": 15,
+      "question": "Which city was the capital of the Byzantine Empire?",
+      "options": ["Rome", "Athens", "Constantinople", "Alexandria"],
+      "correctAnswer": "Constantinople",
+      "explanation": "Constantinople (modern-day Istanbul) was the capital of the Byzantine Empire for over 1,000 years."
+    },
+    {
+      "id": 16,
+      "question": "In which year did India gain independence?",
+      "options": ["1946", "1947", "1948", "1949"],
+      "correctAnswer": "1947",
+      "explanation": "India gained independence from British rule on August 15, 1947."
+    },
+    {
+      "id": 17,
+      "question": "Who was known as the 'Iron Lady'?",
+      "options": ["Queen Elizabeth II", "Margaret Thatcher", "Golda Meir", "Indira Gandhi"],
+      "correctAnswer": "Margaret Thatcher",
+      "explanation": "Margaret Thatcher, the British Prime Minister from 1979-1990, was known as the 'Iron Lady'."
+    },
+    {
+      "id": 18,
+      "question": "Which ancient Greek city-state was known for its military prowess?",
+      "options": ["Athens", "Sparta", "Corinth", "Thebes"],
+      "correctAnswer": "Sparta",
+      "explanation": "Sparta was renowned for its military discipline and warrior culture in ancient Greece."
+    },
+    {
+      "id": 19,
+      "question": "Who wrote 'The Communist Manifesto'?",
+      "options": ["Vladimir Lenin", "Karl Marx and Friedrich Engels", "Joseph Stalin", "Leon Trotsky"],
+      "correctAnswer": "Karl Marx and Friedrich Engels",
+      "explanation": "The Communist Manifesto was written by Karl Marx and Friedrich Engels, published in 1848."
+    },
+    {
+      "id": 20,
+      "question": "Which emperor built the Colosseum in Rome?",
+      "options": ["Julius Caesar", "Augustus", "Vespasian", "Nero"],
+      "correctAnswer": "Vespasian",
+      "explanation": "Emperor Vespasian began construction of the Colosseum around 70-72 AD, completed under his son Titus."
+    },
+    {
+      "id": 21,
+      "question": "In which year did the stock market crash, leading to the Great Depression?",
+      "options": ["1927", "1928", "1929", "1930"],
+      "correctAnswer": "1929",
+      "explanation": "The stock market crash occurred on October 29, 1929, known as 'Black Tuesday', leading to the Great Depression."
+    },
+    {
+      "id": 22,
+      "question": "Who was the first Emperor of Rome?",
+      "options": ["Julius Caesar", "Augustus", "Nero", "Caligula"],
+      "correctAnswer": "Augustus",
+      "explanation": "Augustus (originally named Octavian) became the first Roman Emperor in 27 BC."
+    },
+    {
+      "id": 23,
+      "question": "Which treaty ended World War I?",
+      "options": ["Treaty of Versailles", "Treaty of Paris", "Treaty of Vienna", "Treaty of Westphalia"],
+      "correctAnswer": "Treaty of Versailles",
+      "explanation": "The Treaty of Versailles, signed in 1919, officially ended World War I between Germany and the Allied Powers."
+    },
+    {
+      "id": 24,
+      "question": "Who discovered America in 1492?",
+      "options": ["Vasco da Gama", "Ferdinand Magellan", "Christopher Columbus", "Amerigo Vespucci"],
+      "correctAnswer": "Christopher Columbus",
+      "explanation": "Christopher Columbus reached the Americas on October 12, 1492, during his first voyage across the Atlantic."
+    },
+    {
+      "id": 25,
+      "question": "Which dynasty ruled China for the longest period?",
+      "options": ["Ming Dynasty", "Qing Dynasty", "Tang Dynasty", "Zhou Dynasty"],
+      "correctAnswer": "Zhou Dynasty",
+      "explanation": "The Zhou Dynasty ruled China for about 800 years (1046-256 BC), making it the longest-lasting dynasty in Chinese history."
+    }
+  ]
+}

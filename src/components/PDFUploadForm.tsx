@@ -124,23 +124,27 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       return;
     }
 
-    // Additional validation for live environment - be more conservative
-    if (file.size > 8 * 1024 * 1024) { // 8MB threshold for live uploads
-      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+    // Additional file size check for production environment
+    const maxSizeBytes = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSizeBytes) {
       toast({
-        title: "File size warning",
-        description: `File is ${fileSizeMB}MB. Files over 8MB may timeout on live servers. Consider compressing your PDF first.`,
+        title: "File too large",
+        description: "File size exceeds 10MB limit. Please compress your PDF and try again.",
         variant: "destructive",
       });
-      // Don't return - let user proceed if they want to try
+      return;
     }
 
     setIsUploading(true);
     setUploadProgress(0);
 
+    let controller: AbortController | null = null;
+    let timeoutId: NodeJS.Timeout | null = null;
+    let progressInterval: NodeJS.Timeout | null = null;
+
     try {
       const uploadFormData = new FormData();
-      uploadFormData.append("file", file);
+      uploadFormData.append("pdf", file);
       if (thumbnail) {
         uploadFormData.append("thumbnail", thumbnail);
       }
@@ -151,74 +155,71 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       uploadFormData.append("tags", formData.tags);
 
       // Create an AbortController for timeout handling
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 55000); // 55 seconds timeout (slightly less than server limit)
+      controller = new AbortController();
+      timeoutId = setTimeout(() => {
+        if (controller) controller.abort();
+      }, 60000); // 60 seconds
 
       // Simulate upload progress
-      const progressInterval = setInterval(() => {
+      progressInterval = setInterval(() => {
         setUploadProgress(prev => {
           if (prev < 90) return prev + Math.random() * 10;
           return prev;
         });
       }, 500);
 
-      // Prepare headers for better debugging and upload handling
-      const uploadHeaders: HeadersInit = {
-        'Accept': 'application/json',
-      };
-      
-      // Add file size header for better server-side handling
-      if (file.size) {
-        uploadHeaders['X-Upload-Size'] = file.size.toString();
-      }
-
-      const response = await fetch("/api/pdfs", {
+      // Remove the custom headers that might cause issues
+      const response = await fetch("/api/upload-pdf", {
         method: "POST",
         body: uploadFormData,
         signal: controller.signal,
-        headers: uploadHeaders,
       });
 
-      clearTimeout(timeoutId);
-      clearInterval(progressInterval);
+      // Clean up intervals and timeouts
+      if (timeoutId) clearTimeout(timeoutId);
+      if (progressInterval) clearInterval(progressInterval);
       setUploadProgress(100);
 
       if (!response.ok) {
-        let errorMessage = "Upload failed";
+        let errorMessage = "Upload failed. Please try again.";
         
-        // Handle specific HTTP status codes
+        // Handle specific error cases
         if (response.status === 413) {
           errorMessage = "File size too large for upload. Please compress your PDF to under 10MB and try again.";
+        } else if (response.status === 504 || response.status === 502) {
+          errorMessage = "Upload timeout. Please try again with a smaller file or better internet connection.";
+        } else if (response.status === 422) {
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.error || "Invalid file format or corrupted file.";
+          } catch {
+            errorMessage = "Invalid file. Please check your PDF and try again.";
+          }
+        } else if (response.status === 500) {
+          errorMessage = "Server error occurred. Please try again later.";
+        } else if (response.status === 404) {
+          errorMessage = "Upload endpoint not found. Please contact support.";
         } else {
           try {
-            const error = await response.json();
-            errorMessage = error.error || errorMessage;
-          } catch (parseError) {
-            // If response is not JSON (e.g., HTML error page), get text content
-            try {
-              const errorText = await response.text();
-              console.error("Non-JSON error response:", errorText);
-              // Extract meaningful error from HTML if possible
-              if (errorText.includes("Request Entity Too Large") || response.status === 413) {
-                errorMessage = "File size too large. Please compress your PDF to under 10MB and try again.";
-              } else if (errorText.includes("504") || errorText.includes("timeout")) {
-                errorMessage = "Upload timeout. Please try again or use a smaller file.";
-              } else {
-                errorMessage = `Server error (${response.status}): ${response.statusText}`;
-              }
-            } catch (textError) {
-              if (response.status === 413) {
-                errorMessage = "File size too large. Please compress your PDF to under 10MB and try again.";
-              } else {
-                errorMessage = `Server error (${response.status}): ${response.statusText}`;
-              }
-            }
+            const errorData = await response.json();
+            errorMessage = errorData.error || `Server error (${response.status}): ${response.statusText}`;
+          } catch {
+            errorMessage = `Server error (${response.status}): ${response.statusText}`;
           }
         }
         throw new Error(errorMessage);
       }
 
-      const result = await response.json();
+      // Parse the response
+      let result;
+      try {
+        result = await response.json();
+      } catch (parseError) {
+        console.error("Error parsing JSON response:", parseError);
+        throw new Error("Invalid response from server. Please try again.");
+      }
+
+      console.log("Upload result:", result);
 
       toast({
         title: "Upload successful",
@@ -237,15 +238,20 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
         tags: "",
       });
 
-      // Reset file inputs
-      const fileInput = document.getElementById("pdf-file") as HTMLInputElement;
-      const thumbnailInput = document.getElementById(
-        "thumbnail-file"
-      ) as HTMLInputElement;
-      if (fileInput) fileInput.value = "";
-      if (thumbnailInput) thumbnailInput.value = "";
+      // Reset file inputs safely
+      try {
+        const fileInput = document.getElementById("pdf-file") as HTMLInputElement;
+        const thumbnailInput = document.getElementById("thumbnail-file") as HTMLInputElement;
+        if (fileInput) fileInput.value = "";
+        if (thumbnailInput) thumbnailInput.value = "";
+      } catch (inputError) {
+        console.warn("Error resetting file inputs:", inputError);
+      }
 
-      onUploadSuccess?.();
+      if (onUploadSuccess) {
+        onUploadSuccess();
+      }
+      
     } catch (error) {
       console.error("Upload error:", error);
       
@@ -253,7 +259,11 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
       
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
-          errorMessage = "Upload timeout (55 seconds exceeded). The file may be too large or your connection is slow. Please try again with a smaller file.";
+          errorMessage = "Upload timeout (60 seconds exceeded). The file may be too large or your connection is slow. Please try again with a smaller file.";
+        } else if (error.message.includes("File size too large") || error.message.includes("Body exceeded")) {
+          errorMessage = "File size too large for upload. Please compress your PDF to under 10MB and try again.";
+        } else if (error.message.includes("NetworkError") || error.message.includes("Failed to fetch")) {
+          errorMessage = "Network error. Please check your internet connection and try again.";
         } else {
           errorMessage = error.message;
         }
@@ -265,6 +275,9 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
         variant: "destructive",
       });
     } finally {
+      // Clean up in finally block to ensure it always runs
+      if (timeoutId) clearTimeout(timeoutId);
+      if (progressInterval) clearInterval(progressInterval);
       setIsUploading(false);
       setUploadProgress(0);
     }

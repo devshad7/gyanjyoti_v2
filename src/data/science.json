@@ -1,0 +1,181 @@
+{
+  "title": "Science Quiz",
+  "description": "Test your scientific knowledge",
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the chemical symbol for gold?",
+      "options": ["Go", "Gd", "Au", "Ag"],
+      "correctAnswer": "Au",
+      "explanation": "The chemical symbol for gold is Au, which comes from the Latin word 'aurum'."
+    },
+    {
+      "id": 2,
+      "question": "Which planet is known as the Red Planet?",
+      "options": ["Venus", "Mars", "Jupiter", "Saturn"],
+      "correctAnswer": "Mars",
+      "explanation": "Mars is known as the Red Planet due to its reddish appearance, which is caused by iron oxide (rust) on its surface."
+    },
+    {
+      "id": 3,
+      "question": "What is the largest organ in the human body?",
+      "options": ["Heart", "Liver", "Skin", "Brain"],
+      "correctAnswer": "Skin",
+      "explanation": "The skin is the largest organ in the human body, covering an area of about 2 square meters in adults."
+    },
+    {
+      "id": 4,
+      "question": "Which of these is NOT a state of matter?",
+      "options": ["Solid", "Liquid", "Gas", "Energy"],
+      "correctAnswer": "Energy",
+      "explanation": "The three common states of matter are solid, liquid, and gas. Plasma is often considered the fourth state. Energy is not a state of matter but a property that matter can possess."
+    },
+    {
+      "id": 5,
+      "question": "What is the process by which plants make their own food using sunlight?",
+      "options": ["Respiration", "Photosynthesis", "Transpiration", "Germination"],
+      "correctAnswer": "Photosynthesis",
+      "explanation": "Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize foods with carbon dioxide and water."
+    },
+    {
+      "id": 6,
+      "question": "What is the speed of light in vacuum?",
+      "options": ["3 × 10⁸ m/s", "3 × 10⁶ m/s", "3 × 10¹⁰ m/s", "3 × 10⁴ m/s"],
+      "correctAnswer": "3 × 10⁸ m/s",
+      "explanation": "The speed of light in vacuum is approximately 3 × 10⁸ meters per second or 299,792,458 m/s."
+    },
+    {
+      "id": 7,
+      "question": "What is the atomic number of carbon?",
+      "options": ["4", "6", "8", "12"],
+      "correctAnswer": "6",
+      "explanation": "Carbon has an atomic number of 6, meaning it has 6 protons in its nucleus."
+    },
+    {
+      "id": 8,
+      "question": "Which gas makes up approximately 78% of Earth's atmosphere?",
+      "options": ["Oxygen", "Carbon dioxide", "Nitrogen", "Argon"],
+      "correctAnswer": "Nitrogen",
+      "explanation": "Nitrogen makes up about 78% of Earth's atmosphere, while oxygen makes up about 21%."
+    },
+    {
+      "id": 9,
+      "question": "What is the pH of pure water at 25°C?",
+      "options": ["6", "7", "8", "9"],
+      "correctAnswer": "7",
+      "explanation": "Pure water has a pH of 7 at 25°C, which is considered neutral on the pH scale."
+    },
+    {
+      "id": 10,
+      "question": "Which scientist developed the theory of evolution by natural selection?",
+      "options": ["Gregor Mendel", "Charles Darwin", "Louis Pasteur", "Marie Curie"],
+      "correctAnswer": "Charles Darwin",
+      "explanation": "Charles Darwin developed the theory of evolution by natural selection, published in 'On the Origin of Species' in 1859."
+    },
+    {
+      "id": 11,
+      "question": "What is the hardest natural substance on Earth?",
+      "options": ["Gold", "Iron", "Diamond", "Quartz"],
+      "correctAnswer": "Diamond",
+      "explanation": "Diamond is the hardest natural substance on Earth, rating 10 on the Mohs hardness scale."
+    },
+    {
+      "id": 12,
+      "question": "How many chambers does a human heart have?",
+      "options": ["2", "3", "4", "5"],
+      "correctAnswer": "4",
+      "explanation": "The human heart has four chambers: two atria (upper chambers) and two ventricles (lower chambers)."
+    },
+    {
+      "id": 13,
+      "question": "What is the chemical formula for table salt?",
+      "options": ["NaCl", "KCl", "CaCl₂", "MgCl₂"],
+      "correctAnswer": "NaCl",
+      "explanation": "Table salt is sodium chloride, with the chemical formula NaCl."
+    },
+    {
+      "id": 14,
+      "question": "Which blood type is known as the universal donor?",
+      "options": ["A", "B", "AB", "O"],
+      "correctAnswer": "O",
+      "explanation": "Type O blood is considered the universal donor because it can be given to people with any blood type."
+    },
+    {
+      "id": 15,
+      "question": "What is the smallest unit of matter?",
+      "options": ["Molecule", "Atom", "Electron", "Proton"],
+      "correctAnswer": "Atom",
+      "explanation": "An atom is the smallest unit of matter that retains the properties of an element."
+    },
+    {
+      "id": 16,
+      "question": "Which planet has the most moons?",
+      "options": ["Jupiter", "Saturn", "Uranus", "Neptune"],
+      "correctAnswer": "Saturn",
+      "explanation": "Saturn has the most confirmed moons with over 80 known moons, including Titan and Enceladus."
+    },
+    {
+      "id": 17,
+      "question": "What is the powerhouse of the cell?",
+      "options": ["Nucleus", "Ribosome", "Mitochondria", "Endoplasmic reticulum"],
+      "correctAnswer": "Mitochondria",
+      "explanation": "Mitochondria are called the powerhouse of the cell because they produce ATP, the cell's main energy currency."
+    },
+    {
+      "id": 18,
+      "question": "What is the study of earthquakes called?",
+      "options": ["Geology", "Seismology", "Meteorology", "Volcanology"],
+      "correctAnswer": "Seismology",
+      "explanation": "Seismology is the scientific study of earthquakes and the propagation of elastic waves through the Earth."
+    },
+    {
+      "id": 19,
+      "question": "Which vitamin is produced when skin is exposed to sunlight?",
+      "options": ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin K"],
+      "correctAnswer": "Vitamin D",
+      "explanation": "Vitamin D is synthesized in the skin when exposed to UVB radiation from sunlight."
+    },
+    {
+      "id": 20,
+      "question": "What is the most abundant element in the universe?",
+      "options": ["Helium", "Hydrogen", "Oxygen", "Carbon"],
+      "correctAnswer": "Hydrogen",
+      "explanation": "Hydrogen is the most abundant element in the universe, making up about 75% of normal matter."
+    },
+    {
+      "id": 21,
+      "question": "Which organelle contains the cell's genetic material?",
+      "options": ["Mitochondria", "Nucleus", "Ribosome", "Lysosome"],
+      "correctAnswer": "Nucleus",
+      "explanation": "The nucleus contains the cell's DNA and controls the cell's activities."
+    },
+    {
+      "id": 22,
+      "question": "What is the chemical symbol for iron?",
+      "options": ["Ir", "Fe", "In", "I"],
+      "correctAnswer": "Fe",
+      "explanation": "The chemical symbol for iron is Fe, from the Latin word 'ferrum'."
+    },
+    {
+      "id": 23,
+      "question": "Which force keeps planets in orbit around the sun?",
+      "options": ["Magnetic force", "Electric force", "Gravitational force", "Nuclear force"],
+      "correctAnswer": "Gravitational force",
+      "explanation": "Gravitational force between the sun and planets keeps them in their orbital paths."
+    },
+    {
+      "id": 24,
+      "question": "What is the normal human body temperature in Celsius?",
+      "options": ["35°C", "36°C", "37°C", "38°C"],
+      "correctAnswer": "37°C",
+      "explanation": "Normal human body temperature is approximately 37°C (98.6°F)."
+    },
+    {
+      "id": 25,
+      "question": "Which scientist is famous for the laws of motion?",
+      "options": ["Albert Einstein", "Isaac Newton", "Galileo Galilei", "Stephen Hawking"],
+      "correctAnswer": "Isaac Newton",
+      "explanation": "Sir Isaac Newton formulated the three laws of motion that form the foundation of classical mechanics."
+    }
+  ]
+}

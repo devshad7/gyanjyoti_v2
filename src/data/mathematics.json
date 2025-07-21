@@ -1,0 +1,186 @@
+{
+  "title": "Mathematics Quiz",
+  "description": "Test your mathematical knowledge",
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the value of π (pi) to two decimal places?",
+      "options": ["3.14", "3.16", "3.12", "3.18"],
+      "correctAnswer": "3.14",
+      "explanation": "Pi (π) is approximately equal to 3.14159..., which rounds to 3.14 when expressed to two decimal places."
+    },
+    {
+      "id": 2,
+      "question": "If x + y = 10 and x - y = 4, what is the value of x?",
+      "options": ["5", "6", "7", "8"],
+      "correctAnswer": "7",
+      "explanation": "From the equations, we can add them: 2x = 14, so x = 7."
+    },
+    {
+      "id": 3,
+      "question": "What is the area of a circle with radius 5 units?",
+      "options": ["25π square units", "10π square units", "5π square units", "15π square units"],
+      "correctAnswer": "25π square units",
+      "explanation": "The area of a circle is πr², where r is the radius. So, area = π × 5² = 25π square units."
+    },
+    {
+      "id": 4,
+      "question": "What is the square root of 144?",
+      "options": ["12", "14", "10", "16"],
+      "correctAnswer": "12",
+      "explanation": "The square root of 144 is 12 because 12 × 12 = 144."
+    },
+    {
+      "id": 5,
+      "question": "If a triangle has angles measuring 30°, 60°, and 90°, what type of triangle is it?",
+      "options": ["Equilateral", "Isosceles", "Scalene", "Right-angled"],
+      "correctAnswer": "Right-angled",
+      "explanation": "A triangle with a 90° angle is a right-angled triangle. This particular triangle is also a special right triangle known as a 30-60-90 triangle."
+    },
+    {
+      "id": 6,
+      "question": "What is 15% of 200?",
+      "options": ["25", "30", "35", "40"],
+      "correctAnswer": "30",
+      "explanation": "15% of 200 = (15/100) × 200 = 0.15 × 200 = 30."
+    },
+    {
+      "id": 7,
+      "question": "If log₁₀(x) = 2, what is the value of x?",
+      "options": ["10", "20", "100", "1000"],
+      "correctAnswer": "100",
+      "explanation": "If log₁₀(x) = 2, then x = 10² = 100."
+    },
+    {
+      "id": 8,
+      "question": "What is the derivative of x²?",
+      "options": ["x", "2x", "x²", "2x²"],
+      "correctAnswer": "2x",
+      "explanation": "The derivative of x² with respect to x is 2x using the power rule."
+    },
+    {
+      "id": 9,
+      "question": "What is the sum of interior angles of a pentagon?",
+      "options": ["360°", "540°", "720°", "900°"],
+      "correctAnswer": "540°",
+      "explanation": "The sum of interior angles of an n-sided polygon is (n-2) × 180°. For a pentagon: (5-2) × 180° = 540°."
+    },
+    {
+      "id": 10,
+      "question": "What is the value of 2³ × 2⁴?",
+      "options": ["2⁷", "2¹²", "4⁷", "4¹²"],
+      "correctAnswer": "2⁷",
+      "explanation": "When multiplying powers with the same base, add the exponents: 2³ × 2⁴ = 2³⁺⁴ = 2⁷."
+    },
+    {
+      "id": 11,
+      "question": "What is the median of the numbers: 3, 7, 2, 9, 5?",
+      "options": ["3", "5", "7", "9"],
+      "correctAnswer": "5",
+      "explanation": "First arrange in order: 2, 3, 5, 7, 9. The median is the middle value, which is 5."
+    },
+    {
+      "id": 12,
+      "question": "What is the slope of a line passing through points (2, 3) and (4, 7)?",
+      "options": ["1", "2", "3", "4"],
+      "correctAnswer": "2",
+      "explanation": "Slope = (y₂ - y₁)/(x₂ - x₁) = (7 - 3)/(4 - 2) = 4/2 = 2."
+    },
+    {
+      "id": 13,
+      "question": "What is the volume of a cube with side length 3 units?",
+      "options": ["9 cubic units", "18 cubic units", "27 cubic units", "36 cubic units"],
+      "correctAnswer": "27 cubic units",
+      "explanation": "Volume of a cube = side³ = 3³ = 27 cubic units."
+    },
+    {
+      "id": 14,
+      "question": "What is the next number in the sequence: 2, 6, 12, 20, ?",
+      "options": ["28", "30", "32", "36"],
+      "correctAnswer": "30",
+      "explanation": "The differences are 4, 6, 8, so the next difference is 10. Therefore: 20 + 10 = 30."
+    },
+    {
+      "id": 15,
+      "question": "What is sin(90°)?",
+      "options": ["0", "1", "-1", "undefined"],
+      "correctAnswer": "1",
+      "explanation": "sin(90°) = 1. This is a fundamental trigonometric value."
+    },
+    {
+      "id": 16,
+      "question": "What is the greatest common divisor (GCD) of 48 and 18?",
+      "options": ["2", "3", "6", "9"],
+      "correctAnswer": "6",
+      "explanation": "The factors of 48 are 1,2,3,4,6,8,12,16,24,48 and factors of 18 are 1,2,3,6,9,18. The greatest common factor is 6."
+    },
+    {
+      "id": 17,
+      "question": "What is the perimeter of a rectangle with length 8 and width 5?",
+      "options": ["13", "26", "40", "80"],
+      "correctAnswer": "26",
+      "explanation": "Perimeter of rectangle = 2(length + width) = 2(8 + 5) = 2(13) = 26."
+    },
+    {
+      "id": 18,
+      "question": "What is 7! (7 factorial)?",
+      "options": ["49", "343", "2520", "5040"],
+      "correctAnswer": "5040",
+      "explanation": "7! = 7 × 6 × 5 × 4 × 3 × 2 × 1 = 5040."
+    },
+    {
+      "id": 19,
+      "question": "What is the quadratic formula?",
+      "options": [
+        "x = -b ± √(b² - 4ac) / 2a",
+        "x = b ± √(b² + 4ac) / 2a",
+        "x = -b ± √(b² + 4ac) / 2a",
+        "x = b ± √(b² - 4ac) / 2a"
+      ],
+      "correctAnswer": "x = -b ± √(b² - 4ac) / 2a",
+      "explanation": "The quadratic formula for solving ax² + bx + c = 0 is x = (-b ± √(b² - 4ac)) / 2a."
+    },
+    {
+      "id": 20,
+      "question": "What is the sum of the first 10 natural numbers?",
+      "options": ["45", "50", "55", "60"],
+      "correctAnswer": "55",
+      "explanation": "Sum = n(n+1)/2 where n=10. So sum = 10(11)/2 = 55."
+    },
+    {
+      "id": 21,
+      "question": "What is the distance between points (0, 0) and (3, 4)?",
+      "options": ["5", "7", "12", "25"],
+      "correctAnswer": "5",
+      "explanation": "Distance = √[(x₂-x₁)² + (y₂-y₁)²] = √[(3-0)² + (4-0)²] = √[9 + 16] = √25 = 5."
+    },
+    {
+      "id": 22,
+      "question": "What is the mode of the data set: 2, 3, 3, 4, 5, 5, 5, 6?",
+      "options": ["3", "4", "5", "6"],
+      "correctAnswer": "5",
+      "explanation": "The mode is the most frequently occurring value. 5 appears 3 times, more than any other number."
+    },
+    {
+      "id": 23,
+      "question": "What is the value of cos(0°)?",
+      "options": ["0", "1", "-1", "undefined"],
+      "correctAnswer": "1",
+      "explanation": "cos(0°) = 1. This is a fundamental trigonometric value."
+    },
+    {
+      "id": 24,
+      "question": "What is the equation of a line with slope 2 passing through point (1, 3)?",
+      "options": ["y = 2x + 1", "y = 2x + 3", "y = 2x - 1", "y = x + 2"],
+      "correctAnswer": "y = 2x + 1",
+      "explanation": "Using point-slope form: y - y₁ = m(x - x₁). So y - 3 = 2(x - 1), which gives y = 2x + 1."
+    },
+    {
+      "id": 25,
+      "question": "What is the integral of 2x?",
+      "options": ["x²", "x² + C", "2x²", "x² + 2C"],
+      "correctAnswer": "x² + C",
+      "explanation": "The integral of 2x is x² + C, where C is the constant of integration."
+    }
+  ]
+}

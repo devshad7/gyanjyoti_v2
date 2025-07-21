@@ -1,0 +1,181 @@
+{
+  "title": "General Knowledge Quiz",
+  "description": "Test your general knowledge",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which planet is known as the Morning Star or Evening Star?",
+      "options": ["Mars", "Venus", "Mercury", "Jupiter"],
+      "correctAnswer": "Venus",
+      "explanation": "Venus is often called the Morning Star or Evening Star because it is often visible in the early morning or early evening when other stars are not visible."
+    },
+    {
+      "id": 2,
+      "question": "What is the smallest prime number?",
+      "options": ["0", "1", "2", "3"],
+      "correctAnswer": "2",
+      "explanation": "The smallest prime number is 2. A prime number is a natural number greater than 1 that is not a product of two smaller natural numbers."
+    },
+    {
+      "id": 3,
+      "question": "Which country is known as the Land of the Rising Sun?",
+      "options": ["China", "Thailand", "South Korea", "Japan"],
+      "correctAnswer": "Japan",
+      "explanation": "Japan is known as the Land of the Rising Sun because from China, Japan appears to be in the direction where the sun rises."
+    },
+    {
+      "id": 4,
+      "question": "Who painted the Mona Lisa?",
+      "options": ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
+      "correctAnswer": "Leonardo da Vinci",
+      "explanation": "The Mona Lisa was painted by Italian artist Leonardo da Vinci between 1503 and 1519."
+    },
+    {
+      "id": 5,
+      "question": "What is the chemical symbol for water?",
+      "options": ["H2O", "CO2", "O2", "N2"],
+      "correctAnswer": "H2O",
+      "explanation": "The chemical formula for water is H2O, which represents two hydrogen atoms and one oxygen atom bonded together."
+    },
+    {
+      "id": 6,
+      "question": "How many continents are there?",
+      "options": ["5", "6", "7", "8"],
+      "correctAnswer": "7",
+      "explanation": "There are seven continents: Asia, Africa, North America, South America, Antarctica, Europe, and Australia/Oceania."
+    },
+    {
+      "id": 7,
+      "question": "What is the largest mammal in the world?",
+      "options": ["African Elephant", "Blue Whale", "Giraffe", "Polar Bear"],
+      "correctAnswer": "Blue Whale",
+      "explanation": "The blue whale is the largest mammal and the largest animal ever known to have lived on Earth."
+    },
+    {
+      "id": 8,
+      "question": "In which year did the first man land on the moon?",
+      "options": ["1967", "1968", "1969", "1970"],
+      "correctAnswer": "1969",
+      "explanation": "Neil Armstrong and Buzz Aldrin first landed on the moon on July 20, 1969, during the Apollo 11 mission."
+    },
+    {
+      "id": 9,
+      "question": "What is the currency of the United Kingdom?",
+      "options": ["Euro", "Dollar", "Pound Sterling", "Franc"],
+      "correctAnswer": "Pound Sterling",
+      "explanation": "The currency of the United Kingdom is the Pound Sterling, often simply called the pound."
+    },
+    {
+      "id": 10,
+      "question": "Which instrument is used to measure atmospheric pressure?",
+      "options": ["Thermometer", "Barometer", "Hygrometer", "Anemometer"],
+      "correctAnswer": "Barometer",
+      "explanation": "A barometer is an instrument used to measure atmospheric pressure, which helps in weather forecasting."
+    },
+    {
+      "id": 11,
+      "question": "What is the hardest natural substance on Earth?",
+      "options": ["Gold", "Iron", "Diamond", "Platinum"],
+      "correctAnswer": "Diamond",
+      "explanation": "Diamond is the hardest natural substance on Earth, rating 10 on the Mohs hardness scale."
+    },
+    {
+      "id": 12,
+      "question": "Which vitamin is produced when skin is exposed to sunlight?",
+      "options": ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin K"],
+      "correctAnswer": "Vitamin D",
+      "explanation": "Vitamin D is synthesized in the skin when exposed to UVB radiation from sunlight."
+    },
+    {
+      "id": 13,
+      "question": "What is the fastest land animal?",
+      "options": ["Lion", "Cheetah", "Leopard", "Tiger"],
+      "correctAnswer": "Cheetah",
+      "explanation": "The cheetah is the fastest land animal, capable of reaching speeds up to 70 mph (112 km/h)."
+    },
+    {
+      "id": 14,
+      "question": "How many bones are there in an adult human body?",
+      "options": ["196", "206", "216", "226"],
+      "correctAnswer": "206",
+      "explanation": "An adult human body has 206 bones. Babies are born with about 270 bones, but many fuse together as they grow."
+    },
+    {
+      "id": 15,
+      "question": "What is the largest ocean on Earth?",
+      "options": ["Atlantic", "Indian", "Arctic", "Pacific"],
+      "correctAnswer": "Pacific",
+      "explanation": "The Pacific Ocean is the largest ocean, covering about one-third of Earth's surface."
+    },
+    {
+      "id": 16,
+      "question": "Which gas do plants absorb from the atmosphere during photosynthesis?",
+      "options": ["Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen"],
+      "correctAnswer": "Carbon dioxide",
+      "explanation": "Plants absorb carbon dioxide from the atmosphere and use it in photosynthesis to produce glucose and oxygen."
+    },
+    {
+      "id": 17,
+      "question": "What is the smallest country in the world?",
+      "options": ["Monaco", "San Marino", "Vatican City", "Liechtenstein"],
+      "correctAnswer": "Vatican City",
+      "explanation": "Vatican City is the smallest country in the world, with an area of just 0.17 square miles."
+    },
+    {
+      "id": 18,
+      "question": "Which planet is closest to the Sun?",
+      "options": ["Venus", "Earth", "Mercury", "Mars"],
+      "correctAnswer": "Mercury",
+      "explanation": "Mercury is the closest planet to the Sun in our solar system."
+    },
+    {
+      "id": 19,
+      "question": "What is the main ingredient in guacamole?",
+      "options": ["Tomato", "Avocado", "Onion", "Lime"],
+      "correctAnswer": "Avocado",
+      "explanation": "Avocado is the main ingredient in guacamole, a popular Mexican dip."
+    },
+    {
+      "id": 20,
+      "question": "Which organ in the human body produces insulin?",
+      "options": ["Liver", "Kidney", "Pancreas", "Stomach"],
+      "correctAnswer": "Pancreas",
+      "explanation": "The pancreas produces insulin, a hormone that regulates blood sugar levels."
+    },
+    {
+      "id": 21,
+      "question": "What is the capital of Canada?",
+      "options": ["Toronto", "Vancouver", "Montreal", "Ottawa"],
+      "correctAnswer": "Ottawa",
+      "explanation": "Ottawa is the capital city of Canada, located in the province of Ontario."
+    },
+    {
+      "id": 22,
+      "question": "Which metal is liquid at room temperature?",
+      "options": ["Lead", "Mercury", "Tin", "Zinc"],
+      "correctAnswer": "Mercury",
+      "explanation": "Mercury is the only metal that is liquid at room temperature."
+    },
+    {
+      "id": 23,
+      "question": "How many sides does a hexagon have?",
+      "options": ["5", "6", "7", "8"],
+      "correctAnswer": "6",
+      "explanation": "A hexagon is a polygon with six sides and six angles."
+    },
+    {
+      "id": 24,
+      "question": "What is the study of earthquakes called?",
+      "options": ["Geology", "Seismology", "Meteorology", "Oceanography"],
+      "correctAnswer": "Seismology",
+      "explanation": "Seismology is the scientific study of earthquakes and the propagation of elastic waves through the Earth."
+    },
+    {
+      "id": 25,
+      "question": "Which blood type is known as the universal recipient?",
+      "options": ["A", "B", "AB", "O"],
+      "correctAnswer": "AB",
+      "explanation": "Type AB blood is known as the universal recipient because people with this blood type can receive blood from any other blood type."
+    }
+  ]
+}
