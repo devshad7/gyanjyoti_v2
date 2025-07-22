@@ -450,7 +450,7 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
 
           {/* Thumbnail Upload */}
           <div className="space-y-2">
-            <Label htmlFor="thumbnail-file">Thumbnail (Optional)</Label>
+            <Label htmlFor="thumbnail-file">Thumbnail *</Label>
             <Input
               id="thumbnail-file"
               type="file"
@@ -512,6 +512,8 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
                 <SelectItem value="Social-studies">Social Studies</SelectItem>
                 <SelectItem value="Computer-science">Computer Science</SelectItem>
                 <SelectItem value="Optional Maths">Optional Maths</SelectItem>
+                <SelectItem value="Economics">Economics</SelectItem>
+                <SelectItem value="Account">Account</SelectItem>
                 <SelectItem value="DBMS">DBMS</SelectItem>
                 <SelectItem value="DSA & C++">DSA & C++</SelectItem>
                 <SelectItem value="DDM">DDM</SelectItem>
