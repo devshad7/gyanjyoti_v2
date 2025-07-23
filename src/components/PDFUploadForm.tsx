@@ -509,7 +509,7 @@ export default function PDFUploadForm({ onUploadSuccess }: PDFUploadFormProps) {
                 <SelectItem value="Science">Science and Technology</SelectItem>
                 <SelectItem value="English">English</SelectItem>
                 <SelectItem value="Nepali">Nepali</SelectItem>
-                <SelectItem value="Social-studies">Social Studies</SelectItem>
+                <SelectItem value="Social Studies">Social Studies</SelectItem>
                 <SelectItem value="Computer-science">Computer Science</SelectItem>
                 <SelectItem value="Optional Maths">Optional Maths</SelectItem>
                 <SelectItem value="Economics">Economics</SelectItem>
