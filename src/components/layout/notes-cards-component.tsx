@@ -1,33 +1,18 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-import { Search, Filter, ChevronDown, PenLine, Download, Star, StarOff, Clock, Tag, ImageIcon, ChevronLeft, ChevronRight, X, Maximize2, ZoomIn, ZoomOut } from 'lucide-react'
+import { useState, useRef, useEffect, useMemo } from "react"
+import { Search, Filter, ChevronDown, PenLine, Download, Star, StarOff, Clock, Tag, ImageIcon, ChevronLeft, ChevronRight, X, Maximize2, ZoomIn, ZoomOut, Loader2, AlertCircle } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { cn } from "@/lib/utils"
-
-interface NoteImage {
-  id: string
-  url: string
-  caption?: string
-}
-
-interface Note {
-  id: string
-  title: string
-  content: string
-  subject: string
-  class: string
-  createdAt: Date
-  updatedAt: Date
-  favorite: boolean
-  tags: string[]
-  images: NoteImage[]
-}
+import { useNotes, useNotesMetadata } from "@/hooks/use-notes"
+import { Note } from "@/types/note"
+import JSZip from 'jszip'
 
 interface NotesCardsComponentProps {
   className?: string
@@ -40,11 +25,46 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const fileInputRef = useRef<HTMLInputElement>(null)
   const [isFullScreen, setIsFullScreen] = useState(false)
   const [fullScreenImage, setFullScreenImage] = useState<string | null>(null)
   const [zoomLevel, setZoomLevel] = useState(1)
   const fullScreenRef = useRef<HTMLDivElement>(null)
+
+  // Utility function to safely format dates
+  const formatDate = (date: string | Date): string => {
+    try {
+      if (!date) return 'N/A'
+      return date instanceof Date 
+        ? date.toLocaleDateString()
+        : new Date(date).toLocaleDateString()
+    } catch {
+      return 'N/A'
+    }
+  }
+
+  // Use the custom hooks
+  const {
+    notes,
+    loading,
+    error,
+    toggleFavorite,
+    fetchNotes
+  } = useNotes()
+
+  const {
+    subjects,
+    classes,
+    loading: metadataLoading,
+    error: metadataError
+  } = useNotesMetadata()
+
+  // Memoize filters to prevent unnecessary re-renders
+  const filters = useMemo(() => ({
+    subject: activeSubject !== "All" ? activeSubject : undefined,
+    class: activeClass !== "All" ? activeClass : undefined,
+    search: searchTerm || undefined,
+    favorite: activeSubject === "Favorites" ? true : undefined
+  }), [searchTerm, activeSubject, activeClass])
 
   // Maximum number of thumbnails to show in the dialog
   const MAX_THUMBNAILS_TO_SHOW = 2
@@ -60,181 +80,18 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
     return () => window.removeEventListener("keydown", handleEscKey)
   }, [isFullScreen])
 
-  // Sample data with images
-  const notes: Note[] = [
-    {
-      id: "1",
-      title: "Class 10 Enlgish SEE 2081 Question Paper (Gandaki Pardesh)",
-      content:
-        "1. First Law: An object at rest stays at rest, and an object in motion stays in motion unless acted upon by an external force.\n\n2. Second Law: Force equals mass times acceleration (F = ma).\n\n3. Third Law: For every action, there is an equal and opposite reaction.",
-      subject: "English",
-      class: "Class 10",
-      createdAt: new Date("2023-10-15"),
-      updatedAt: new Date("2023-10-20"),
-      favorite: true,
-      tags: ["Englsih", "SEE", "important"],
-      images: [
-        {
-          id: "img1",
-          url: "/assets/exampapers/cls10/eng1.png?height=400&width=600",
-          caption: "Newton's First Law Illustration",
-        },
-        {
-          id: "img2",
-          url: "/assets/exampapers/cls10/eng2.png?height=400&width=600",
-          caption: "Newton's Second Law Diagram",
-        },
-        {
-          id: "img3",
-          url: "/assets/exampapers/cls10/eng3.png?height=400&width=600",
-          caption: "Newton's Third Law Example",
-        },
-        {
-          id: "img4",
-          url: "/assets/exampapers/cls10/eng3.png?height=400&width=600",
-          caption: "Newton's Third Law Example",
-        },
-        {
-          id: "img5",
-          url: "/assets/exampapers/cls10/eng3.png?height=400&width=600",
-          caption: "Newton's Third Law Example",
-        },
-      ],
-    },
-    {
-      id: "2",
-      title: "Organic Chemistry Functional Groups",
-      content:
-        "Key functional groups in organic chemistry:\n\n- Alcohols (-OH)\n- Aldehydes (-CHO)\n- Ketones (-CO-)\n- Carboxylic acids (-COOH)\n- Esters (-COO-)\n- Amines (-NH2)",
-      subject: "Chemistry",
-      class: "Class 12",
-      createdAt: new Date("2023-11-05"),
-      updatedAt: new Date("2023-11-10"),
-      favorite: false,
-      tags: ["organic", "functional groups"],
-      images: [
-        {
-          id: "img4",
-          url: "/placeholder.svg?height=400&width=600",
-          caption: "Organic Chemistry Functional Groups Chart",
-        },
-      ],
-    },
-    {
-      id: "3",
-      title: "Integration Formulas",
-      content:
-        "Important integration formulas:\n\n∫ xⁿ dx = (xⁿ⁺¹)/(n+1) + C, n ≠ -1\n∫ 1/x dx = ln|x| + C\n∫ eˣ dx = eˣ + C\n∫ sin(x) dx = -cos(x) + C\n∫ cos(x) dx = sin(x) + C",
-      subject: "Mathematics",
-      class: "Class 12",
-      createdAt: new Date("2023-09-22"),
-      updatedAt: new Date("2023-09-25"),
-      favorite: true,
-      tags: ["calculus", "formulas", "important"],
-      images: [
-        {
-          id: "img5",
-          url: "/placeholder.svg?height=400&width=600",
-          caption: "Integration Formulas Sheet",
-        },
-        {
-          id: "img6",
-          url: "/placeholder.svg?height=400&width=600",
-          caption: "Integration Examples",
-        },
-      ],
-    },
-    {
-      id: "4",
-      title: "Cell Structure and Functions",
-      content:
-        "Cell organelles and their functions:\n\n1. Nucleus: Contains genetic material\n2. Mitochondria: Powerhouse of the cell\n3. Endoplasmic Reticulum: Protein synthesis and transport\n4. Golgi Apparatus: Packaging and secretion\n5. Lysosomes: Digestion and waste removal",
-      subject: "Biology",
-      class: "Class 11",
-      createdAt: new Date("2023-10-30"),
-      updatedAt: new Date("2023-11-02"),
-      favorite: false,
-      tags: ["cell biology", "organelles"],
-      images: [
-        {
-          id: "img7",
-          url: "/placeholder.svg?height=400&width=600",
-          caption: "Cell Structure Diagram",
-        },
-        {
-          id: "img8",
-          url: "/placeholder.svg?height=400&width=600",
-          caption: "Mitochondria Electron Microscope Image",
-        },
-        {
-          id: "img9",
-          url: "/placeholder.svg?height=400&width=600",
-          caption: "Golgi Apparatus Illustration",
-        },
-      ],
-    },
-    {
-      id: "5",
-      title: "Indian Freedom Movement Timeline",
-      content:
-        "Key events in the Indian Freedom Movement:\n\n1857: First War of Independence\n1885: Formation of Indian National Congress\n1919: Jallianwala Bagh Massacre\n1930: Salt March by Gandhi\n1942: Quit India Movement\n1947: Independence and Partition",
-      subject: "History",
-      class: "Class 10",
-      createdAt: new Date("2023-08-15"),
-      updatedAt: new Date("2023-08-18"),
-      favorite: false,
-      tags: ["freedom movement", "timeline"],
-      images: [
-        {
-          id: "img10",
-          url: "/placeholder.svg?height=400&width=600",
-          caption: "Gandhi's Salt March Photo",
-        },
-        {
-          id: "img11",
-          url: "/placeholder.svg?height=400&width=600",
-          caption: "Indian Independence Day Celebration",
-        },
-      ],
-    },
-    {
-      id: "6",
-      title: "Parts of Speech",
-      content:
-        "The eight parts of speech in English:\n\n1. Noun: Person, place, thing, or idea\n2. Pronoun: Replaces a noun\n3. Verb: Action or state\n4. Adjective: Describes a noun\n5. Adverb: Modifies a verb, adjective, or another adverb\n6. Preposition: Shows relationship\n7. Conjunction: Connects words or phrases\n8. Interjection: Expresses emotion",
-      subject: "English",
-      class: "Class 9",
-      createdAt: new Date("2023-07-20"),
-      updatedAt: new Date("2023-07-22"),
-      favorite: true,
-      tags: ["grammar", "basics"],
-      images: [
-        {
-          id: "img12",
-          url: "/placeholder.svg?height=400&width=600",
-          caption: "Parts of Speech Chart",
-        },
-      ],
-    },
-  ]
+  // Filter notes based on search and filters
+  useEffect(() => {
+    fetchNotes(filters)
+  }, [filters, fetchNotes])
 
-  // Get unique subjects and classes for filters
-  const subjects = Array.from(new Set(notes.map((note) => note.subject)))
-  const classes = Array.from(new Set(notes.map((note) => note.class)))
-
-  // Filter notes based on search term, subject, and class
-  const filteredNotes = notes.filter((note) => {
-    const matchesSearch =
-      note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      note.content.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesSubject = activeSubject === "All" || note.subject === activeSubject
-    const matchesClass = activeClass === "All" || note.class === activeClass
-    return matchesSearch && matchesSubject && matchesClass
-  })
-
-  const toggleFavorite = (id: string) => {
-    // In a real app, this would update the state or call an API
-    console.log(`Toggle favorite for note ${id}`)
+  const handleToggleFavorite = async (id: string, event: React.MouseEvent) => {
+    event.stopPropagation()
+    try {
+      await toggleFavorite(id)
+    } catch (error) {
+      console.error('Failed to toggle favorite:', error)
+    }
   }
 
   const openNoteViewer = (note: Note) => {
@@ -243,10 +100,145 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
     setIsDialogOpen(true)
   }
 
-  const handleDownloadNote = (note: Note) => {
-    // In a real app, this would generate a PDF or other format for download
-    console.log(`Downloading note: ${note.title}`)
-    alert(`Downloading note: ${note.title}`)
+  const handleDownloadNote = async (note: Note) => {
+    try {
+      // Show loading state
+      const downloadButton = document.querySelector('.download-button') as HTMLButtonElement
+      const originalContent = downloadButton?.innerHTML
+      
+      if (downloadButton) {
+        downloadButton.disabled = true
+        downloadButton.innerHTML = '<div class="flex items-center"><div class="animate-spin h-3 w-3 border-2 border-white border-t-transparent rounded-full mr-2"></div>Downloading...</div>'
+      }
+
+      // Create comprehensive note content
+      const noteContent = `GYAN JYOTI NOTES
+==================
+
+Title: ${note.title}
+Subject: ${note.subject}
+Class: ${note.class}
+Tags: ${note.tags.join(', ')}
+Created: ${formatDate(note.created_at)}
+Updated: ${formatDate(note.updated_at)}
+Favorite: ${note.favorite ? 'Yes' : 'No'}
+View Count: ${note.view_count || 0}
+
+Total Images: ${note.images.length}
+
+${note.images.length > 0 ? 'IMAGES INCLUDED:\n' + note.images.map((img, idx) => `${idx + 1}. ${img.caption || `Image ${idx + 1}`}`).join('\n') : 'No images attached'}
+
+=====================================
+Generated on: ${formatDate(new Date())}
+From: Gyan Jyoti Learning Platform
+`
+
+      if (note.images.length > 0) {
+        // Create zip file with text and images
+        const zip = new JSZip()
+        
+        // Add note details as text file
+        zip.file(`${note.title.replace(/[^a-zA-Z0-9\s]/g, '_').replace(/\s+/g, '_')}_details.txt`, noteContent)
+
+        // Create images folder
+        const imagesFolder = zip.folder("images")
+
+        // Download and add images
+        const downloadPromises = note.images.map(async (image, index) => {
+          try {
+            // Use a proxy approach for CORS issues
+            const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(image.url)}`
+            let response = await fetch(proxyUrl)
+            
+            // Fallback to direct fetch if proxy fails
+            if (!response.ok) {
+              response = await fetch(image.url, { mode: 'cors' })
+            }
+            
+            if (response.ok) {
+              const blob = await response.blob()
+              const fileExtension = image.url.includes('.') 
+                ? image.url.split('.').pop()?.split('?')[0] || 'jpg'
+                : 'jpg'
+              
+              const fileName = image.caption 
+                ? `${image.caption.replace(/[^a-zA-Z0-9\s]/g, '_').replace(/\s+/g, '_')}.${fileExtension}`
+                : `image_${index + 1}.${fileExtension}`
+              
+              imagesFolder?.file(fileName, blob)
+              return true
+            } else {
+              console.warn(`Failed to download image ${index + 1}: HTTP ${response.status}`)
+              return false
+            }
+          } catch (err) {
+            console.warn(`Error downloading image ${index + 1}:`, err)
+            // Add a text file noting the failed download
+            imagesFolder?.file(`image_${index + 1}_failed.txt`, `Failed to download image: ${image.url}\nReason: ${err}`)
+            return false
+          }
+        })
+
+        // Wait for all downloads
+        const results = await Promise.allSettled(downloadPromises)
+        const successfulDownloads = results.filter(result => result.status === 'fulfilled' && result.value).length
+
+        // Add download summary
+        zip.file('download_summary.txt', `Download Summary
+===============
+Total images attempted: ${note.images.length}
+Successfully downloaded: ${successfulDownloads}
+Failed downloads: ${note.images.length - successfulDownloads}
+
+If some images failed to download, you can find their URLs in the note details file.
+`)
+
+        // Generate and download zip
+        const zipBlob = await zip.generateAsync({ 
+          type: 'blob',
+          compression: 'DEFLATE',
+          compressionOptions: { level: 6 }
+        })
+        
+        const url = window.URL.createObjectURL(zipBlob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `${note.title.replace(/[^a-zA-Z0-9\s]/g, '_').replace(/\s+/g, '_')}_complete.zip`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url)
+
+      } else {
+        // Download just the text file if no images
+        const blob = new Blob([noteContent], { type: 'text/plain;charset=utf-8' })
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `${note.title.replace(/[^a-zA-Z0-9\s]/g, '_').replace(/\s+/g, '_')}_details.txt`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url)
+      }
+
+      // Reset button
+      if (downloadButton && originalContent) {
+        downloadButton.disabled = false
+        downloadButton.innerHTML = originalContent
+      }
+
+    } catch (error) {
+      console.error('Error downloading note:', error)
+      alert('Failed to download note. Please try again.')
+      
+      // Reset button on error
+      const downloadButton = document.querySelector('.download-button') as HTMLButtonElement
+      if (downloadButton) {
+        downloadButton.disabled = false
+        downloadButton.innerHTML = '<svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> Download Note'
+      }
+    }
   }
 
   const nextImage = () => {
@@ -298,6 +290,36 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
 
   const handleResetZoom = () => {
     setZoomLevel(1)
+  }
+
+  const downloadSingleImage = async (imageUrl: string, imageName: string) => {
+    try {
+      // Try direct download first
+      let response = await fetch(imageUrl, { mode: 'cors' })
+      
+      // Fallback to proxy if CORS fails
+      if (!response.ok) {
+        const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(imageUrl)}`
+        response = await fetch(proxyUrl)
+      }
+
+      if (response.ok) {
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = imageName
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url)
+      } else {
+        throw new Error('Failed to download image')
+      }
+    } catch (error) {
+      console.error('Error downloading image:', error)
+      alert('Failed to download image. Please try again or save image manually.')
+    }
   }
 
   useEffect(() => {
@@ -358,7 +380,7 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => setActiveSubject("All")}>All Subjects</DropdownMenuItem>
-              {subjects.map((subject) => (
+              {!metadataLoading && subjects.map((subject) => (
                 <DropdownMenuItem key={subject} onClick={() => setActiveSubject(subject)}>
                   {subject}
                 </DropdownMenuItem>
@@ -375,7 +397,7 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => setActiveClass("All")}>All Classes</DropdownMenuItem>
-              {classes.map((cls) => (
+              {!metadataLoading && classes.map((cls) => (
                 <DropdownMenuItem key={cls} onClick={() => setActiveClass(cls)}>
                   {cls}
                 </DropdownMenuItem>
@@ -397,14 +419,25 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
 
       {/* Notes Cards */}
       <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 md:gap-4">
-        {filteredNotes.length === 0 ? (
+        {loading ? (
+          <div className="col-span-full flex justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-[#1e40af]" />
+          </div>
+        ) : error ? (
+          <div className="col-span-full">
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          </div>
+        ) : notes.length === 0 ? (
           <div className="col-span-full text-center py-12 bg-gray-50 rounded-lg">
             <PenLine className="h-12 w-12 mx-auto text-gray-400 mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-1">No Notes Found</h3>
             <p className="text-gray-500">Try adjusting your search or filters</p>
           </div>
         ) : (
-          filteredNotes.map((note) => (
+          notes.map((note: Note) => (
             <Card
               key={note.id}
               className="overflow-hidden hover:shadow-md py-0 gap-2 transition-shadow h-full flex flex-col"
@@ -412,9 +445,13 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
               {note.images.length > 0 && (
                 <div className="relative aspect-[3/2] bg-gray-100">
                   <img
-                    src={"/assets/eng.jpeg"}
-                    alt={note.images[0].caption || note.title}
-                    className="w-full h-full object-cover"
+                    src={note.images[0]?.url || "/assets/eng.jpeg"}
+                    alt={note.images[0]?.caption || note.title}
+                    className="w-full h-[40vh] object-cover object-top"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement
+                      target.src = "/assets/eng.jpeg"
+                    }}
                   />
                   {note.images.length > 1 && (
                     <div className="absolute bottom-2 right-2 bg-black/50 text-white rounded-full px-2 py-0.5 text-xs flex items-center">
@@ -426,7 +463,7 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
               )}
               <CardHeader className="p-3 pb-1 flex flex-row justify-between items-start">
                 <h3 className="font-medium text-sm line-clamp-2">{note.title}</h3>
-                <button onClick={() => toggleFavorite(note.id)} className="flex-shrink-0">
+                <button onClick={(e) => handleToggleFavorite(note.id, e)} className="flex-shrink-0">
                   {note.favorite ? (
                     <Star className="h-4 w-4 text-[#f0b429] fill-[#f0b429]" />
                   ) : (
@@ -435,7 +472,6 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
                 </button>
               </CardHeader>
               <CardContent className="p-3 pt-0 flex-grow border-b">
-                <p className="text-gray-600 line-clamp-3 text-xs whitespace-pre-line">{note.content}</p>
                 <div className="flex flex-wrap gap-1 mt-2">
                   <Badge variant="outline" className="text-xs bg-[#1e40af]/10 text-[#1e40af] border-[#1e40af]/30">
                     {note.subject}
@@ -448,7 +484,7 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
               <CardFooter className="px-3 py-3 bg-gray-50 flex justify-between items-center">
                 <div className="text-xs text-gray-500 flex items-center">
                   <Clock className="h-3 w-3 mr-1" />
-                  {new Date(note.updatedAt).toLocaleDateString()}
+                  {formatDate(note.updated_at)}
                 </div>
                 <Button
                   size="sm"
@@ -470,13 +506,6 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
             <DialogTitle className="flex justify-between items-center">
               <span>{selectedNote?.title}</span>
               <div className="flex items-center gap-2">
-                <Button
-                  onClick={() => selectedNote && handleDownloadNote(selectedNote)}
-                  variant="outline"
-                  className="border-[#1e40af] text-[#1e40af]"
-                >
-                  <Download className="h-4 w-4 mr-2" /> Download
-                </Button>
                 <button onClick={() => toggleFavorite(selectedNote?.id || "")}>
                   {selectedNote?.favorite ? (
                     <Star className="h-5 w-5 text-[#f0b429] fill-[#f0b429]" />
@@ -544,13 +573,32 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
                     </div>
                   )}
 
-                  {/* Maximize button */}
-                  <button
-                    onClick={() => openFullScreen(selectedNote.images[currentImageIndex].url)}
-                    className="absolute top-2 right-2 bg-black/50 text-white rounded-full p-1 hover:bg-black/70 transition-colors"
-                  >
-                    <Maximize2 className="h-4 w-4" />
-                  </button>
+                  {/* Action buttons */}
+                  <div className="absolute top-2 right-2 flex gap-1">
+                    <button
+                      onClick={() => {
+                        const image = selectedNote.images[currentImageIndex]
+                        const fileExtension = image.url.includes('.') 
+                          ? image.url.split('.').pop()?.split('?')[0] || 'jpg'
+                          : 'jpg'
+                        const fileName = image.caption 
+                          ? `${image.caption.replace(/[^a-zA-Z0-9\s]/g, '_').replace(/\s+/g, '_')}.${fileExtension}`
+                          : `${selectedNote.title.replace(/[^a-zA-Z0-9\s]/g, '_')}_image_${currentImageIndex + 1}.${fileExtension}`
+                        downloadSingleImage(image.url, fileName)
+                      }}
+                      className="bg-black/50 text-white rounded-full p-1 hover:bg-black/70 transition-colors"
+                      title="Download this image"
+                    >
+                      <Download className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => openFullScreen(selectedNote.images[currentImageIndex].url)}
+                      className="bg-black/50 text-white rounded-full p-1 hover:bg-black/70 transition-colors"
+                      title="View fullscreen"
+                    >
+                      <Maximize2 className="h-4 w-4" />
+                    </button>
+                  </div>
                 </div>
               ) : null}
 
@@ -593,11 +641,6 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
                   })}
                 </div>
               )}
-
-              {/* Note Content */}
-              <div className="bg-white p-3 rounded-md border whitespace-pre-line text-xs text-gray-700 max-h-[200px] overflow-y-auto">
-                {selectedNote?.content}
-              </div>
             </div>
 
             <div className="lg:w-56 space-y-3">
@@ -620,7 +663,7 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-500">Updated:</span>
-                    <span>{selectedNote?.updatedAt.toLocaleDateString()}</span>
+                    <span>{formatDate(selectedNote?.updated_at ?? "")}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-500">Images:</span>
@@ -642,7 +685,7 @@ export default function NotesCardsComponent({ className }: NotesCardsComponentPr
 
               <Button
                 onClick={() => selectedNote && handleDownloadNote(selectedNote)}
-                className="w-full bg-[#1e40af] hover:bg-[#1e40af]/90 text-xs py-1 h-auto"
+                className="download-button w-full bg-[#1e40af] hover:bg-[#1e40af]/90 text-xs py-1 h-auto"
               >
                 <Download className="h-3 w-3 mr-1" /> Download Note
               </Button>

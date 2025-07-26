@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Filter, ChevronDown, FileText, Download, Eye, Star, StarOff } from "lucide-react"
+import { Search, Filter, ChevronDown, FileText, Download, Eye, Star, StarOff, Loader2, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
@@ -9,19 +9,10 @@ import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
-
-interface PDF {
-  id: string
-  title: string
-  subject: string
-  class: string
-  uploadDate: Date
-  thumbnail: string
-  url: string
-  favorite: boolean
-  pages: number
-  fileSize: string
-}
+import { usePDFs } from "@/hooks/use-pdfs"
+import { useMetadata } from "@/hooks/use-metadata"
+import { PDF } from "@/types/pdf"
+import PDFViewer from "./pdf-viewer"
 
 interface PDFCardsComponentProps {
   className?: string
@@ -33,104 +24,76 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
   const [activeClass, setActiveClass] = useState<string>("All")
   const [selectedPDF, setSelectedPDF] = useState<PDF | null>(null)
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isViewerDialogOpen, setIsViewerDialogOpen] = useState(false)
 
-  // Sample data
-  const pdfs: PDF[] = [
-    {
-      id: "1",
-      title: "Class 10 English",
-      subject: "English",
-      class: "Class 10",
-      uploadDate: new Date("2025-4-15"),
-      thumbnail: "/placeholder.svg?height=400&width=300",
-      url: "/assets/PDFs/Cls9/English-10.pdf",
-      favorite: true,
-      pages: 24,
-      fileSize: "2.4 MB",
-    },
-    {
-      id: "2",
-      title: "Organic Chemistry Fundamentals",
-      subject: "Chemistry",
-      class: "Class 12",
-      uploadDate: new Date("2023-11-05"),
-      thumbnail: "/placeholder.svg?height=400&width=300",
-      url: "/sample.pdf",
-      favorite: false,
-      pages: 36,
-      fileSize: "3.8 MB",
-    },
-    {
-      id: "3",
-      title: "Calculus and Integration",
-      subject: "Mathematics",
-      class: "Class 12",
-      uploadDate: new Date("2023-09-22"),
-      thumbnail: "/placeholder.svg?height=400&width=300",
-      url: "/sample.pdf",
-      favorite: true,
-      pages: 42,
-      fileSize: "4.1 MB",
-    },
-    {
-      id: "4",
-      title: "Cell Biology and Genetics",
-      subject: "Biology",
-      class: "Class 11",
-      uploadDate: new Date("2023-10-30"),
-      thumbnail: "/placeholder.svg?height=400&width=300",
-      url: "/sample.pdf",
-      favorite: false,
-      pages: 28,
-      fileSize: "3.2 MB",
-    },
-    {
-      id: "5",
-      title: "Modern Indian History",
-      subject: "History",
-      class: "Class 10",
-      uploadDate: new Date("2023-08-15"),
-      thumbnail: "/placeholder.svg?height=400&width=300",
-      url: "/sample.pdf",
-      favorite: false,
-      pages: 32,
-      fileSize: "2.9 MB",
-    },
-    {
-      id: "6",
-      title: "English Grammar and Composition",
-      subject: "English",
-      class: "Class 9",
-      uploadDate: new Date("2023-07-20"),
-      thumbnail: "/placeholder.svg?height=400&width=300",
-      url: "/sample.pdf",
-      favorite: true,
-      pages: 18,
-      fileSize: "1.6 MB",
-    },
-  ]
-
-  // Get unique subjects and classes for filters
-  const subjects = Array.from(new Set(pdfs.map((pdf) => pdf.subject)))
-  const classes = Array.from(new Set(pdfs.map((pdf) => pdf.class)))
-
-  // Filter PDFs based on search term, subject, and class
-  const filteredPDFs = pdfs.filter((pdf) => {
-    const matchesSearch = pdf.title.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesSubject = activeSubject === "All" || pdf.subject === activeSubject
-    const matchesClass = activeClass === "All" || pdf.class === activeClass
-    return matchesSearch && matchesSubject && matchesClass
+  // Use custom hooks for data management
+  const {
+    pdfs,
+    loading,
+    error,
+    pagination,
+    updateFilters,
+    loadMore,
+    toggleFavorite: togglePDFFavorite,
+    downloadPDF
+  } = usePDFs({
+    initialFilters: {
+      isActive: true
+    }
   })
 
-  const toggleFavorite = (id: string) => {
-    // In a real app, this would update the state or call an API
-    console.log(`Toggle favorite for PDF ${id}`)
+  const { subjects, classes } = useMetadata()
+
+  // Handle filter changes
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value)
+    updateFilters({
+      subject: activeSubject === "All" ? undefined : activeSubject,
+      class: activeClass === "All" ? undefined : activeClass,
+      searchTerm: value || undefined,
+      isActive: true
+    })
+  }
+
+  const handleSubjectChange = (subject: string) => {
+    setActiveSubject(subject)
+    updateFilters({
+      subject: subject === "All" ? undefined : subject,
+      class: activeClass === "All" ? undefined : activeClass,
+      searchTerm: searchTerm || undefined,
+      isActive: true
+    })
+  }
+
+  const handleClassChange = (className: string) => {
+    setActiveClass(className)
+    updateFilters({
+      subject: activeSubject === "All" ? undefined : activeSubject,
+      class: className === "All" ? undefined : className,
+      searchTerm: searchTerm || undefined,
+      isActive: true
+    })
+  }
+
+  const toggleFavorite = async (id: string) => {
+    try {
+      await togglePDFFavorite(id)
+    } catch (error) {
+      console.error("Failed to toggle favorite:", error)
+    }
   }
 
   const openPDFViewer = (pdf: PDF) => {
     setSelectedPDF(pdf)
-    setIsDialogOpen(true)
+    setIsViewerDialogOpen(true)
+  }
+
+  const handleDownload = async (id: string) => {
+    try {
+      await downloadPDF(id)
+    } catch (error) {
+      console.error("Failed to download PDF:", error)
+    }
   }
 
   return (
@@ -146,9 +109,9 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => setActiveSubject("All")}>All Subjects</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleSubjectChange("All")}>All Subjects</DropdownMenuItem>
               {subjects.map((subject) => (
-                <DropdownMenuItem key={subject} onClick={() => setActiveSubject(subject)}>
+                <DropdownMenuItem key={subject} onClick={() => handleSubjectChange(subject)}>
                   {subject}
                 </DropdownMenuItem>
               ))}
@@ -163,9 +126,9 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => setActiveClass("All")}>All Classes</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleClassChange("All")}>All Classes</DropdownMenuItem>
               {classes.map((cls) => (
-                <DropdownMenuItem key={cls} onClick={() => setActiveClass(cls)}>
+                <DropdownMenuItem key={cls} onClick={() => handleClassChange(cls)}>
                   {cls}
                 </DropdownMenuItem>
               ))}
@@ -196,31 +159,6 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
                 <rect width="7" height="7" x="3" y="14" rx="1" />
               </svg>
             </Button>
-            <Button
-              variant={viewMode === "list" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setViewMode("list")}
-              className={cn("h-8 w-8 p-0", viewMode === "list" ? "bg-[#f0b429]" : "")}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="8" x2="21" y1="6" y2="6" />
-                <line x1="8" x2="21" y1="12" y2="12" />
-                <line x1="8" x2="21" y1="18" y2="18" />
-                <line x1="3" x2="3.01" y1="6" y2="6" />
-                <line x1="3" x2="3.01" y1="12" y2="12" />
-                <line x1="3" x2="3.01" y1="18" y2="18" />
-              </svg>
-            </Button>
           </div>
         </div>
 
@@ -230,27 +168,48 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
             placeholder="Search PDFs..."
             className="pl-8 h-8 text-sm"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
           />
         </div>
       </div>
 
+      {/* Loading State */}
+      {loading && pdfs.length === 0 && (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-[#1e40af]" />
+          <span className="ml-2 text-gray-600">Loading PDFs...</span>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="text-center py-12 bg-red-50 rounded-lg border border-red-200">
+          <FileText className="h-12 w-12 mx-auto text-red-400 mb-4" />
+          <h3 className="text-lg font-medium text-red-900 mb-1">Error Loading PDFs</h3>
+          <p className="text-red-600">{error}</p>
+        </div>
+      )}
+
       {/* PDF Cards */}
-      {filteredPDFs.length === 0 ? (
+      {!loading && !error && pdfs.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 rounded-lg">
           <FileText className="h-12 w-12 mx-auto text-gray-400 mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-1">No PDFs Found</h3>
           <p className="text-gray-500">Try adjusting your search or filters</p>
         </div>
-      ) : viewMode === "grid" ? (
+      ) : !loading && !error && viewMode === "grid" ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 gap-4">
-          {filteredPDFs.map((pdf) => (
+          {pdfs.map((pdf) => (
             <Card
               key={pdf.id}
               className="overflow-hidden hover:shadow-md transition-shadow py-0 gap-2 h-full flex flex-col"
             >
               <div className="relative aspect-[3/2] bg-gray-100">
-                <img src={"/assets/eng.jpeg"} alt={pdf.title} className="w-full h-full object-cover" />
+                <img 
+                  src={pdf.thumbnail || "/assets/eng.jpeg"} 
+                  alt={pdf.title} 
+                  className="w-full h-full object-cover" 
+                />
                 <button
                   onClick={() => toggleFavorite(pdf.id)}
                   className="absolute top-2 right-2 h-7 w-7 bg-white rounded-full flex items-center justify-center shadow-sm"
@@ -278,7 +237,7 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
               <CardFooter className="p-3 pt-1 text-xs text-gray-500 flex justify-between items-center bg-gray-50">
                 <div className="flex items-center">
                   <FileText className="h-3 w-3 mr-1" />
-                  {pdf.pages} pg
+                   pg
                 </div>
                 <Button
                   size="sm"
@@ -292,9 +251,9 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
             </Card>
           ))}
         </div>
-      ) : (
+      ) : !loading && !error && (
         <div className="space-y-2">
-          {filteredPDFs.map((pdf) => (
+          {pdfs.map((pdf) => (
             <Card
               key={pdf.id}
               className="overflow-hidden hover:shadow-sm transition-shadow border-l-4"
@@ -364,59 +323,66 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
         </div>
       )}
 
+      {/* Load More Button */}
+      {!loading && !error && pagination.hasMore && (
+        <div className="flex justify-center mt-8">
+          <Button
+            onClick={loadMore}
+            variant="outline"
+            className="border-[#1e40af] text-[#1e40af] hover:bg-[#1e40af]/10"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Loading...
+              </>
+            ) : (
+              <>
+                <Plus className="h-4 w-4 mr-2" />
+                Load More PDFs
+              </>
+            )}
+          </Button>
+        </div>
+      )}
+
       {/* PDF Viewer Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-4xl w-[90vw]">
-          <DialogHeader>
-            <DialogTitle className="flex justify-between items-center">
-              <span className="text-lg font-medium">{selectedPDF?.title}</span>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" className="border-[#1e40af] text-[#1e40af]" asChild>
-                  <a href={selectedPDF?.url} download>
-                    <Download className="h-4 w-4 mr-1" /> Download
-                  </a>
+      <Dialog open={isViewerDialogOpen} onOpenChange={setIsViewerDialogOpen}>
+        <DialogContent className="max-w-7xl w-[98vw] h-[95vh] md:w-[95vw] md:h-[90vh] p-0">
+          <DialogHeader className="p-3 md:p-4 border-b">
+            <DialogTitle className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <span className="text-base md:text-lg font-medium truncate max-w-[60%] sm:max-w-none">
+                {selectedPDF?.title}
+              </span>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="border-[#1e40af] text-[#1e40af] text-xs md:text-sm"
+                  onClick={() => selectedPDF && handleDownload(selectedPDF.id)}
+                >
+                  <Download className="h-3 w-3 md:h-4 md:w-4 mr-1" /> Download
                 </Button>
-                <button onClick={() => toggleFavorite(selectedPDF?.id || "")}>
+                <button onClick={() => selectedPDF && toggleFavorite(selectedPDF.id)}>
                   {selectedPDF?.favorite ? (
-                    <Star className="h-5 w-5 text-[#f0b429] fill-[#f0b429]" />
+                    <Star className="h-4 w-4 md:h-5 md:w-5 text-[#f0b429] fill-[#f0b429]" />
                   ) : (
-                    <StarOff className="h-5 w-5 text-gray-400" />
+                    <StarOff className="h-4 w-4 md:h-5 md:w-5 text-gray-400" />
                   )}
                 </button>
               </div>
             </DialogTitle>
           </DialogHeader>
-          <div className="bg-gray-100 rounded-md p-2 h-[70vh] flex items-center justify-center">
-            <div className="bg-white shadow-lg w-full h-full flex items-center justify-center">
-              <div className="text-center p-8">
-                <FileText className="h-12 w-12 mx-auto text-[#1e40af] mb-4" />
-                <h3 className="text-xl font-bold mb-4">PDF Viewer</h3>
-                <p className="text-gray-600 mb-4">
-                  In a real implementation, the PDF would be displayed here using a PDF viewer library.
-                </p>
-                <div className="flex flex-col sm:flex-row justify-center gap-2">
-                  <Button className="bg-[#1e40af] hover:bg-[#1e40af]/90" asChild>
-                    <a href={selectedPDF?.url} target="_blank" rel="noopener noreferrer">
-                      <Eye className="h-4 w-4 mr-2" /> Open in New Tab
-                    </a>
-                  </Button>
-                  <Button variant="outline" className="border-[#1e40af] text-[#1e40af]" asChild>
-                    <a href={selectedPDF?.url} download>
-                      <Download className="h-4 w-4 mr-2" /> Download
-                    </a>
-                  </Button>
-                </div>
-                <div className="mt-4 text-sm text-gray-500">
-                  <p>
-                    Subject: {selectedPDF?.subject} | Class: {selectedPDF?.class}
-                  </p>
-                  <p>
-                    Pages: {selectedPDF?.pages} | Size: {selectedPDF?.fileSize}
-                  </p>
-                </div>
-              </div>
+          {selectedPDF && (
+            <div className="flex-1 p-2 md:p-4 overflow-hidden">
+              <PDFViewer 
+                pdfUrl={selectedPDF.url} 
+                title={selectedPDF.title}
+                className="h-full w-full"
+              />
             </div>
-          </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>

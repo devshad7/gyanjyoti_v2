@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.ctfassets.net",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
   typescript: {
@@ -14,6 +18,13 @@ const nextConfig: NextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  // Configure external packages for server components
+  experimental: {
+    serverComponentsExternalPackages: ['cloudinary'],
+    serverActions: {
+      bodySizeLimit: '10mb', // Add this to fix PDF upload size limit
+    },
   },
 };
 

@@ -1,10 +1,9 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { ChevronLeft, ChevronRight, Download, Maximize2, Minimize2, Search, ZoomIn, ZoomOut } from "lucide-react"
+import { Download, Maximize2, Minimize2, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Slider } from "@/components/ui/slider"
 import { cn } from "@/lib/utils"
 
 interface PDFViewerProps {
@@ -15,10 +14,9 @@ interface PDFViewerProps {
 
 export default function PDFViewer({ pdfUrl, title = "Document", className }: PDFViewerProps) {
   const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
-  const [scale, setScale] = useState(1)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const toggleFullscreen = () => {
@@ -40,34 +38,24 @@ export default function PDFViewer({ pdfUrl, title = "Document", className }: PDF
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange)
   }, [])
 
-  // Simulate PDF loading
+  // Load PDF
   useEffect(() => {
+    setIsLoading(true)
     const timer = setTimeout(() => {
       setIsLoading(false)
-      setTotalPages(Math.floor(Math.random() * 20) + 5) // Simulate random page count
-    }, 1500)
+    }, 1000)
 
     return () => clearTimeout(timer)
   }, [pdfUrl])
 
   const nextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prev) => prev + 1)
-    }
+    setCurrentPage((prev) => prev + 1)
   }
 
   const prevPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prev) => prev - 1)
     }
-  }
-
-  const zoomIn = () => {
-    setScale((prev) => Math.min(prev + 0.1, 2))
-  }
-
-  const zoomOut = () => {
-    setScale((prev) => Math.max(prev - 0.1, 0.5))
   }
 
   return (
@@ -80,132 +68,89 @@ export default function PDFViewer({ pdfUrl, title = "Document", className }: PDF
       )}
     >
       {/* Header with title and controls */}
-      <div className="flex items-center justify-between p-3 border-b bg-gradient-to-r from-[#f0b429] to-[#f6e05e]">
-        <h2 className="font-semibold text-lg truncate">{title}</h2>
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={toggleFullscreen} className="hover:bg-yellow-400/20">
-            {isFullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
+      <div className="flex items-center justify-between p-2 md:p-3 border-b bg-gradient-to-r from-[#f0b429] to-[#f6e05e]">
+        <h2 className="font-semibold text-sm md:text-lg truncate max-w-[60%]">{title}</h2>
+        <div className="flex items-center gap-1 md:gap-2">
+          <Button variant="ghost" size="icon" onClick={toggleFullscreen} className="hover:bg-yellow-400/20 h-8 w-8 md:h-10 md:w-10">
+            {isFullscreen ? <Minimize2 className="h-4 w-4 md:h-5 md:w-5" /> : <Maximize2 className="h-4 w-4 md:h-5 md:w-5" />}
           </Button>
-          <Button variant="ghost" size="icon" className="hover:bg-yellow-400/20" asChild>
+          <Button variant="ghost" size="icon" className="hover:bg-yellow-400/20 h-8 w-8 md:h-10 md:w-10" asChild>
             <a href={pdfUrl} download target="_blank" rel="noopener noreferrer">
-              <Download className="h-5 w-5" />
+              <Download className="h-4 w-4 md:h-5 md:w-5" />
             </a>
           </Button>
         </div>
       </div>
 
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 p-2 border-b bg-gray-50">
+      <div className="flex flex-col sm:flex-row gap-2 p-2 border-b bg-gray-50">
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={prevPage}
-            disabled={currentPage <= 1}
-            className="border-[#1e40af] text-[#1e40af] hover:bg-[#1e40af]/10"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <div className="flex items-center gap-1">
-            <Input
-              type="number"
-              min={1}
-              max={totalPages}
-              value={currentPage}
-              onChange={(e) => setCurrentPage(Math.min(Math.max(1, Number.parseInt(e.target.value) || 1), totalPages))}
-              className="w-16 h-8 text-center"
-            />
-            <span className="text-sm text-gray-500">/ {totalPages}</span>
-          </div>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={nextPage}
-            disabled={currentPage >= totalPages}
-            className="border-[#1e40af] text-[#1e40af] hover:bg-[#1e40af]/10"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
+          <span className="text-xs md:text-sm text-gray-600 font-medium">PDF Controls:</span>
+          <span className="text-xs text-gray-500 hidden sm:block">Use PDF viewer&apos;s built-in navigation</span>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={zoomOut}
-            disabled={scale <= 0.5}
-            className="border-[#e91e63] text-[#e91e63] hover:bg-[#e91e63]/10"
-          >
-            <ZoomOut className="h-4 w-4" />
-          </Button>
-          <span className="text-sm w-12 text-center">{Math.round(scale * 100)}%</span>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={zoomIn}
-            disabled={scale >= 2}
-            className="border-[#e91e63] text-[#e91e63] hover:bg-[#e91e63]/10"
-          >
-            <ZoomIn className="h-4 w-4" />
-          </Button>
+        <div className="flex items-center gap-2 justify-center">
+          <span className="text-xs md:text-sm text-gray-600">Zoom controls available in PDF viewer</span>
         </div>
 
         <div className="relative flex items-center">
-          <Search className="absolute left-2 h-4 w-4 text-gray-400" />
-          <Input placeholder="Search..." className="pl-8 h-8 w-[150px] md:w-[200px]" />
+          <Search className="absolute left-2 h-3 w-3 md:h-4 md:w-4 text-gray-400" />
+          <Input 
+            placeholder="Search in PDF..." 
+            className="pl-7 md:pl-8 h-7 md:h-8 w-[120px] md:w-[150px] lg:w-[200px] text-xs md:text-sm" 
+            disabled 
+          />
         </div>
       </div>
 
       {/* PDF Content */}
-      <div className="flex-1 overflow-auto bg-gray-100 p-4">
+      <div className="flex-1 overflow-auto bg-gray-100 p-2 md:p-4">
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center h-[500px]">
-            <div className="w-16 h-16 border-4 border-t-[#f0b429] border-r-[#1e40af] border-b-[#e91e63] border-l-[#f0b429] rounded-full animate-spin"></div>
-            <p className="mt-4 text-gray-600">Loading document...</p>
+          <div className="flex flex-col items-center justify-center h-[300px] md:h-[500px]">
+            <div className="w-12 h-12 md:w-16 md:h-16 border-4 border-t-[#f0b429] border-r-[#1e40af] border-b-[#e91e63] border-l-[#f0b429] rounded-full animate-spin"></div>
+            <p className="mt-4 text-gray-600 text-sm md:text-base">Loading document...</p>
+          </div>
+        ) : error ? (
+          <div className="flex flex-col items-center justify-center h-[300px] md:h-[500px]">
+            <div className="text-center p-4 md:p-8 max-w-md">
+              <div className="text-red-500 text-4xl md:text-6xl mb-4">🔒</div>
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-red-600">Access Restricted</h3>
+              <p className="text-gray-600 mb-4 text-sm md:text-base">
+                This PDF is currently blocked for delivery. Please contact admin to make it publicly accessible.
+              </p>
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 md:p-4 mb-4">
+                <p className="text-xs md:text-sm text-yellow-800">
+                  <strong>Admin Fix:</strong> Go to Cloudinary Media Library → Select this PDF → Change &quot;Blocked for delivery&quot; to &quot;Public&quot;
+                </p>
+              </div>
+              <Button 
+                onClick={() => window.open(pdfUrl, '_blank')} 
+                className="bg-[#1e40af] hover:bg-[#1e40af]/90 text-sm md:text-base"
+                size="sm"
+              >
+                Try Opening Direct Link
+              </Button>
+            </div>
           </div>
         ) : (
-          <div
-            className="mx-auto bg-white shadow-lg transition-all duration-300 animate-fade-in"
-            style={{
-              width: `${8.5 * scale}in`,
-              height: `${11 * scale}in`,
-              transform: `scale(${scale})`,
-              transformOrigin: "top center",
-            }}
-          >
-            <div className="w-full h-full flex items-center justify-center border">
-              <div className="text-center p-8">
-                <h3 className="text-xl font-bold mb-4">
-                  Page {currentPage} of {totalPages}
-                </h3>
-                <p className="text-gray-600">PDF content would display here</p>
-                <div className="mt-8 flex justify-center">
-                  <img
-                    src="/assets/Gyan_logo.png"
-                    alt="GyanJyoti Logo"
-                    className="w-32 h-auto opacity-20"
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="w-full h-full">
+            <iframe
+              src={pdfUrl}
+              className="w-full h-full border-0 rounded-lg shadow-lg"
+              style={{
+                minHeight: '400px',
+              }}
+              title={title}
+              loading="lazy"
+              onError={() => setError("Failed to load PDF")}
+            />
           </div>
         )}
       </div>
 
       {/* Footer */}
-      <div className="p-2 border-t bg-gray-50 flex justify-between items-center">
-        <div className="text-sm text-gray-500">Powered by GyanJyoti</div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">Zoom:</span>
-          <Slider
-            value={[scale * 100]}
-            min={50}
-            max={200}
-            step={10}
-            className="w-24"
-            onValueChange={(value) => setScale(value[0] / 100)}
-          />
-        </div>
+      <div className="p-1 md:p-2 border-t bg-gray-50 flex justify-center items-center">
+        <div className="text-xs md:text-sm text-gray-500">Powered by GyanJyoti</div>
       </div>
     </div>
   )

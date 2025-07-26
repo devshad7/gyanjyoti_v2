@@ -19,23 +19,23 @@ const config = {
     },
     extend: {
       colors: {
-        customBlue: '#1f5dcf',
-        customPink: '#ea0068',
+        customBlue: '#275cc3',
+        customPink: '#e20869',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#1e40af", // Logo blue
+          DEFAULT: "#275cc3", // Logo blue
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "#e91e63", // Logo pink
+          DEFAULT: "#e20869", // Logo pink
           foreground: "hsl(var(--secondary-foreground))",
         },
         accent: {
-          DEFAULT: "#f0b429", // Logo gold
+          DEFAULT: "#f1ab0f", // Logo gold
           foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
@@ -55,9 +55,9 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         brand: {
-          blue: "#2c5aa0",
-          pink: "#e91e63",
-          gold: "#f9a825",
+          blue: "#275cc3",
+          pink: "#e20869",
+          gold: "#f1ab0f",
           light: "#f5f5f5",
         },
       },

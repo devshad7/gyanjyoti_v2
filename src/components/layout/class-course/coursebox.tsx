@@ -23,6 +23,7 @@ const PopularCourses = () => {
               image="/assets/course_preview.webp"
               title="Learn app development in 30 days"
               category="Web Design"
+              slug="app-development-30-days"
               students="500+"
             />
           </Link>
@@ -30,30 +31,35 @@ const PopularCourses = () => {
             image="/assets/course_preview.webp"
             title="Advance motion graphics"
             category="Animation Design"
+            slug="advance-motion-graphics"
             students="400+"
           />
           <CourseCard
             image="/assets/course_preview.webp"
             title="Learn CMS Development"
             category="Web Design"
+            slug="cms-development"
             students="300+"
           />
           <CourseCard
             image="/assets/course_preview.webp"
             title="Learn Complete Web Design course"
             category="Web Design"
+            slug="complete-web-design"
             students="500+"
           />
           <CourseCard
             image="/assets/course_preview.webp"
             title="Advance Drawing"
             category="Illustration"
+            slug="advance-drawing"
             students="400+"
           />
           <CourseCard
             image="/assets/course_preview.webp"
             title="Advance videography course"
             category="Video Editing"
+            slug="advance-videography"
             students="300+"
           />
         </div>

@@ -20,8 +20,8 @@ const Hero = () => {
             Transforming Education
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight tracking-tight animate-fade-in">
-            Illuminate Your <span className="text-blue-600">Learning</span>{" "}
-            Journey with <span className="text-pink-600">GyanJyoti</span>
+            Illuminate Your <span className="text-[#275cc3]">Learning</span>{" "}
+            Journey with <span className="text-[#e20869]">GyanJyoti</span>
           </h1>
           <p className="text-gray-600 mb-8 max-w-xl text-base sm:text-lg font-normal animate-fade-in">
             Access high-quality courses, interactive lessons, and expert

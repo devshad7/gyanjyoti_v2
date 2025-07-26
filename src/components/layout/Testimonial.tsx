@@ -6,31 +6,31 @@ const Testimonial = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Priyanka Baniya",
-      school: "Khowpa Secondary School, Grade 12",
+      name: "Amit Kafle",
+      school: "Everest English Boarding School",
       content:
-        "Thank you for this app. Most needed app in Nepal right now. I really find it so useful for me. The quizzes and notes in such simple language made it even easier to understand. I am using it daily to study and practice more MCQ-based questions.",
+        "Absolutely love this website! It's like a study buddy that's always there to help me. The MCQs, notes, and videos are super helpful. It's like having a teacher with me 24/7. Highly recommended!",
     },
     {
       id: 2,
-      name: "Hacked Gamer",
-      school: "Elite Grand School, Grade 8",
+      name: "Sakhxyam Pangeni",
+      school: "New Horizon English Boarding School",
       content:
-        "Words cannot describe how grateful I am for this application that helps me with my homework.",
+        "This website has changed the way I study. The notes are so easy to understand, and the quizzes help me prepare for exams. I love how I can practice whenever I want, and it's so much fun too!",
     },
     {
       id: 3,
-      name: "Aarav",
-      school: "Kathmadnu World School, Grade 12",
+      name: "Aaditya Dhakal",
+      school: "Shree Sharada Secondary School",
       content:
-        "Extraordinary Learning App! I highly recommend all students to utilize this app if they wish to achieve better results in their subjects. It provides ample knowledge that is truly beneficial. Give it a try, and I assure you, you won't be disappointed. Trust me, it's worth it.",
+        "Learning through this platform is easy as a breeze! The notes and quizzes are very straightforward and easy to comprehend. I use it every day to study and practice my skills. This is an awesome application that I would most definitely endorse!!",
     },
     {
       id: 4,
-      name: "Rinjin Gurung",
-      school: "A Levels, British College",
+      name: "Jinisha Basyal",
+      school: "Polestar Wisdom Boarding School",
       content:
-        "I feel so fortunate to have been one of the first test users of MeroSiksha. First, I was so amazed to find all the resources I needed for my ALevels - from subject notes, videos to past papers and quizzes. So, it's been a friend to me. Now, I read and practice whatever and whenever I like. It's like playing a game. But, you also get to ace your exams with it. Haha!",
+        "Your site on education is very helpful for understanding the difficult topics very easily-as this comprises a lot more resources in the form of videos and quizzes, and notes. I feel much more at ease with my studies now because of that. Thank you very much to the team.",
       featured: true,
     },
   ];
@@ -41,7 +41,10 @@ const Testimonial = () => {
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold">
             Why Students <span className="text-red-500">❤️</span>{" "}
-            <span className="text-blue-600">GyanJyoti</span>?
+            <span className="tracking-tight md:block hidden">
+                <span className="text-[#275cc3] font-extrabold">Gyan</span>
+                <span className="text-[#e20869] font-extrabold">Jyoti{" "}? </span>
+              </span>
           </h1>
         </div>
 
@@ -77,7 +80,7 @@ const Testimonial = () => {
                 animationStyle="from-center"
                 videoSrc="/assets/video/gyanjyoti.mp4"
                 thumbnailAlt="Hero Video" 
-                thumbnailSrc={"/assets/gyanthumb.png"}              />
+                thumbnailSrc={"/assets/testimonialthumbnail.jpg"}              />
             </div>
             <div className="p-6">
               <p className="mb-2">{testimonials[2].content}</p>
