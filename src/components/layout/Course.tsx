@@ -1,14 +1,16 @@
 import { ArrowRight, Clock, Monitor, Play, Shield, Star } from "lucide-react";
 import Image from "next/image";
 import React from "react";
-import { options } from "@/lib/richTextType";
 import { Badge } from "../ui/badge";
 import HeroVideoDialog from "../magicui/hero-video-dialog";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import StickyCourseNav from "./StickyCourseNav";
+import { CoursePage } from "@/data/course";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Course = ({ course }: any) => {
+interface Props {
+  courseData: CoursePage;
+}
+
+const Course = ({ courseData }: Props) => {
   return (
     <>
       {/* Sticky Course Nav */}
@@ -29,22 +31,22 @@ const Course = ({ course }: any) => {
                 variant="outline"
                 className="bg-yellow-400/90 text-black border-none px-4 py-1 text-sm font-medium"
               >
-                {course.fields.caategory[0]}
+                {courseData.category}
               </Badge>
               <div className="flex items-center gap-1 ml-2 bg-gray-100 rounded-full px-3 py-1">
                 <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs">
                   J
                 </div>
-                <span className="text-sm">John Carter</span>
+                <span className="text-sm">{courseData.teacherInfo.name}</span>
               </div>
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              {course.fields.title}
+              {courseData.title}
             </h1>
 
             <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-              {course.fields.description}
+              {courseData.subtitle}
             </p>
 
             <div className="rounded-lg overflow-hidden max-w-3xl mx-auto">
@@ -59,7 +61,7 @@ const Course = ({ course }: any) => {
                 className="block"
                 animationStyle="from-center"
                 videoSrc="https://www.youtube.com/embed/RVCYtPko5_Q?rel=0"
-                thumbnailSrc={course.fields.thumbnail.fields.file.url}
+                thumbnailSrc={courseData.videoThumbnailUrl}
                 thumbnailAlt="Hero Video"
               />
             </div>
@@ -73,11 +75,15 @@ const Course = ({ course }: any) => {
             <div className="md:col-span-2 space-y-8">
               <section>
                 <h2 className="text-2xl font-bold mb-4">About the course</h2>
+                <p className="text-gray-700 mb-4">{courseData.aboutCourse}</p>
+              </section>
+
+              <section>
+                <h2 className="text-2xl font-bold mb-4">
+                  Lorem ipsum dolor sit
+                </h2>
                 <p className="text-gray-700 mb-4">
-                  {documentToReactComponents(
-                    course.fields.aboutCourse,
-                    options
-                  )}
+                  {courseData.detailedDescription}
                 </p>
               </section>
 
@@ -86,10 +92,11 @@ const Course = ({ course }: any) => {
                   In this course you will be able to:
                 </h2>
                 <p className="text-gray-700 mb-4">
-                  {documentToReactComponents(
-                    course.fields.courseOutcome,
-                    options
-                  )}
+                  {courseData.whatYouWillLearn.map((item, idx) => (
+                    <li key={idx} className="pb-3">
+                      {item}
+                    </li>
+                  ))}
                 </p>
               </section>
             </div>
@@ -106,7 +113,9 @@ const Course = ({ course }: any) => {
                     </div>
                     <div>
                       <span className="text-gray-700">Level: </span>
-                      <span className="font-medium">Basic</span>
+                      <span className="font-medium">
+                        {courseData.courseDetails.level}
+                      </span>
                     </div>
                   </div>
 
@@ -116,7 +125,9 @@ const Course = ({ course }: any) => {
                     </div>
                     <div>
                       <span className="text-gray-700">Duration: </span>
-                      <span className="font-medium">4hr 28m</span>
+                      <span className="font-medium">
+                        {courseData.courseDetails.duration}
+                      </span>
                     </div>
                   </div>
 
@@ -125,7 +136,9 @@ const Course = ({ course }: any) => {
                       <Play className="h-5 w-5 text-orange-500" />
                     </div>
                     <div>
-                      <span className="text-gray-700">12 Videos</span>
+                      <span className="text-gray-700">
+                        {courseData.courseDetails.totalVideos}
+                      </span>
                     </div>
                   </div>
 
@@ -134,7 +147,9 @@ const Course = ({ course }: any) => {
                       <Star className="h-5 w-5 text-yellow-500" />
                     </div>
                     <div>
-                      <span className="text-gray-700">Lifetime Access</span>
+                      <span className="text-gray-700">
+                        {courseData.courseDetails.access}
+                      </span>
                     </div>
                   </div>
 
@@ -144,7 +159,7 @@ const Course = ({ course }: any) => {
                     </div>
                     <div>
                       <span className="text-gray-700">
-                        Access From Any Computer, Tablet or Mobile
+                        {courseData.courseDetails.compatibility}
                       </span>
                     </div>
                   </div>
@@ -155,7 +170,7 @@ const Course = ({ course }: any) => {
                     </div>
                     <div>
                       <span className="text-gray-700">
-                        30 days money guarantee
+                        {courseData.courseDetails.guarantee}
                       </span>
                     </div>
                   </div>
@@ -168,7 +183,7 @@ const Course = ({ course }: any) => {
                 <div className="flex items-center mb-4">
                   <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
                     <Image
-                      src="/assets/confident-executive.png"
+                      src={courseData.teacherInfo.profileUrl}
                       alt="John Carter"
                       width={64}
                       height={64}
@@ -176,15 +191,13 @@ const Course = ({ course }: any) => {
                     />
                   </div>
                   <div>
-                    <h4 className="font-bold">John Carter</h4>
+                    <h4 className="font-bold">{courseData.teacherInfo.name}</h4>
                     <p className="text-gray-600">Illustration</p>
                   </div>
                 </div>
 
                 <p className="text-gray-700 text-sm mb-4">
-                  Posuere quam vitae varius um est augue ullamcorper id faucibus
-                  facil isis diam eget mauris et et lectus sed sit magna a eu
-                  egestas nulla.
+                  {courseData.teacherInfo.bio}
                 </p>
 
                 <a

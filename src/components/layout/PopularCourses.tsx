@@ -1,39 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { createClient, Entry, EntrySkeletonType } from "contentful";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import CourseCard from "../ui/popularCoursesCard";
-
-const client = createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!,
-  environment: "master",
-});
-
+import { course } from "@/data/course";
 const PopularCourses = () => {
-  const [posts, setPosts] = useState<
-    Entry<EntrySkeletonType, undefined, string>[]
-  >([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  async function getPosts() {
-    try {
-      const entries = await client.getEntries({
-        content_type: "coursePost",
-        limit: 4,
-      });
-      setLoading(false);
-      setPosts(entries.items);
-    } catch (error) {
-      console.error("Error fetching entries:", error);
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    getPosts();
-  }, []);
+  const [posts, setPosts] = useState(course);
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-16">
@@ -45,24 +17,21 @@ const PopularCourses = () => {
           </p>
         </div>
         <Button variant="link" className="text-indigo-600">
-          See All Ads
+          See All Courses
         </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((course) => (
           <CourseCard
-            key={course.sys.id}
-            slug={String(course.fields.slug)}
-            image={`https:${
-              (course.fields.thumbnail as { fields: { file: { url: string } } })
-                ?.fields.file.url
-            }`}
-            title={String(course.fields.title)}
-            category={String(course.fields.caategory)}
+            key={course.slug}
+            slug={course.slug}
+            image={course.videoThumbnailUrl}
+            title={course.title}
+            category={course.category}
             students="500+"
-            rating="4.8"
-            price={String(course.fields.price)}
+            rating={course.rating}
+            price={course.price}
           />
         ))}
       </div>

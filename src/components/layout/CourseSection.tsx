@@ -1,53 +1,55 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import { Search, Star, Filter, X } from "lucide-react"
-import Link from "next/link"
-import { coursesData, categories, languages, type CourseData } from "./data/courseData"
+import type React from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { Search, Star, Filter, X } from "lucide-react";
+import Link from "next/link";
+import { allClass, course, languages } from "@/data/course";
 
 export default function CourseSection() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("All category")
-  const [selectedLanguage, setSelectedLanguage] = useState("All")
-  const [selectedRating, setSelectedRating] = useState(0)
-  const [showMobileFilter, setShowMobileFilter] = useState(false)
-  const [filteredCourses, setFilteredCourses] = useState(coursesData)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All category");
+  const [selectedLanguage, setSelectedLanguage] = useState("All");
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const [filteredCourses, setFilteredCourses] = useState(course);
 
   useEffect(() => {
-    let result = coursesData
+    let result = course;
 
     if (searchQuery) {
       result = result.filter(
         (course) =>
           course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          course.description.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
+          course.aboutCourse.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     }
 
     if (selectedCategory !== "All category") {
-      result = result.filter((course) => course.category === selectedCategory)
+      result = result.filter(
+        (course) => course.classLevel === selectedCategory
+      );
     }
 
     if (selectedLanguage !== "All") {
-      result = result.filter((course) => course.language === selectedLanguage)
+      result = result.filter((course) => course.languauge === selectedLanguage);
     }
 
     if (selectedRating > 0) {
-      result = result.filter((course) => course.rating >= selectedRating)
+      result = result.filter((course) => course.rating >= selectedRating);
     }
 
-    setFilteredCourses(result)
-  }, [searchQuery, selectedCategory, selectedLanguage, selectedRating])
+    setFilteredCourses(result);
+  }, [searchQuery, selectedCategory, selectedLanguage, selectedRating]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value)
-  }
+    setSearchQuery(e.target.value);
+  };
 
   const toggleMobileFilter = () => {
-    setShowMobileFilter(!showMobileFilter)
-  }
+    setShowMobileFilter(!showMobileFilter);
+  };
 
   return (
     <div className="flex flex-col bg-blue-50 min-h-screen">
@@ -62,7 +64,10 @@ export default function CourseSection() {
               onChange={handleSearchChange}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
             />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={18}
+            />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
@@ -86,7 +91,7 @@ export default function CourseSection() {
           <div className="mb-6">
             <h3 className="font-medium mb-2">Categories</h3>
             <div className="space-y-2 max-h-[200px] overflow-y-auto pr-2">
-              {categories.map((category) => (
+              {allClass.map((category) => (
                 <CategoryOption
                   key={category}
                   label={category}
@@ -114,7 +119,11 @@ export default function CourseSection() {
           <div>
             <h3 className="font-medium mb-2">Ratings</h3>
             <div className="space-y-2">
-              <CategoryOption label="All" checked={selectedRating === 0} onChange={() => setSelectedRating(0)} />
+              <CategoryOption
+                label="All"
+                checked={selectedRating === 0}
+                onChange={() => setSelectedRating(0)}
+              />
               {[1, 2, 3, 4, 5].map((stars) => (
                 <RatingOption
                   key={stars}
@@ -152,14 +161,14 @@ export default function CourseSection() {
                       </button>
                     </div>
                     <div className="space-y-2">
-                      {categories.map((category) => (
+                      {allClass.map((category) => (
                         <CategoryOption
                           key={category}
                           label={category}
                           checked={selectedCategory === category}
                           onChange={() => {
-                            setSelectedCategory(category)
-                            toggleMobileFilter()
+                            setSelectedCategory(category);
+                            toggleMobileFilter();
                           }}
                         />
                       ))}
@@ -170,13 +179,22 @@ export default function CourseSection() {
             </div>
 
             {selectedCategory !== "All category" && (
-              <FilterTag label={selectedCategory} onClear={() => setSelectedCategory("All category")} />
+              <FilterTag
+                label={selectedCategory}
+                onClear={() => setSelectedCategory("All category")}
+              />
             )}
             {selectedLanguage !== "All" && (
-              <FilterTag label={selectedLanguage} onClear={() => setSelectedLanguage("All")} />
+              <FilterTag
+                label={selectedLanguage}
+                onClear={() => setSelectedLanguage("All")}
+              />
             )}
             {selectedRating > 0 && (
-              <FilterTag label={`${selectedRating}+ Stars`} onClear={() => setSelectedRating(0)} />
+              <FilterTag
+                label={`${selectedRating}+ Stars`}
+                onClear={() => setSelectedRating(0)}
+              />
             )}
 
             {(selectedCategory !== "All category" ||
@@ -184,9 +202,9 @@ export default function CourseSection() {
               selectedRating > 0) && (
               <button
                 onClick={() => {
-                  setSelectedCategory("All category")
-                  setSelectedLanguage("All")
-                  setSelectedRating(0)
+                  setSelectedCategory("All category");
+                  setSelectedLanguage("All");
+                  setSelectedRating(0);
                 }}
                 className="text-sm text-blue-600 hover:text-blue-800 underline ml-2"
               >
@@ -199,30 +217,33 @@ export default function CourseSection() {
             {filteredCourses.length > 0 ? (
               filteredCourses.map((course) => (
                 <CourseCard
-                  key={course.id}
+                  key={course.slug}
+                  slug={course.slug}
                   subject={course.subject}
                   classLevel={course.classLevel}
                   title={course.title}
-                  description={course.description}
-                  lessons={course.lessons}
-                  hours={course.hours}
-                  language={course.language}
+                  description={course.aboutCourse}
+                  lessons={course.courseDetails.totalVideos}
+                  hours={course.courseDetails.duration}
+                  language={course.languauge}
                   rating={course.rating}
                   reviews={course.reviews}
-                  imageSrc={course.imageSrc}
+                  imageSrc={course.videoThumbnailUrl}
                   price={0}
                   originalPrice={null}
                 />
               ))
             ) : (
               <div className="col-span-full bg-white rounded-lg p-8 text-center">
-                <p className="text-lg text-gray-600">No courses found matching your criteria.</p>
+                <p className="text-lg text-gray-600">
+                  No courses found matching your criteria.
+                </p>
                 <button
                   onClick={() => {
-                    setSearchQuery("")
-                    setSelectedCategory("All category")
-                    setSelectedLanguage("All")
-                    setSelectedRating(0)
+                    setSearchQuery("");
+                    setSelectedCategory("All category");
+                    setSelectedLanguage("All");
+                    setSelectedRating(0);
                   }}
                   className="mt-4 text-blue-600 hover:text-blue-800 underline"
                 >
@@ -234,7 +255,7 @@ export default function CourseSection() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function CategoryOption({
@@ -242,18 +263,20 @@ function CategoryOption({
   checked = false,
   onChange,
 }: {
-  label: string
-  checked?: boolean
-  onChange: () => void
+  label: string;
+  checked?: boolean;
+  onChange: () => void;
 }) {
   return (
     <div className="flex items-center cursor-pointer" onClick={onChange}>
       <div className="h-4 w-4 rounded-full border border-gray-300 flex items-center justify-center mr-2 relative">
-        {checked && <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>}
+        {checked && (
+          <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>
+        )}
       </div>
       <span className="text-sm">{label}</span>
     </div>
-  )
+  );
 }
 
 function RatingOption({
@@ -261,36 +284,47 @@ function RatingOption({
   checked = false,
   onChange,
 }: {
-  stars: number
-  checked?: boolean
-  onChange: () => void
+  stars: number;
+  checked?: boolean;
+  onChange: () => void;
 }) {
   return (
     <div className="flex items-center cursor-pointer" onClick={onChange}>
       <div className="h-4 w-4 rounded-full border border-gray-300 flex items-center justify-center mr-2 relative">
-        {checked && <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>}
+        {checked && (
+          <div className="h-2 w-2 rounded-full bg-red-500 absolute"></div>
+        )}
       </div>
       <div className="flex">
         {[...Array(5)].map((_, i) => (
-          <Star key={i} className={`h-4 w-4 ${i < stars ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
+          <Star
+            key={i}
+            className={`h-4 w-4 ${
+              i < stars ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+            }`}
+          />
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 function FilterTag({ label, onClear }: { label: string; onClear: () => void }) {
   return (
     <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
       {label}
-      <button onClick={onClear} className="ml-1 text-blue-600 hover:text-blue-800">
+      <button
+        onClick={onClear}
+        className="ml-1 text-blue-600 hover:text-blue-800"
+      >
         <X size={14} />
       </button>
     </div>
-  )
+  );
 }
 
 function CourseCard({
+  slug,
   subject,
   classLevel,
   title,
@@ -301,7 +335,7 @@ function CourseCard({
   rating,
   reviews,
   imageSrc,
-}: Omit<CourseData, "id" | "category">) {
+}: any) {
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden hover:shadow-md transition-shadow duration-200 cursor-pointer h-full flex flex-col">
       <div className="relative h-[160px]">
@@ -312,14 +346,16 @@ function CourseCard({
           <div className="absolute top-0 right-0 z-10">
             <div className="relative">
               <div className="w-0 h-0 border-t-[25px] border-t-transparent border-r-[25px] border-r-white"></div>
-              <div className="absolute top-0 right-0 bg-white text-xs px-2 py-1 text-blue-600">{classLevel}</div>
+              <div className="absolute top-0 right-0 bg-white text-xs px-2 py-1 text-blue-600">
+                {classLevel}
+              </div>
             </div>
           </div>
         )}
         <div className="h-54 w-auto bg-blue-100">
-          <Link href={"/course"} className="block h-full w-full pt-4">
+          <Link href={`/course/${slug}`} className="block h-full w-full pt-4">
             <Image
-              src={"/assets/subject/science10.png"}
+              src={imageSrc}
               alt={title}
               width={500}
               height={100}
@@ -331,10 +367,14 @@ function CourseCard({
 
       <div className="p-3 mt-13 flex-1 flex flex-col">
         <div className="flex-1">
-          <Link href={"/course"}>
-            <h3 className="text-lg font-bold text-red-900 mb-1 line-clamp-1">{title}</h3>
+          <Link href={`/course/${slug}`}>
+            <h3 className="text-lg font-bold text-red-900 mb-1 line-clamp-1">
+              {title}
+            </h3>
           </Link>
-          <p className="text-sm text-gray-700 mb-3 line-clamp-2">{description}</p>
+          <p className="text-sm text-gray-700 mb-3 line-clamp-2">
+            {description}
+          </p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-3">
             <CourseDetail label={`${lessons} Lessons`} />
             <CourseDetail label={`${hours} Hours`} />
@@ -348,7 +388,11 @@ function CourseCard({
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`h-3 w-3 ${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                  className={`h-3 w-3 ${
+                    i < rating
+                      ? "text-yellow-400 fill-yellow-400"
+                      : "text-gray-300"
+                  }`}
                 />
               ))}
             </div>
@@ -359,7 +403,7 @@ function CourseCard({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function CourseDetail({ label }: { label: string }) {
@@ -370,5 +414,5 @@ function CourseDetail({ label }: { label: string }) {
       </div>
       <span className="text-xs">{label}</span>
     </div>
-  )
+  );
 }

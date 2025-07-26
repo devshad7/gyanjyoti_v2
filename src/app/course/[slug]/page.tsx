@@ -2,36 +2,27 @@ import Course from "@/components/layout/Course";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import Newsletter from "@/components/layout/Newsletter";
+import { course } from "@/data/course";
 import { createClient } from "contentful";
 import { notFound } from "next/navigation";
 import React from "react";
 
-const client = createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!,
-  environment: "master",
-});
-
-type PageProps = {
-  params: {
-    slug: string;
-  };
+type ParamsProps = {
+  params: { slug: string };
 };
 
-const Page = async ({ params }: PageProps) => {
-  const { slug } = params;
+const Page = ({ params }: ParamsProps) => {
+  const slug = params.slug;
+  const courseData = course.find((p) => p.slug === slug);
 
-  const entries = await client.getEntries({
-    content_type: "coursePost",
-    "fields.slug": slug,
-  });
-
-  const course = entries.items[0] ?? notFound();
+  if (!courseData) {
+    notFound();
+  }
 
   return (
     <>
       <Navbar />
-      <Course course={course} />
+      <Course courseData={courseData} />
       <Newsletter />
       <Footer />
     </>
