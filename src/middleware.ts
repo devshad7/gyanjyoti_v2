@@ -2,12 +2,8 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 
 const isProtectedRoute = createRouteMatcher([
-  "/material(.*)",  
-  "/1(.*)",   
-  "/v1(.*)",
-  "/course(.*)",
-  "/gyan-quest(.*)",
-  "/gyan-ai(.*)"       
+  // Protect only the course joined route: /course/:slug/joined
+  "/course/:slug/joined(.*)",
 ]);
 
 export default clerkMiddleware(async (auth, req) => {

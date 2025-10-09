@@ -11,14 +11,14 @@ import Testimonial from "./layout/Testimonial";
 const Home = () => {
   return (
     <>
-      <Navbar />
+     
       <Hero />
       <Stats />
       <Categories />
       <PopularCourses />
       <Testimonial />
       <Newsletter />
-      <Footer />
+     
     </>
   );
 };

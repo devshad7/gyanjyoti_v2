@@ -3,10 +3,11 @@ import { SupabaseNotesService } from '@/lib/supabase-notes-service'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const note = await SupabaseNotesService.toggleFavorite(params.id)
+    const { id } = await params
+    const note = await SupabaseNotesService.toggleFavorite(id)
 
     return NextResponse.json({
       success: true,

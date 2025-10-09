@@ -12,7 +12,7 @@ import { useMobile } from "@/hooks/use-mobile";
 import { FallbackMessage } from "@/components/layout/GyanAI/fallback-message";
 import { TypingIndicator } from "./typing-indicator";
 const GyanLogo = "/assets/Gyan_logo.png";
-import Navbar from "@/components/layout/Navbar";
+
 type ApiErrorType = {
   message: string;
   isRateLimit: boolean;
@@ -66,22 +66,42 @@ export function ChatInterface() {
         body: JSON.stringify({ message: content }),
       });
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (parseError) {
+        console.error("Failed to parse JSON response:", parseError);
+        throw new Error("Invalid response from server");
+      }
+
+      console.log("API Response:", { status: response.status, data });
 
       if (!response.ok) {
         const isRateLimit =
           response.status === 429 || data?.isRateLimit === true;
+        console.error("API Error:", { status: response.status, data });
         throw new Error(
-          data?.message || data?.error || "Failed to get response"
+          data?.message || data?.error || `Server error: ${response.status}`
         );
+      }
+
+      // Check if response data is valid
+      if (!data || (typeof data === 'object' && Object.keys(data).length === 0)) {
+        console.error("Empty response from API:", data);
+        throw new Error("Server returned empty response");
+      }
+
+      const responseContent = data.response || data.text || data.message;
+      
+      if (!responseContent || typeof responseContent !== 'string' || responseContent.trim() === '') {
+        console.error("Invalid response content:", data);
+        throw new Error("Server returned invalid response content");
       }
 
       addMessage({
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content:
-          data.response ||
-          "Sorry, I couldn't generate a response at this time.",
+        content: responseContent,
         timestamp: new Date().toISOString(),
       });
     } catch (error) {
@@ -120,7 +140,7 @@ export function ChatInterface() {
 
   return (
      <>
-     <Navbar />
+   
     <div className="flex max-w-7xl mx-auto h-screen">
       {/* Mobile backdrop overlay */}
       {showSidebar && (

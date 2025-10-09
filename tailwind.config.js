@@ -55,6 +55,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         brand: {
+          black: "#00000",
           blue: "#275cc3",
           pink: "#e20869",
           gold: "#f1ab0f",

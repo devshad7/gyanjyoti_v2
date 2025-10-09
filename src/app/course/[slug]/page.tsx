@@ -1,31 +1,64 @@
-import Course from "@/components/layout/Course";
-import Footer from "@/components/layout/Footer";
-import Navbar from "@/components/layout/Navbar";
-import Newsletter from "@/components/layout/Newsletter";
-import { course } from "@/data/course";
-import { notFound } from "next/navigation";
-import React from "react";
+"use client"
 
-type ParamsProps = {
-  params: { slug: string };
-};
+import { useState, useEffect } from "react"
+import { useParams } from "next/navigation"
+import Course from "@/components/layout/courses/course"
+import LoadingSpinner from "@/components/ui/loading-spinner"
+import type { CoursePage } from "@/lib/types"
 
-const Page = async ({ params }: ParamsProps) => {
-  const slug = params.slug;
-  const courseData = course.find((p) => p.slug === slug);
+export default function CourseDetailPage() {
+  const params = useParams()
+  const slug = params.slug as string
 
-  if (!courseData) {
-    notFound();
+  const [courseData, setCourseData] = useState<CoursePage | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (slug) {
+      fetchCourse()
+    }
+  }, [slug])
+
+  const fetchCourse = async () => {
+    try {
+      const response = await fetch(`/api/courses/${slug}`)
+      const data = await response.json()
+
+      if (data.success) {
+        setCourseData(data.data)
+      } else {
+        setError("Course not found")
+      }
+    } catch (err) {
+      setError("Failed to fetch course")
+      console.error("Error fetching course:", err)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  return (
-    <>
-      <Navbar />
-      <Course courseData={courseData} />
-      <Newsletter />
-      <Footer />
-    </>
-  );
-};
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    )
+  }
 
-export default Page;
+  if (error || !courseData) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Course Not Found</h1>
+          <p className="text-gray-600 mb-4">{error || "The requested course could not be found."}</p>
+          <button onClick={fetchCourse} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            Try Again
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  return <Course courseData={courseData} />
+}

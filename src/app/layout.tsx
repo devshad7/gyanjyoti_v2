@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Gyan Jyoti | The Ultimate E-Learning Platform",
@@ -22,7 +24,11 @@ export default function RootLayout({
       }}
     >
       <html lang="en">
-        <body suppressHydrationWarning>{children}</body>
+        <body suppressHydrationWarning>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </body>
       </html>
     </ClerkProvider>
   );

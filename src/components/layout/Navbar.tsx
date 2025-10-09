@@ -48,8 +48,8 @@ const Navbar = () => {
   const navItems = [
     { name: "Home", href: "/" },
     { name: "Courses", href: "/courses" },
-    { name: "Mentors", href: "/mentors" },
     { name: "About", href: "/about" },
+     { name: "Blogs", href: "/mentors" },
     {
       name: "GyanVerse",
       dropdown: true,

@@ -2,15 +2,13 @@
 
 import QuizComponent from "@/components/layout/gyan-quest/quiz-card-component";
 import GamesComponent from "@/components/layout/gyan-quest/game-card-component";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, PenLine } from "lucide-react";
 
 export default function Page() {
   return (
     <>
-      <Navbar />
       <main className="mx-auto max-w-7xl p-3 md:p-4 lg:p-6">
         <Tabs defaultValue="notes" className="w-full">
           <TabsList className="grid w-full max-w-xs mx-auto grid-cols-2 mb-6">
@@ -37,7 +35,7 @@ export default function Page() {
           </TabsContent>
         </Tabs>
       </main>
-      <Footer />
+      
     </>
   );
 }

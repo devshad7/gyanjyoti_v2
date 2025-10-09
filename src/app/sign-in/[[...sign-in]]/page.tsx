@@ -1,6 +1,5 @@
 import Login from "@/components/layout/auth/Login";
-import Footer from "@/components/layout/Footer";
-import Navbar from "@/components/layout/Navbar";
+
 import { Metadata } from "next";
 import React from "react";
 
@@ -13,9 +12,9 @@ export const metadata: Metadata = {
 function Page() {
   return (
     <>
-      <Navbar />
+   
       <Login />
-      <Footer />
+     
     </>
   );
 }

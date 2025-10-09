@@ -1,13 +1,13 @@
 "use client";
 
-import Navbar from "@/components/layout/Navbar";
+
 import Link from "next/link";
 import { FileQuestion, Home, MoveLeft } from "lucide-react";
 
 const NotFound = () => {
   return (
     <>
-      <Navbar />
+    
       <div className="min-h-[90vh] w-full flex flex-col justify-center items-center px-4 text-center">
         <div className="max-w-md flex flex-col items-center">
           <FileQuestion className="h-32 w-32 text-primary mb-6 animate-pulse" />
