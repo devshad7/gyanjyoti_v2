@@ -21,7 +21,7 @@ export const options = {
       </h3>
     ),
     [BLOCKS.HEADING_4]: (node: Node, children: React.ReactNode) => (
-      <h4 className="text-xl font-medium text-gray-800 dark:text-gray-500 mt-3">
+      <h4 className="text-xl font-medium text-gray-600 dark:text-gray-500 mt-3">
         {children}
       </h4>
     ),
