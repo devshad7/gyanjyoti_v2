@@ -1,28 +1,27 @@
-import { BlogPost, blogs } from "@/data/blogs";
 import { Clock } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-const Blogs = () => {
+const Blogs = ({ blogs }: any) => {
   return (
     <div className="max-w-7xl mx-auto py-16 px-6 flex items-center justify-between">
       <div className="flex md:grid md:grid-cols-3 flex-wrap gap-x-8 gap-8 md:gap-y-12">
-        {blogs.map((blog: BlogPost) => (
-          <div className="flex flex-col xl:w-[400px] gap-3" key={blog.id}>
+        {blogs.map((blog: any) => (
+          <div className="flex flex-col xl:w-[400px] gap-3" key={blog.sys.id}>
             <Link
-              href={`/blogs/${blog.slug}`}
+              href={`/blogs/${blog.fields.slug}`}
               className="group relative xl:w-[400px] h-[225px] rounded-xl overflow-hidden"
             >
               <img
-                src={blog.image}
+                src={blog.fields.featuredImage.fields.file.url}
                 alt=""
-                className="w-full h-full object-cover mask-b-from-40% mask-b-to-100%"
+                className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 flex">
                 <div className="pt-4 px-4 flex justify-between w-full">
                   <div className="flex gap-2 text-xs tracking-widest font-bold">
                     <div className="h-2 rounded-lg flex justify-center items-center py-3 px-3 bg-white">
-                      <span>{blog.category}</span>
+                      <span>{blog.fields.category}</span>
                     </div>
                   </div>
                   <div className="hidden group-hover:block">
@@ -37,14 +36,22 @@ const Blogs = () => {
             <div className="flex flex-col gap-1">
               <span className="text-sm font-semibold text-gray-500">
                 <Link href={""} className="text-indigo-500">
-                  {blog.author.name}
+                  {blog.fields.author}
                 </Link>{" "}
-                on {blog.publishedAt}
+                on{" "}
+                {new Date(blog.fields.publishDate).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
               </span>
-              <Link href={`/blogs/${blog.slug}`} className="text-xl font-bold">
-                {blog.title}
+              <Link
+                href={`/blogs/${blog.fields.slug}`}
+                className="text-xl font-bold"
+              >
+                {blog.fields.title}
               </Link>
-              <p className="text-gray-500">{blog.excerpt}</p>
+              <p className="text-gray-500">{blog.fields.excerpt}</p>
             </div>
           </div>
         ))}
