@@ -5,9 +5,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "Gyan Jyoti | The Ultimate E-Learning Platform",
-  description:
-    "GyanJyoti is a multiple award-winning academic platform developed in Nepal and used globally by students, parents and educators.",
+  title: "GyanJyoti | The Ultimate E-Learning Platform",
+  description: "GyanJyoti is a leading Nepali e-learning platform offering high-quality video courses, interactive quizzes, downloadable PDFs, and the intelligent Gyan AI Assistant to help secondary-level students improve academic performance and achieve excellence.",
 };
 
 export default function RootLayout({

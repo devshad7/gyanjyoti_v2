@@ -3,7 +3,7 @@ import { Button } from "../ui/button"
 
 const Newsletter = () => {
   return (
-    <section className="relative overflow-hidden py-10"> {/* Reduced padding */}
+    <section className="relative overflow-hidden py-5"> {/* Reduced padding */}
       {/* Background elements */}
       <div className="absolute -top-16 -left-16 w-48 h-48 rounded-full bg-blue-600 opacity-10 blur-3xl"></div> {/* Reduced size */}
       <div className="absolute -bottom-16 -right-16 w-48 h-48 rounded-full bg-pink-600 opacity-10 blur-3xl"></div> {/* Reduced size */}

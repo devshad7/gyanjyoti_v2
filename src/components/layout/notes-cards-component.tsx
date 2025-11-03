@@ -255,11 +255,11 @@ If some images failed to download, you can find their URLs in the note details f
 
   const getSubjectColor = (subject: string) => {
     const colors = {
-      Physics: "bg-[#1e40af]/10 text-[#1e40af] border-[#1e40af]/30",
-      Chemistry: "bg-[#059669]/10 text-[#059669] border-[#059669]/30",
+      Science: "bg-[#1e40af]/10 text-[#1e40af] border-[#1e40af]/30",
+      Nepali: "bg-[#059669]/10 text-[#059669] border-[#059669]/30",
       Mathematics: "bg-[#7c3aed]/10 text-[#7c3aed] border-[#7c3aed]/30",
-      Biology: "bg-[#10b981]/10 text-[#10b981] border-[#10b981]/30",
-      History: "bg-[#f59e0b]/10 text-[#f59e0b] border-[#f59e0b]/30",
+      Social: "bg-[#10b981]/10 text-[#10b981] border-[#10b981]/30",
+      Computer: "bg-[#f59e0b]/10 text-[#f59e0b] border-[#f59e0b]/30",
       English: "bg-[#e91e63]/10 text-[#e91e63] border-[#e91e63]/30",
     }
     return colors[subject as keyof typeof colors] || "bg-gray-100 text-gray-800 border-gray-200"

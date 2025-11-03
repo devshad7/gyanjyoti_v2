@@ -14,24 +14,21 @@ export default function AboutSection() {
               <div className="w-20 h-1 bg-yellow-400 mx-auto lg:mx-0 mb-6"></div>
             </div>
             <p className="text-slate-700 leading-relaxed text-lg font-body">
-              <span className="font-semibold">Gyanjyoti</span> is a leading
+              <span className="font-semibold">GyanJyoti</span> is a leading
               Nepali e&mdash;learning platform offering high&mdash;quality video
-              courses, interactive quizzes, and downloadable PDFs tailored for
+              courses, interactive quizzes, and downloadable PDFs designed for
               secondary&mdash;level students.
             </p>
             <p className="text-slate-700 leading-relaxed text-lg font-body">
-              It helps enhance academic performance by delivering online lessons
-              and resources, and managing assignments. It also provides a
-              collaborative environment where teachers can share educational
-              content and track student progress, while parents monitor their
-              progress.
+              It enhances academic performance by providing engaging online
+              lessons and essential study materials that make learning more
+              effective and enjoyable.
             </p>
             <p className="text-slate-700 leading-relaxed text-lg font-body">
-              With integrated tools-courses, quizzes, study materials, and the
-              Gyan AI Assistant-GyanJyoti supports real‑time learning
-              assistance. Its mobile app enables parents and students to track
-              attendance, assignments, timetables, and homework effortlessly,
-              enhancing academic oversight.
+              With integrated tools&mdash;including courses, quizzes, study
+              materials, and the intelligent Gyan AI Assistant&mdash;GyanJyoti
+              delivers real-time learning support, helping students strengthen
+              their understanding and achieve academic excellence.
             </p>
           </div>
           <div className="relative rounded-xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-300 mx-auto lg:mx-0 max-w-md lg:max-w-full">
@@ -200,7 +197,8 @@ export default function AboutSection() {
             </h2>
             <div className="w-24 h-1 bg-yellow-400 mx-auto mb-6"></div>
             <p className="text-slate-600 max-w-2xl mx-auto text-lg font-body">
-              Hear from our visionary leaders who are transforming education in Nepal
+              Hear from our visionary leaders who are transforming education in
+              Nepal
             </p>
           </div>
 
@@ -220,7 +218,11 @@ export default function AboutSection() {
                       className="rounded-full border-8 border-white shadow-2xl object-cover"
                     />
                     <div className="absolute -top-4 -right-4 w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
                     </div>
@@ -243,19 +245,30 @@ export default function AboutSection() {
                   </div>
 
                   <div className="relative mb-8">
-                    <div className="text-blue-600 text-6xl font-serif absolute -top-6 -left-4 opacity-20">&quot;</div>
+                    <div className="text-blue-600 text-6xl font-serif absolute -top-6 -left-4 opacity-20">
+                      &quot;
+                    </div>
                     <blockquote className="text-gray-700 text-lg md:text-xl leading-relaxed italic pl-8 font-body">
-                  In just two years, our journey in higher education has been both inspiring and impactful. GyanJyoti, built here in Nepal and powered by Nexolinx, is more than just a platform — it&apos;s a growing community of learners and educators. Our goal is simple: to make quality education accessible, meaningful, and transformative for everyone.
+                      In just two years, our journey in higher education has
+                      been both inspiring and impactful. GyanJyoti, built here
+                      in Nepal and powered by Nexolinx, is more than just a
+                      platform — it&apos;s a growing community of learners and
+                      educators. Our goal is simple: to make quality education
+                      accessible, meaningful, and transformative for everyone.
                     </blockquote>
                   </div>
 
                   <div className="flex items-center space-x-4">
                     <div className="flex text-yellow-400">
-                      {([...Array(5)].map((_, i) => (
-                        <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          key={i}
+                          className="w-5 h-5 fill-current"
+                          viewBox="0 0 20 20"
+                        >
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
-                      )))}
+                      ))}
                     </div>
                     <span className="text-gray-600 font-medium"></span>
                   </div>
@@ -279,21 +292,37 @@ export default function AboutSection() {
                   </div>
 
                   <div className="relative mb-8">
-                    <div className="text-pink-600 text-6xl font-serif absolute -top-6 -left-4 opacity-20">&quot;</div>
+                    <div className="text-pink-600 text-6xl font-serif absolute -top-6 -left-4 opacity-20">
+                      &quot;
+                    </div>
                     <blockquote className="text-gray-700 text-lg md:text-xl leading-relaxed italic pl-8 font-body">
-                      At Gyanjyoti, we&apos;re reimagining education through interactive simulations, AI-powered support, and project-based learning. As a passionate innovator in science and sustainability, I lead this mission to make quality education accessible to all. We&apos;re not just teaching&mdash;we&apos;re inspiring students to think, question, and create. With technology as our tool and curiosity as our compass, we&apos;re lighting the path for tomorrow&apos;s changemakers.
+                      At Gyanjyoti, we&apos;re reimagining education through
+                      interactive simulations, AI-powered support, and
+                      project-based learning. As a passionate innovator in
+                      science and sustainability, I lead this mission to make
+                      quality education accessible to all. We&apos;re not just
+                      teaching&mdash;we&apos;re inspiring students to think,
+                      question, and create. With technology as our tool and
+                      curiosity as our compass, we&apos;re lighting the path for
+                      tomorrow&apos;s changemakers.
                     </blockquote>
                   </div>
 
                   <div className="flex items-center space-x-4">
                     <div className="flex text-yellow-400">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                        <svg
+                          key={i}
+                          className="w-5 h-5 fill-current"
+                          viewBox="0 0 20 20"
+                        >
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
                     </div>
-                    <span className="text-gray-600 font-medium">Innovation Expert</span>
+                    <span className="text-gray-600 font-medium">
+                      Innovation Expert
+                    </span>
                   </div>
                 </div>
 
@@ -309,8 +338,16 @@ export default function AboutSection() {
                       className="rounded-full border-8 border-white shadow-2xl object-cover"
                     />
                     <div className="absolute -top-4 -right-4 w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center shadow-lg">
-                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                     </div>
                   </div>

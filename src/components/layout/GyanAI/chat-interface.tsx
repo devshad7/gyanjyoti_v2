@@ -141,7 +141,7 @@ export function ChatInterface() {
   return (
      <>
    
-    <div className="flex max-w-7xl mx-auto h-screen">
+  <div className="flex max-w-7xl mx-auto w-full h-[100svh] overflow-hidden">
       {/* Mobile backdrop overlay */}
       {showSidebar && (
         <div
@@ -192,16 +192,29 @@ export function ChatInterface() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col h-163 w-full">
+      <div className="flex-1 min-w-0 flex flex-col min-h-0 w-full">
         <div className="flex items-center justify-between px-3 py-3 sm:px-6 sm:py-4 border-b border-gray-100 bg-white/80 backdrop-blur-sm">
-       
+          {/* Mobile menu button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden hover:bg-[#e20869]/10 transition-colors"
+            onClick={() => setShowSidebar(true)}
+            aria-label="Open chat history"
+          >
+            <Menu className="h-5 w-5 text-[#e20869]" />
+          </Button>
+          <div className="flex-1 text-center md:text-left">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-800 md:hidden">Gyan AI</h2>
+          </div>
+          <div className="w-9 md:w-0" aria-hidden />
         </div>
 
         <div className="flex-1 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
           <ScrollArea className="h-full px-2 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8">
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center p-4 sm:p-6 animate-fade-in">
-                <div className="relative mb-6 sm:mb-8">
+                <div className="relative mb-6 sm:mb-8 overflow-hidden">
                   <div className="w-20 h-20 sm:w-32 sm:h-20 flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
                     <img
                       src={GyanLogo}
@@ -210,7 +223,7 @@ export function ChatInterface() {
                     />
                     
                   </div>
-                  <div className="absolute -inset-4 bg-gradient-to-r from-[#275cc3] to-[#f1ab0f] rounded-full opacity-20 animate-ping"></div>
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#275cc3] to-[#f1ab0f] rounded-full opacity-20 animate-ping" />
                 </div>
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-[#275cc3] via-[#f1ab0f] to-[#e20869] text-transparent bg-clip-text leading-tight">
                   Welcome to Gyan Jyoti AI
@@ -326,7 +339,7 @@ export function ChatInterface() {
           </ScrollArea>
         </div>
 
-        <div className="px-3 py-3 sm:px-6 sm:py-4 border-t border-gray-100 bg-white/80 backdrop-blur-sm">
+        <div className="sticky bottom-15 z-10 px-3 py-3 sm:px-6 sm:py-4 border-t border-gray-100 bg-white/80 backdrop-blur-sm pb-[env(safe-area-inset-bottom)]">
           <div className="max-w-4xl mx-auto">
             <ChatInput
               onSendMessage={handleSendMessage}

@@ -50,7 +50,7 @@ const Hero = () => {
           </div>
         </div>
         {/* Right Image and Cards */}
-        <div className="relative">
+        <div className="relative hidden sm:block">
           <div className="re z-10">
             <div className="relative ">
               <img

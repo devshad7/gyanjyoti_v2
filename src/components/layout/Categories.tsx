@@ -11,7 +11,7 @@ import CategoryCard from "../ui/categoryCard";
 const Categories = () => {
   return (
     <>
-      <section className="max-w-7xl mx-auto px-4 py-16">
+      <section className="max-w-7xl mx-auto px-2 py-8">
         <h2 className="text-3xl font-bold mb-4">Explore courses by category</h2>
         <p className="text-gray-600 mb-8">
           Browse top class courses by browsing our category which will be more

@@ -5,7 +5,12 @@ import { useParams } from "next/navigation"
 import Course from "@/components/layout/courses/course"
 import LoadingSpinner from "@/components/ui/loading-spinner"
 import type { CoursePage } from "@/lib/types"
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Course | Gyan Jyoti",
+  description: "GyanJyoti is a leading Nepali e-learning platform offering high-quality video courses, interactive quizzes, downloadable PDFs, and the intelligent Gyan AI Assistant to help secondary-level students improve academic performance and achieve excellence.",
+};
 export default function CourseDetailPage() {
   const params = useParams()
   const slug = params.slug as string

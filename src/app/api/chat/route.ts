@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     }
 
     // ✅ Use available model (gemini-1.5-flash is faster and available)
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" })
 
     const prompt = `
 You are **Gyanjyoti AI**, an educational assistant designed to help students learn and understand various subjects.

@@ -5,6 +5,8 @@ import NotesCardsComponent from "@/components/layout/notes-cards-component";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, PenLine,  } from "lucide-react";
+import type { Metadata } from "next";
+
 
 export default function Page() {
   return (

@@ -50,7 +50,7 @@ export default function PopularCourses({ courses: initialCourses, limit = 4 }: P
   const items = (courses ?? []).slice(0, effectiveLimit);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-16">
+    <section className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">Popular Courses</h2>
         <Link href="/courses" className="text-sm text-blue-600">
