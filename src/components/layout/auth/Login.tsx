@@ -49,6 +49,24 @@ const Login = () => {
     }
   };
 
+  // ✅ Google OAuth login
+  const handleGoogleSignIn = async () => {
+    if (!isLoaded) return;
+    setLoading(true);
+    setError("");
+    try {
+      await signIn.authenticateWithRedirect({
+        strategy: "oauth_google",
+        redirectUrl: "/sso-callback",
+        redirectUrlComplete: redirectUrl,
+      });
+    } catch (err: any) {
+      console.error("Google Sign-In Error:", err);
+      setError("Google sign-in failed. Please try again.");
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-10 py-10 flex items-center justify-center bg-white relative overflow-hidden">
       {/* Background Elements */}
@@ -139,9 +157,7 @@ const Login = () => {
               type="button"
               className="w-full flex items-center justify-center gap-2 py-2 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer"
               // Optional: Add Clerk Google OAuth
-              // onClick={() =>
-              //   handleGoogleSignIn({ signIn, redirectUrl: redirectUrl })
-              // }
+              onClick={handleGoogleSignIn}
             >
               <Image
                 src="/assets/google.png"
@@ -164,12 +180,12 @@ const Login = () => {
         {/* Animation / Illustration */}
         <div className="hidden md:block w-full md:w-1/2 relative mt-10 md:mt-0">
           <div className="relative mx-auto">
-             <Image
-                src="/assets/login.gif"
-                alt="Login illustration"
-                width={500}
-                height={450}
-              />
+            <Image
+              src="/assets/login.gif"
+              alt="Login illustration"
+              width={500}
+              height={450}
+            />
           </div>
         </div>
       </div>
