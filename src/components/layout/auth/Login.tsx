@@ -138,10 +138,19 @@ const Login = () => {
             <button
               type="button"
               className="w-full flex items-center justify-center gap-2 py-2 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer"
-              // Optional: Add Clerk Google OAuth
-              // onClick={() =>
-              //   handleGoogleSignIn({ signIn, redirectUrl: redirectUrl })
-              // }
+              onClick={async () => {
+                try {
+                  if (!isLoaded) return;
+                  await signIn?.authenticateWithRedirect({
+                    strategy: "oauth_google",
+                    redirectUrl: "/sso-callback",
+                    redirectUrlComplete: redirectUrl,
+                  });
+                } catch (e) {
+                  console.error("Google sign-in failed", e);
+                  setError("Google sign-in failed");
+                }
+              }}
             >
               <Image
                 src="/assets/google.png"

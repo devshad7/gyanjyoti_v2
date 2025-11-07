@@ -24,6 +24,7 @@ const Navbar = () => {
 
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,6 +44,8 @@ const Navbar = () => {
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen)
+    // close any open mobile dropdown when toggling menu
+    if (mobileMenuOpen) setOpenMobileDropdown(null)
   }
 
   const navItems = [
@@ -177,42 +180,61 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         <div
-          className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
-            mobileMenuOpen ? "h-auto opacity-100 border-b border-gray-100" : "max-h-0 opacity-0"
+          className={`md:hidden transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden ${
+            mobileMenuOpen ? "max-h-[1000px] opacity-100 border-b border-gray-100" : "max-h-0 opacity-0"
           }`}
+          id="mobile-menu"
         >
-          <div className="px-6 py-2 bg-white/90 backdrop-blur-sm">
-            <div className="flex flex-col space-y-3 pb-4">
+          <div className="px-4 py-4 bg-white/95 backdrop-blur-sm shadow-sm">
+            <div className="flex flex-col space-y-2 pb-2">
               {navItems.map((item) =>
                 item.dropdown ? (
                   <div key={item.name} className="flex flex-col">
-                    <div className="px-4 py-2 text-sm font-medium">{item.name}</div>
-                    <div className="pl-6 flex flex-col space-y-2">
-                      {item.items.map((subItem) => (
-                        <Link
-                          key={subItem.name}
-                          href={subItem.href}
-                          className={
-                            pathname === subItem.href
-                              ? "px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-300 ease-in-out text-blue-600"
-                              : "px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-300 ease-in-out hover:text-blue-600"
-                          }
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          {subItem.name}
-                        </Link>
-                      ))}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenMobileDropdown((prev) => (prev === item.name ? null : item.name))
+                      }
+                      aria-expanded={openMobileDropdown === item.name}
+                      className="w-full flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-50 transition-colors text-gray-800"
+                    >
+                      <span>{item.name}</span>
+                      <span className={`transform transition-transform ${openMobileDropdown === item.name ? "rotate-180" : "rotate-0"}`}>
+                        <ChevronDown className="h-4 w-4 text-gray-600" />
+                      </span>
+                    </button>
+
+                    <div
+                      className={`pl-4 overflow-hidden transition-[max-height,opacity,margin] duration-300 ${
+                        openMobileDropdown === item.name ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      <div className="flex flex-col space-y-1">
+                        {item.items.map((subItem) => (
+                          <Link
+                            key={subItem.name}
+                            href={subItem.href}
+                            className={`px-4 py-2 text-sm rounded-md w-full text-left transition-colors ${
+                              pathname === subItem.href ? "text-blue-600 font-semibold" : "text-gray-700 hover:text-blue-600"
+                            }`}
+                            onClick={() => {
+                              setMobileMenuOpen(false)
+                              setOpenMobileDropdown(null)
+                            }}
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ) : (
                   <Link
                     key={item.name}
                     href={item.href || "/"}
-                    className={
-                      pathname === item.href
-                        ? "px-4 py-2 text-sm font-medium rounded-md transition-all duration-300 ease-in-out text-blue-600"
-                        : "px-4 py-2 text-sm font-medium rounded-md transition-all duration-300 ease-in-out hover:text-blue-600"
-                    }
+                    className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ease-in-out ${
+                      pathname === item.href ? "text-blue-600 font-semibold bg-gray-50" : "text-gray-800 hover:text-blue-600 hover:bg-gray-50"
+                    }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -220,15 +242,15 @@ const Navbar = () => {
                 ),
               )}
 
-              <div className="flex items-center pt-2 border-t border-gray-100">
+              <div className="pt-2 border-t border-gray-100 flex flex-col gap-2">
                 <SignedOut>
                   <SignInButton>
                     <Link
                       href="/sign-in"
-                      className="px-4 py-2 text-sm text-gray-700 hover:text-pink-600 font-medium transition-colors duration-300"
+                      className="w-full"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <Button className="text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu relative overflow-hidden group">
+                      <Button className="w-full text-white bg-transparent hover:bg-transparent text-sm px-4 py-2 rounded-md font-medium cursor-pointer shadow-none border border-gray-200 hover:border-gray-300">
                         Sign In
                       </Button>
                     </Link>
@@ -238,7 +260,7 @@ const Navbar = () => {
                 <SignedOut>
                   <SignUpButton>
                     <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
-                      <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-md font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 transform-gpu relative overflow-hidden group">
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-md font-medium cursor-pointer shadow-sm transition-colors">
                         Register
                       </Button>
                     </Link>

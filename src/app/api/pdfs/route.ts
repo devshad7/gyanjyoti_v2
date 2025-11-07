@@ -39,6 +39,14 @@ export async function GET(request: NextRequest) {
 
 // POST /api/pdfs - Create a new PDF
 export async function POST(request: NextRequest) {
+  // Restrict PDF creation to admin only
+  const adminUser = process.env.ADMIN_USER || ""
+  const adminPass = process.env.ADMIN_PASS || ""
+  if (!adminUser || !adminPass) return NextResponse.json({ error: "Admin credentials not configured" }, { status: 503 })
+  const header = request.headers.get("authorization") || request.headers.get("Authorization")
+  if (!header || !header.startsWith("Basic ")) return new NextResponse("Authentication required", { status: 401, headers: { "WWW-Authenticate": 'Basic realm="Admin Area"' } })
+  const [user, pass] = Buffer.from(header.replace("Basic ", ""), "base64").toString("utf8").split(":")
+  if (user !== adminUser || pass !== adminPass) return new NextResponse("Unauthorized", { status: 401, headers: { "WWW-Authenticate": 'Basic realm="Admin Area"' } })
   let formData: FormData;
   
   try {
