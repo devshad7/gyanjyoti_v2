@@ -11,6 +11,35 @@ interface CourseSectionProps {
   courses: any[]
 }
 
+function getYouTubeEmbedUrl(url: string) {
+  try {
+    const u = new URL(url)
+    let id = ''
+    if (u.hostname.includes('youtu.be')) id = u.pathname.slice(1)
+    else if (u.hostname.includes('youtube.com')) id = u.searchParams.get('v') || ''
+    return id ? `https://www.youtube.com/embed/${id}` : url
+  } catch (e) {
+    return url
+  }
+}
+
+function VideoWithError({ src }: { src: string }) {
+  const [error, setError] = useState(false)
+  return (
+    <div className="w-full h-48 bg-black relative flex items-center justify-center">
+      {!error ? (
+        <video src={src} controls className="w-full h-full object-cover rounded-lg" preload="metadata" onError={() => setError(true)}>
+          Your browser does not support the video tag.
+        </video>
+      ) : (
+        <div className="p-4 text-sm text-center text-gray-700">
+          No playable video found at this URL. Use a direct MP4 URL or import the video into Cloudinary.
+        </div>
+      )}
+    </div>
+  )
+}
+
 const allClass = [
   "All category",
   "Class 6",
@@ -21,7 +50,10 @@ const allClass = [
   "Class 11",
   "Class 12",
   "Competitive Exams",
-  "Skill Courses"
+  "Web Development",
+  "Programming",
+  "Digital Marketing",
+  "Self Development",
 ]
 
 const languages = [
@@ -375,10 +407,20 @@ function CourseCard({
               <div className="grid gap-3">
                 {videos.map((video: any, idx: number) => (
                   <div key={idx} className="bg-blue-50 rounded-lg p-2 flex flex-col md:flex-row items-center gap-3">
-                    <video controls className="w-full md:w-2/3 rounded-lg border">
-                      <source src={video.url} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
+                    <div className="w-full md:w-2/3">
+                      {/(youtube\.com|youtu\.be)/i.test(video.url) ? (
+                        <iframe
+                          src={getYouTubeEmbedUrl(video.url)}
+                          title={video.title || `video-${idx}`}
+                          className="w-full h-48 rounded-lg border"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      ) : (
+                        <VideoWithError src={video.url} />
+                      )}
+                    </div>
                     <div className="flex-1">
                       <h5 className="font-semibold text-base mb-1">{video.title}</h5>
                       <span className="text-xs text-blue-600 font-semibold">{video.duration}</span>

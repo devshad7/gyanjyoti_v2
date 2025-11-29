@@ -173,9 +173,19 @@ interface Course {
                           <div className="mt-3">
                             <label>Video Preview</label>
                             <div className="mt-2 aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                              <video src={video.url} controls className="w-full h-full object-cover" preload="metadata">
-                                Your browser does not support the video tag.
-                              </video>
+                              {/* If it's a YouTube link, use an iframe embed; otherwise use video tag with error handling */}
+                              {/(youtube\.com|youtu\.be)/i.test(video.url) ? (
+                                <iframe
+                                  src={getYouTubeEmbedUrl(video.url)}
+                                  title={video.title || `video-${index}`}
+                                  className="w-full h-full"
+                                  frameBorder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                />
+                              ) : (
+                                <VideoWithError src={video.url} />
+                              )}
                             </div>
                           </div>
                         )}
@@ -200,4 +210,47 @@ interface Course {
       </div>
     </div>
   );
+}
+
+// Helper to produce YouTube embed URL
+function getYouTubeEmbedUrl(url: string) {
+  try {
+    const u = new URL(url)
+    let id = ''
+    if (u.hostname.includes('youtu.be')) {
+      id = u.pathname.slice(1)
+    } else if (u.hostname.includes('youtube.com')) {
+      id = u.searchParams.get('v') || ''
+    }
+    return id ? `https://www.youtube.com/embed/${id}` : url
+  } catch (e) {
+    return url
+  }
+}
+
+// Small inline component that renders a video and shows an error message if it fails
+function VideoWithError({ src }: { src: string }) {
+  const [error, setError] = React.useState(false)
+
+  return (
+    <div className="w-full h-full bg-black relative">
+      {!error ? (
+        <video
+          src={src}
+          controls
+          className="w-full h-full object-cover"
+          preload="metadata"
+          onError={() => setError(true)}
+        >
+          Your browser does not support the video tag.
+        </video>
+      ) : (
+        <div className="p-4 text-sm text-center text-gray-700">
+          No playable video found at this URL. Try using a direct MP4 URL or use the import
+          tool to fetch the video into Cloudinary. If this is a YouTube link, use the embed
+          option instead.
+        </div>
+      )}
+    </div>
+  )
 }

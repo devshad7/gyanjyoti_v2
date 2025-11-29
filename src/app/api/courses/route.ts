@@ -3,21 +3,11 @@ import clientPromise from "@/lib/mongodb"
 import type { Course } from "@/lib/types"
 
 // Basic auth check for mutating admin operations
-function requireAdmin(request: NextRequest): NextResponse | null {
-  const adminUser = process.env.ADMIN_USER || ""
-  const adminPass = process.env.ADMIN_PASS || ""
-  if (!adminUser || !adminPass) return NextResponse.json({ success: false, error: "Admin credentials not configured" }, { status: 503 })
-  const header = request.headers.get("authorization") || request.headers.get("Authorization")
-  if (!header || !header.startsWith("Basic ")) return new NextResponse("Authentication required", { status: 401, headers: { "WWW-Authenticate": 'Basic realm="Admin Area"' } })
-  const [user, pass] = Buffer.from(header.replace("Basic ", ""), "base64").toString("utf8").split(":")
-  if (user !== adminUser || pass !== adminPass) return new NextResponse("Unauthorized", { status: 401, headers: { "WWW-Authenticate": 'Basic realm="Admin Area"' } })
-  return null
-}
+// Admin Basic Auth removed for courses API
 
 // DELETE /api/courses?slug=... - Delete a course by slug (Admin only)
 export async function DELETE(request: NextRequest) {
-  const authRes = requireAdmin(request)
-  if (authRes) return authRes
+  // previously required admin auth; now public
   try {
     const { searchParams } = new URL(request.url)
     const slug = searchParams.get("slug")
@@ -113,8 +103,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/courses - Add new course (Admin only)
 export async function POST(request: NextRequest) {
-  const authRes = requireAdmin(request)
-  if (authRes) return authRes
+  // previously required admin auth; now public
   try {
     const body = await request.json()
 

@@ -22,10 +22,18 @@ export default function CourseVideoPlayer({ videoUrl, title, description }: Cour
 
       {/* Video Container */}
       <div className="relative aspect-video bg-black">
-        <video className="w-full h-full" controls preload="metadata" poster="/placeholder.svg?height=400&width=600">
-          <source src={videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        {/(youtube\.com|youtu\.be)/i.test(videoUrl) ? (
+          <iframe
+            src={getYouTubeEmbedUrl(videoUrl)}
+            title={title}
+            className="w-full h-full"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <VideoWithError src={videoUrl} />
+        )}
       </div>
 
       {/* Video Info */}
@@ -35,6 +43,35 @@ export default function CourseVideoPlayer({ videoUrl, title, description }: Cour
           <span>Playback Speed: 1x</span>
         </div>
       </div>
+    </div>
+  )
+}
+
+function getYouTubeEmbedUrl(url: string) {
+  try {
+    const u = new URL(url)
+    let id = ''
+    if (u.hostname.includes('youtu.be')) id = u.pathname.slice(1)
+    else if (u.hostname.includes('youtube.com')) id = u.searchParams.get('v') || ''
+    return id ? `https://www.youtube.com/embed/${id}` : url
+  } catch (e) {
+    return url
+  }
+}
+
+function VideoWithError({ src }: { src: string }) {
+  const [error, setError] = useState(false)
+  return (
+    <div className="w-full h-full bg-black relative flex items-center justify-center">
+      {!error ? (
+        <video src={src} controls className="w-full h-full object-cover" preload="metadata" onError={() => setError(true)}>
+          Your browser does not support the video tag.
+        </video>
+      ) : (
+        <div className="p-4 text-sm text-center text-gray-200">
+          No playable video found at this URL. Use a direct MP4 URL or import the video into Cloudinary.
+        </div>
+      )}
     </div>
   )
 }

@@ -46,33 +46,9 @@ function checkAdminBasicAuth(req: Request): NextResponse | null {
   }
 }
 
-function getAdminUserFromAuthHeader(req: Request): string | null {
-  const header = req.headers.get("authorization") || req.headers.get("Authorization");
-  if (!header || !header.startsWith("Basic ")) return null;
-  try {
-    const decoded = Buffer.from(header.replace("Basic ", ""), "base64").toString("utf8");
-    const sepIndex = decoded.indexOf(":");
-    if (sepIndex === -1) return null;
-    const user = decoded.slice(0, sepIndex);
-    return user || null;
-  } catch {
-    return null;
-  }
-}
-
-
 const isProtectedRoute = createRouteMatcher([
   // Protect only the course joined route: /course/:slug/joined
   "/course/:slug/joined(.*)",
-]);
-
-// Match admin UI and admin APIs for basic auth
-const isAdminArea = createRouteMatcher([
-  "/admin(.*)",
-  "/api/admin(.*)",
-  "/admin/notes(.*)",
-  "/admin/pdfs"
-
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
@@ -81,23 +57,10 @@ export default clerkMiddleware(async (auth, req) => {
     await auth.protect();
   }
 
-  // Enforce Basic Auth for admin areas
-  if (isAdminArea(req)) {
-    const res = checkAdminBasicAuth(req);
-    if (res) return res;
-    // If authorized, set a readable (non-HTTPOnly) cookie with admin user for UI banner
-    const user = getAdminUserFromAuthHeader(req) || "admin";
-    const response = NextResponse.next();
-    response.cookies.set("admin_user", user, {
-      path: "/",
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: false,
-      // short lifetime, refreshed on each admin request
-      maxAge: 60 * 60, // 1 hour
-    });
-    return response;
-  }
+  // NOTE: Admin area Basic Auth has been removed intentionally to make admin UI and
+  // related APIs publicly accessible. If you need to re-enable protection later,
+  // restore the Basic Auth checks or add a feature-flagged env var.
+  return NextResponse.next();
 });
 
 export const config = {

@@ -36,7 +36,7 @@ export default function AddCoursePage() {
     detailedDescription: "",
     subtitle: "",
     category: "",
-    language: "Hindi",
+    language: "Nepali",
     videoThumbnailUrl: "",
     level: "Beginner",
     duration: "",
@@ -151,6 +151,36 @@ export default function AddCoursePage() {
     }
   }
 
+  const importVideoFromUrl = async (videoIndex: number) => {
+    const url = videos[videoIndex]?.url
+    if (!url) return alert("Enter a video URL first")
+
+    setUploadingVideo(videoIndex)
+    try {
+      const res = await fetch("/api/upload-from-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url, folder: "gyanjyoti/videos" }),
+      })
+      const data = await res.json()
+      if (data.success && data.data?.secure_url) {
+        updateVideo(videoIndex, "url", data.data.secure_url)
+        if (data.data.duration) {
+          const minutes = Math.floor(data.data.duration / 60)
+          const seconds = Math.floor(data.data.duration % 60)
+          updateVideo(videoIndex, "duration", `${minutes}:${seconds.toString().padStart(2, "0")}`)
+        }
+      } else {
+        alert(data.error || "Failed to import video from URL")
+      }
+    } catch (error) {
+      console.error("Import error:", error)
+      alert("Failed to import video from URL")
+    } finally {
+      setUploadingVideo(null)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -196,6 +226,22 @@ export default function AddCoursePage() {
       alert("Failed to create course")
     } finally {
       setLoading(false)
+    }
+  }
+
+  // Helper to transform YouTube URL into embed URL
+  function getYouTubeEmbedUrl(url: string) {
+    try {
+      const u = new URL(url)
+      let id = ""
+      if (u.hostname.includes("youtu.be")) {
+        id = u.pathname.slice(1)
+      } else if (u.hostname.includes("youtube.com")) {
+        id = u.searchParams.get("v") || ""
+      }
+      return id ? `https://www.youtube.com/embed/${id}` : url
+    } catch (e) {
+      return url
     }
   }
 
@@ -275,13 +321,16 @@ export default function AddCoursePage() {
                       <SelectValue placeholder="Select class" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Class 6">Class 6</SelectItem>
-                      <SelectItem value="Class 7">Class 7</SelectItem>
+                      
                       <SelectItem value="Class 8">Class 8</SelectItem>
                       <SelectItem value="Class 9">Class 9</SelectItem>
                       <SelectItem value="Class 10">Class 10</SelectItem>
                       <SelectItem value="Class 11">Class 11</SelectItem>
                       <SelectItem value="Class 12">Class 12</SelectItem>
+                      <SelectItem value="Web Development">Web Development</SelectItem>
+                      <SelectItem value="Programming">Programming</SelectItem>
+                      <SelectItem value="Digital Marketing">Digital Marketing</SelectItem>
+                      <SelectItem value="Self Development">Self Development</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -294,6 +343,7 @@ export default function AddCoursePage() {
                     <SelectContent>
                       <SelectItem value="English">English</SelectItem>
                       <SelectItem value="Nepali">Nepali</SelectItem>
+                      <SelectItem value="Both English and Nepali">Both English and Nepali</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -403,13 +453,19 @@ export default function AddCoursePage() {
                     </div>
                     <div className="text-center text-gray-500">or</div>
                     <div>
-                      <Label htmlFor={`video-url-${index}`}>Video URL (if already uploaded)</Label>
-                      <Input
-                        id={`video-url-${index}`}
-                        placeholder="Cloudinary video URL or direct video link"
-                        value={video.url}
-                        onChange={(e) => updateVideo(index, "url", e.target.value)}
-                      />
+                      <Label htmlFor={`video-url-${index}`}>Video URL (YouTube or direct link)</Label>
+                      <div className="flex space-x-2">
+                        <Input
+                          id={`video-url-${index}`}
+                          placeholder="https://youtube.com/watch?v=... or direct mp4 URL"
+                          value={video.url}
+                          onChange={(e) => updateVideo(index, "url", e.target.value)}
+                        />
+                        <Button type="button" variant="outline" size="sm" onClick={() => importVideoFromUrl(index)} disabled={uploadingVideo === index}>
+                          Import
+                        </Button>
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">Click "Import" to fetch this URL into Cloudinary (if supported).</div>
                     </div>
                   </div>
                   <Textarea
@@ -422,9 +478,21 @@ export default function AddCoursePage() {
                     <div className="mt-3">
                       <Label>Video Preview</Label>
                       <div className="mt-2 aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                        <video src={video.url} controls className="w-full h-full object-cover" preload="metadata">
-                          Your browser does not support the video tag.
-                        </video>
+                        {/* If it's a YouTube link, show iframe embed, otherwise try video tag */}
+                        {/(youtube\.com|youtu\.be)/i.test(video.url) ? (
+                          <iframe
+                            src={getYouTubeEmbedUrl(video.url)}
+                            title={video.title || `video-${index}`}
+                            className="w-full h-full"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          />
+                        ) : (
+                          <video src={video.url} controls className="w-full h-full object-cover" preload="metadata">
+                            Your browser does not support the video tag.
+                          </video>
+                        )}
                       </div>
                     </div>
                   )}

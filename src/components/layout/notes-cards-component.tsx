@@ -367,9 +367,9 @@ If some images failed to download, you can find their URLs in the note details f
   }, [selectedNote, isDialogOpen, currentImageIndex])
 
   return (
-    <div className={cn("space-y-6", className)}>
+    <div className={cn("space-y-4", className)}>
       {/* Filters and Search */}
-      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between bg-white p-3 rounded-lg shadow-sm border mb-4">
+  <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center justify-between bg-white p-2 rounded-lg shadow-sm border mb-3">
         <div className="flex flex-wrap gap-2 items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -410,7 +410,7 @@ If some images failed to download, you can find their URLs in the note details f
           <Search className="absolute left-2 top-2 h-4 w-4 text-gray-400" />
           <Input
             placeholder="Search notes..."
-            className="pl-8 h-8 text-sm"
+            className="pl-8 h-7 text-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -418,7 +418,7 @@ If some images failed to download, you can find their URLs in the note details f
       </div>
 
       {/* Notes Cards */}
-      <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 md:gap-4">
+  <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-2 md:gap-3">
         {loading ? (
           <div className="col-span-full flex justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-[#1e40af]" />
@@ -439,15 +439,15 @@ If some images failed to download, you can find their URLs in the note details f
         ) : (
           notes.map((note: Note) => (
             <Card
-              key={note.id}
-              className="overflow-hidden hover:shadow-md py-0 gap-2 transition-shadow h-full flex flex-col"
-            >
+                key={note.id}
+                className="overflow-hidden hover:shadow-md py-0 gap-1 transition-shadow h-full flex flex-col"
+              >
               {note.images.length > 0 && (
-                <div className="relative aspect-[3/2] bg-gray-100">
+                <div className="relative  bg-gray-100">
                   <img
                     src={note.images[0]?.url || "/assets/eng.jpeg"}
                     alt={note.images[0]?.caption || note.title}
-                    className="w-full h-[40vh] object-cover object-top"
+                      className="w-full h-32 sm:h-40 object-cover object-top"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement
                       target.src = "/assets/eng.jpeg"
@@ -461,7 +461,7 @@ If some images failed to download, you can find their URLs in the note details f
                   )}
                 </div>
               )}
-              <CardHeader className="p-3 pb-1 flex flex-row justify-between items-start">
+              <CardHeader className="p-2 pb-1 flex flex-row justify-between items-start">
                 <h3 className="font-medium text-sm line-clamp-2">{note.title}</h3>
                 <button onClick={(e) => handleToggleFavorite(note.id, e)} className="flex-shrink-0">
                   {note.favorite ? (
@@ -471,7 +471,7 @@ If some images failed to download, you can find their URLs in the note details f
                   )}
                 </button>
               </CardHeader>
-              <CardContent className="p-3 pt-0 flex-grow border-b">
+              <CardContent className="p-2 pt-0 flex-grow border-b">
                 <div className="flex flex-wrap gap-1 mt-2">
                   <Badge variant="outline" className="text-xs bg-[#1e40af]/10 text-[#1e40af] border-[#1e40af]/30">
                     {note.subject}
@@ -481,7 +481,7 @@ If some images failed to download, you can find their URLs in the note details f
                   </Badge>
                 </div>
               </CardContent>
-              <CardFooter className="px-3 py-3 bg-gray-50 flex justify-between items-center">
+              <CardFooter className="px-2 py-2 bg-gray-50 flex justify-between items-center">
                 <div className="text-xs text-gray-500 flex items-center">
                   <Clock className="h-3 w-3 mr-1" />
                   {formatDate(note.updated_at)}
@@ -489,7 +489,7 @@ If some images failed to download, you can find their URLs in the note details f
                 <Button
                   size="sm"
                   onClick={() => openNoteViewer(note)}
-                  className="h-7 px-2 bg-[#1e40af] hover:bg-[#1e40af]/90 text-xs"
+                  className="h-6 px-2 bg-[#1e40af] hover:bg-[#1e40af]/90 text-xs"
                 >
                   <PenLine className="h-3 w-3 mr-1" /> View
                 </Button>
@@ -501,19 +501,11 @@ If some images failed to download, you can find their URLs in the note details f
 
       {/* Note Viewer Dialog with Image Carousel */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-3xl w-[95vw] max-h-[90vh] overflow-y-auto p-3 sm:p-6">
+    <DialogContent className="max-w-3xl w-[95vw] max-h-[90vh] overflow-y-auto p-2 sm:p-4">
           <DialogHeader>
             <DialogTitle className="flex justify-between items-center">
               <span>{selectedNote?.title}</span>
-              <div className="flex items-center gap-2">
-                <button onClick={() => toggleFavorite(selectedNote?.id || "")}>
-                  {selectedNote?.favorite ? (
-                    <Star className="h-5 w-5 text-[#f0b429] fill-[#f0b429]" />
-                  ) : (
-                    <StarOff className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
-              </div>
+             
             </DialogTitle>
           </DialogHeader>
 
@@ -521,7 +513,7 @@ If some images failed to download, you can find their URLs in the note details f
             <div className="flex-1 min-w-0">
               {/* Image Carousel */}
               {selectedNote && selectedNote.images.length > 0 ? (
-                <div className="relative mb-4 w-full image-carousel">
+                <div className="relative mb-3 w-full image-carousel">
                   <div className="aspect-[4/3] bg-gray-100 rounded-md overflow-hidden w-full">
                     <img
                       src={selectedNote.images[currentImageIndex].url || "/placeholder.svg"}
@@ -604,7 +596,7 @@ If some images failed to download, you can find their URLs in the note details f
 
               {/* Thumbnail Navigation - Limited to MAX_THUMBNAILS_TO_SHOW */}
               {selectedNote && selectedNote.images.length > 1 && (
-                <div className="flex overflow-x-auto gap-2 pb-2 mb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+                <div className="flex overflow-x-auto gap-2 pb-2 mb-3 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
                   {selectedNote.images.map((image, index) => {
                     // Only show the first MAX_THUMBNAILS_TO_SHOW thumbnails
                     if (index < MAX_THUMBNAILS_TO_SHOW) {
@@ -613,7 +605,7 @@ If some images failed to download, you can find their URLs in the note details f
                           key={image.id}
                           onClick={() => setCurrentImageIndex(index)}
                           className={cn(
-                            "flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 snap-start",
+                            "flex-shrink-0 w-12 h-12 rounded-md overflow-hidden border-2 snap-start",
                             currentImageIndex === index ? "border-[#1e40af]" : "border-transparent",
                           )}
                         >
@@ -631,7 +623,7 @@ If some images failed to download, you can find their URLs in the note details f
                         <button
                           key="more-images"
                           onClick={() => setCurrentImageIndex(MAX_THUMBNAILS_TO_SHOW)}
-                          className="flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 border-transparent bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-700"
+                          className="flex-shrink-0 w-12 h-12 rounded-md overflow-hidden border-2 border-transparent bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-700"
                         >
                           +{remainingCount} more
                         </button>
@@ -643,8 +635,8 @@ If some images failed to download, you can find their URLs in the note details f
               )}
             </div>
 
-            <div className="lg:w-56 space-y-3">
-              <div className="bg-gray-50 p-3 rounded-md border">
+            <div className="lg:w-52 space-y-2">
+              <div className="bg-gray-50 p-2 rounded-md border">
                 <h4 className="font-medium text-xs mb-2 flex items-center">
                   <Tag className="h-3 w-3 mr-1" /> Details
                 </h4>
@@ -672,11 +664,11 @@ If some images failed to download, you can find their URLs in the note details f
                 </div>
               </div>
 
-              <div className="bg-gray-50 p-3 rounded-md border">
+              <div className="bg-gray-50 p-2 rounded-md border">
                 <h4 className="font-medium text-xs mb-2">Tags</h4>
                 <div className="flex flex-wrap gap-1">
                   {selectedNote?.tags.map((tag) => (
-                    <span key={tag} className="text-xs px-2 py-0.5 bg-gray-100 rounded-full text-gray-700">
+                    <span key={tag} className="text-xs px-1 py-0.5 bg-gray-100 rounded-full text-gray-700">
                       #{tag}
                     </span>
                   ))}

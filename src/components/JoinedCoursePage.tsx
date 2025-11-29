@@ -105,13 +105,19 @@ export default function JoinedCoursePage() {
             {selectedVideo ? (
               <div className="space-y-6">
                 <div className="relative group">
-                  <video
-                    controls
-                    className="w-full rounded-2xl shadow-2xl aspect-video bg-slate-900 border border-slate-200 transition-all duration-300 group-hover:shadow-3xl"
-                  >
-                    <source src={selectedVideo.url} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
+                        {/* Use iframe for YouTube links, otherwise try video and show a helpful message on error */}
+                        {/(youtube\.com|youtu\.be)/i.test(selectedVideo.url) ? (
+                          <iframe
+                            src={getYouTubeEmbedUrl(selectedVideo.url)}
+                            title={selectedVideo.title || 'video'}
+                            className="w-full rounded-2xl shadow-2xl aspect-video bg-slate-900 border border-slate-200"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          />
+                        ) : (
+                          <VideoWithError src={selectedVideo.url} />
+                        )}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
                 </div>
 
@@ -222,6 +228,35 @@ export default function JoinedCoursePage() {
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+function getYouTubeEmbedUrl(url: string) {
+  try {
+    const u = new URL(url)
+    let id = ''
+    if (u.hostname.includes('youtu.be')) id = u.pathname.slice(1)
+    else if (u.hostname.includes('youtube.com')) id = u.searchParams.get('v') || ''
+    return id ? `https://www.youtube.com/embed/${id}` : url
+  } catch (e) {
+    return url
+  }
+}
+
+function VideoWithError({ src }: { src: string }) {
+  const [error, setError] = useState(false)
+  return (
+    <div className="w-full h-full bg-black relative">
+      {!error ? (
+        <video src={src} controls className="w-full rounded-2xl shadow-2xl aspect-video" preload="metadata" onError={() => setError(true)}>
+          Your browser does not support the video tag.
+        </video>
+      ) : (
+        <div className="p-4 text-sm text-center text-gray-200">
+          No playable video found at this URL. Use a direct MP4 URL or import the video into Cloudinary.
+        </div>
+      )}
     </div>
   )
 }
