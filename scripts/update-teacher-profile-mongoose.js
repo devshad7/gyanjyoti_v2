@@ -1,14 +1,3 @@
-/**
- * Mongoose helper to update teacher profile URL for course documents.
- *
- * Usage:
- *   MONGODB_URI="mongodb+srv://biratpandey9_db_user:EnHISyHcMY6yjoNX@cluster1.lamkovk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1
-" node scripts/update-teacher-profile-mongoose.js '{"slug":"advanced-math-class-12"}' 'https://example.com/new.jpg'
- *
- * To actually apply the change, set AUTO_CONFIRM=1 in the env.
- * Example:
- *   MONGODB_URI="..." AUTO_CONFIRM=1 node scripts/update-teacher-profile-mongoose.js '{"slug":"advanced-math-class-12"}' 'https://example.com/new.jpg'
- */
 
 const mongoose = require('mongoose')
 
