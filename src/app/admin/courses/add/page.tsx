@@ -465,7 +465,7 @@ export default function AddCoursePage() {
                           Import
                         </Button>
                       </div>
-                      <div className="text-xs text-gray-500 mt-1">Click "Import" to fetch this URL into Cloudinary (if supported).</div>
+                      <div className="text-xs text-gray-500 mt-1">Click Import to fetch this URL into Cloudinary (if supported).</div>
                     </div>
                   </div>
                   <Textarea
