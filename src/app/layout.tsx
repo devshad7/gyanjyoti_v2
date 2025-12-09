@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Script from "next/script";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "GyanJyoti | The Ultimate E-Learning Platform",
@@ -25,6 +26,7 @@ export default function RootLayout({
     >
       <html lang="en">
         <body suppressHydrationWarning>
+          <Toaster />
           <Navbar />
           <main>{children}</main>
           <Footer />
