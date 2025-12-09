@@ -60,6 +60,7 @@ const Navbar = () => {
         { name: "Study Material", href: "/material" },
         { name: "GyanQuest", href: "/gyan-quest" },
         { name: "Ask GyanAI", href: "/gyan-ai" },
+        {name: "Nexo Talks", href: "https://nexotalks.gyanjyotiedu.com/" },
       ],
     },
   ]
@@ -250,7 +251,7 @@ const Navbar = () => {
                       className="w-full"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <Button className="w-full text-white bg-transparent hover:bg-transparent text-sm px-4 py-2 rounded-md font-medium cursor-pointer shadow-none border border-gray-200 hover:border-gray-300">
+                      <Button className="w-full text-white  bg-blue-600 hover:bg-blue-700 text-sm px-4 py-2 rounded-md font-medium cursor-pointer shadow-none border border-gray-200 hover:border-gray-300">
                         Sign In
                       </Button>
                     </Link>

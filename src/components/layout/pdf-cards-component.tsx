@@ -198,7 +198,7 @@ export default function PDFCardsComponent({ className }: PDFCardsComponentProps)
           <p className="text-gray-500">Try adjusting your search or filters</p>
         </div>
       ) : !loading && !error && viewMode === "grid" ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-2 md:gap-3">
           {pdfs.map((pdf) => (
             <Card
               key={pdf.id}

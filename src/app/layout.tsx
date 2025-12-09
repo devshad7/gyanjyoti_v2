@@ -3,6 +3,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "GyanJyoti | The Ultimate E-Learning Platform",
@@ -27,6 +28,25 @@ export default function RootLayout({
           <Navbar />
           <main>{children}</main>
           <Footer />
+          
+          {/* Tawk.to Live Chat */}
+          <Script
+            id="tawk-to-chat"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: `
+                var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+                (function(){
+                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                s1.async=true;
+                s1.src='https://embed.tawk.to/6937c2af1e5444197fdff6e0/1jc0t108l';
+                s1.charset='UTF-8';
+                s1.setAttribute('crossorigin','*');
+                s0.parentNode.insertBefore(s1,s0);
+                })();
+              `,
+            }}
+          />
         </body>
       </html>
     </ClerkProvider>
