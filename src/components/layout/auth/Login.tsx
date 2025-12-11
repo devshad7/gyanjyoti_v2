@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { ClerkSignInError } from "@/types/LoginErrorProps";
+import ForgotPassword from "@/components/ForgotPassword";
 // import { handleGoogleSignIn } from "@/hooks/GoogleAuth";
 
 const Login = () => {
@@ -124,10 +125,10 @@ const Login = () => {
                   )}
                 </button>
               </div>
+              
+              {/* forgot password component */}
               <div className="flex justify-end">
-                <a href="#" className="text-blue-500 text-sm hover:underline">
-                  Forgot Password?
-                </a>
+                <ForgotPassword />
               </div>
             </div>
 
